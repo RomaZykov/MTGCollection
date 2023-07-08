@@ -25,12 +25,6 @@ class AdapterAuthRepository @Inject constructor(
     private var signInLauncher: ActivityResultLauncher<Unit>? = null
     private var completableDeferred: CompletableDeferred<String>? = null
 
-    override suspend fun signOut() {
-        googleSignInClient.signOut().also {
-            println("AAA signOut")
-        }
-    }
-
     override suspend fun signIn() = flow {
         try {
             emit(Response.Loading)
@@ -58,12 +52,13 @@ class AdapterAuthRepository @Inject constructor(
     }
 
     override fun getCurrentUser(): AccountFeatureEntity? {
-        return if (authDataRepository.getCurrentUser() == null) null
+        val currentUser = authDataRepository.getCurrentUser()
+        return if (currentUser == null) null
         else AccountFeatureEntity(
-            uid = authDataRepository.getCurrentUser()!!.uid,
-            email = authDataRepository.getCurrentUser()!!.email,
-            displayName = authDataRepository.getCurrentUser()!!.displayName,
-            photoUrl = authDataRepository.getCurrentUser()!!.photoUrl
+            uid = currentUser.uid,
+            email = currentUser.email,
+            displayName = currentUser.displayName,
+            photoUrl = currentUser.photoUrl
         )
     }
 

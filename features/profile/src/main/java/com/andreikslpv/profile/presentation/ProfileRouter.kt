@@ -3,11 +3,6 @@ package com.andreikslpv.profile.presentation
 interface ProfileRouter {
 
     /**
-     * Launch the screen for editing username.
-     */
-    fun launchEditUsername()
-
-    /**
      * Go back to the previous screen.
      */
     fun goBack()

@@ -26,7 +26,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         }
 
         binding.anonymousButton.setOnClickListener {
-            viewModel.signOut()
+            viewModel.anonymousLogin()
         }
     }
 

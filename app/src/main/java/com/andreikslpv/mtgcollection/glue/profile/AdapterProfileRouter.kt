@@ -10,10 +10,6 @@ class AdapterProfileRouter @Inject constructor(
     private val globalNavComponentRouter: GlobalNavComponentRouter,
 ) : ProfileRouter {
 
-    override fun launchEditUsername() {
-        //globalNavComponentRouter.launch(R.id.editUsernameFragment)
-    }
-
     override fun goBack() {
         globalNavComponentRouter.pop()
     }

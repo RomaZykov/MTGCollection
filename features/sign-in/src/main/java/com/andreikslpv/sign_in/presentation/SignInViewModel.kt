@@ -22,8 +22,8 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun signOut() {
-        signInUseCase.signOut()
+    fun anonymousLogin() {
+        router.launchMain()
     }
 
 }

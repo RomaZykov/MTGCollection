@@ -8,14 +8,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 interface ProfileRepositoriesModule {
 
-//    @Binds
-//    fun bindAuthTokenRepository(
-//        authTokenRepository: AdapterAuthTokenRepository
-//    ): AuthTokenRepository
-//
-//    @Binds
-//    fun bindProfileRepository(
-//        profileRepository: AdapterProfileRepository
-//    ): ProfileRepository
 
 }

@@ -1,6 +1,5 @@
 package com.andreikslpv.navigation.presentation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -43,19 +42,12 @@ class MainActivity : AppCompatActivity(), RouterHolder {
             navComponentRouter.onRestoreInstanceState(savedInstanceState)
         }
         navComponentRouter.addDestinationListener {
-            updateCartButtonVisibility()
         }
         navComponentRouter.onCreate()
         if (savedInstanceState == null) {
             navComponentRouter.switchToStack(destinationsProvider.provideStartDestinationId())
         }
-        with(binding) {
-            observeUsername()
-            observeCart()
-            setupListeners()
-        }
         activityRequiredSet.forEach {
-            println("AAA $it")
             it.onActivityCreated(this)
         }
     }
@@ -88,35 +80,5 @@ class MainActivity : AppCompatActivity(), RouterHolder {
     override fun requireRouter(): NavComponentRouter {
         return navComponentRouter
     }
-
-    @SuppressLint("SetTextI18n")
-    private fun ActivityMainBinding.observeUsername() {
-//        viewModel.usernameLiveValue.observe(this@MainActivity) { username ->
-//            usernameTextView.isVisible = username != null
-//            if (username != null) {
-//                usernameTextView.text = "@$username"
-//            }
-//        }
-    }
-
-    private fun ActivityMainBinding.observeCart() {
-//        viewModel.cartLiveValue.observe(this@MainActivity) { cartState ->
-//            updateCartButtonVisibility()
-//            cartCounterTextView.text = cartState.itemsCountDisplayString
-//        }
-    }
-
-    private fun ActivityMainBinding.setupListeners() {
-        cartImageView.setOnClickListener {
-            viewModel.launchCart()
-        }
-    }
-
-    private fun updateCartButtonVisibility() {
-//        val showCartIcon = viewModel.cartLiveValue.getValue()?.showCartIcon ?: return
-//        val isAlreadyAtCart = navComponentRouter.hasDestinationId(destinationsProvider.provideCartDestinationId())
-//        binding.cartIconContainer.isVisible = showCartIcon && !isAlreadyAtCart
-    }
-
 
 }
