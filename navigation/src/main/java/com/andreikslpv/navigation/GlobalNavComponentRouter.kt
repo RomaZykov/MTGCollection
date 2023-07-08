@@ -28,23 +28,23 @@ class GlobalNavComponentRouter @Inject constructor(
 
     private val onBackPressHandlers = LinkedHashSet<() -> Boolean>()
 
-    override fun onCreated(activity: FragmentActivity) {
+    override fun onActivityCreated(activity: FragmentActivity) {
         this.completelyDestroyed = false
         this.activity = activity
         setupBackHandlers()
     }
 
-    override fun onStarted() {
+    override fun onActivityStarted() {
         started = true
         commands.forEach { it() }
         commands.clear()
     }
 
-    override fun onStopped() {
+    override fun onActivityStopped() {
         started = false
     }
 
-    override fun onDestroyed() {
+    override fun onActivityDestroyed() {
         if (activity?.isFinishing == true) {
             commands.clear()
             completelyDestroyed = true

@@ -2,12 +2,11 @@ package com.andreikslpv.sign_in.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isInvisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.andreikslpv.common.Core
+import com.andreikslpv.common.Response
 import com.andreikslpv.presentation.viewBinding
-import com.andreikslpv.presentation.views.observe
 import com.andreikslpv.sign_in.R
 import com.andreikslpv.sign_in.databinding.FragmentSignInBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,35 +20,26 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            setupListeners()
-            observeScreenState()
+
+        binding.googleSignInButton.setOnClickListener {
+            signInWithGoogle()
+        }
+
+        binding.anonymousButton.setOnClickListener {
+            viewModel.signOut()
         }
     }
 
-    private fun FragmentSignInBinding.setupListeners() {
-        root.setTryAgainListener { viewModel.load() }
-        signInButton.setOnClickListener {
-            viewModel.signIn(emailEditText.text.toString(), passwordEditText.text.toString())
-        }
-        signUpButton.setOnClickListener {
-            viewModel.launchSignUp(emailEditText.text.toString())
-        }
-        emailEditText.addTextChangedListener {
-            viewModel.clearEmailError()
-        }
-        passwordEditText.addTextChangedListener {
-            viewModel.clearPasswordError()
-        }
-    }
-
-    private fun FragmentSignInBinding.observeScreenState() {
-        root.observe(viewLifecycleOwner, viewModel.stateLiveValue) { state ->
-            signInButton.isEnabled = state.enableButtons
-            signUpButton.isEnabled = state.enableButtons
-            progressBar.isInvisible = !state.showProgressBar
-            emailTextInput.error = state.emailError
-            passwordTextInput.error = state.passwordError
+    private fun signInWithGoogle() {
+        viewModel.signInWithGoogle().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> binding.progressBar.hide()
+                is Response.Failure -> {
+                    Core.logger.log(response.errorMessage)
+                    binding.progressBar.hide()
+                }
+            }
         }
     }
 

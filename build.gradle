@@ -25,6 +25,7 @@ buildscript {
                         Material: "com.google.android.material:material:1.9.0",
                         Hilt: "com.google.dagger:hilt-android:$hiltVersion",
                         HiltCompiler: "com.google.dagger:hilt-compiler:$hiltVersion",
+                        Auth: "com.google.android.gms:play-services-auth:20.6.0",
 
                 ],
                 JetBrains: [
@@ -54,6 +55,9 @@ buildscript {
                         SignIn: ":features:sign-in",
                 ],
         ]
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.14'
     }
 }
 

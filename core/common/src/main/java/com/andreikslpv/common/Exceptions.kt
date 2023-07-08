@@ -26,6 +26,23 @@ open class RemoteServiceException(
  */
 class AuthException(cause: Exception? = null) : AppException(cause = cause)
 
+class CalledNotFromUiException : AppException()
+
+class AlreadyInProgressException : AppException()
+
+class LoginFailedException(
+    message: String,
+    cause: Throwable?
+) : AppException(message, cause)
+
+class LoginCancelledException(
+    cause: Throwable? = null
+) : AppException(cause = cause)
+
+class InternalException(
+    cause: Throwable?
+) : AppException(cause = cause)
+
 /**
  * Problems with reading/writing data to a local storage.
  */

@@ -55,7 +55,8 @@ class MainActivity : AppCompatActivity(), RouterHolder {
             setupListeners()
         }
         activityRequiredSet.forEach {
-            it.onCreated(this)
+            println("AAA $it")
+            it.onActivityCreated(this)
         }
     }
 
@@ -70,18 +71,18 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
     override fun onStart() {
         super.onStart()
-        activityRequiredSet.forEach { it.onStarted() }
+        activityRequiredSet.forEach { it.onActivityStarted() }
     }
 
     override fun onStop() {
         super.onStop()
-        activityRequiredSet.forEach { it.onStopped() }
+        activityRequiredSet.forEach { it.onActivityStopped() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         navComponentRouter.onDestroy()
-        activityRequiredSet.forEach { it.onDestroyed() }
+        activityRequiredSet.forEach { it.onActivityDestroyed() }
     }
 
     override fun requireRouter(): NavComponentRouter {

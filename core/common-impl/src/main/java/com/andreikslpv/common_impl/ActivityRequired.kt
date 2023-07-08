@@ -8,12 +8,12 @@ import androidx.fragment.app.FragmentActivity
  */
 interface ActivityRequired {
 
-    fun onCreated(activity: FragmentActivity)
+    fun onActivityCreated(activity: FragmentActivity)
 
-    fun onStarted()
+    fun onActivityStarted()
 
-    fun onStopped()
+    fun onActivityStopped()
 
-    fun onDestroyed()
+    fun onActivityDestroyed()
 
 }

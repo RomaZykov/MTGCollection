@@ -40,21 +40,21 @@ class AndroidCommonUi(
         }
     }
 
-    override fun onCreated(activity: FragmentActivity) {
+    override fun onActivityCreated(activity: FragmentActivity) {
         this.currentActivity = activity
     }
 
-    override fun onStarted() {
+    override fun onActivityStarted() {
         isStarted = true
         dialogRecords.forEach { startDialog(it) }
     }
 
-    override fun onStopped() {
+    override fun onActivityStopped() {
         isStarted = false
         dialogRecords.forEach { it.dialog?.dismiss() }
     }
 
-    override fun onDestroyed() {
+    override fun onActivityDestroyed() {
         if (this.currentActivity?.isFinishing == true) {
             this.dialogRecords.clear()
         }

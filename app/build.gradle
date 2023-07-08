@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
 }
@@ -49,7 +50,7 @@ dependencies {
     implementation Libs.Android.NavigationFragments
 
     implementation Libs.Google.Material
-
+    implementation Libs.Google.Auth
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 

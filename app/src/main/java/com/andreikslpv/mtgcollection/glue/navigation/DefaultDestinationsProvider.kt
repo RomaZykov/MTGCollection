@@ -21,21 +21,21 @@ class DefaultDestinationsProvider @Inject constructor(
 
     override fun provideMainTabs(): List<NavTab> {
         return listOf(
-//            NavTab(
-//                destinationId = R.id.catalogFragment,
-//                title = context.getString(R.string.tab_catalog),
-//                iconRes = R.drawable.ic_catalog,
-//            ),
-//            NavTab(
-//                destinationId = R.id.ordersListFragment,
-//                title = context.getString(R.string.tab_orders),
-//                iconRes = R.drawable.ic_orders,
-//            ),
-//            NavTab(
-//                destinationId = R.id.profileFragment,
-//                title = context.getString(R.string.tab_profile),
-//                iconRes = R.drawable.ic_profile,
-//            )
+            NavTab(
+                destinationId = R.id.setsFragment,
+                title = context.getString(R.string.title_sets),
+                iconRes = R.drawable.ic_sets,
+            ),
+            NavTab(
+                destinationId = R.id.cardsFragment,
+                title = context.getString(R.string.title_cards),
+                iconRes = R.drawable.ic_cards,
+            ),
+            NavTab(
+                destinationId = R.id.profileFragment,
+                title = context.getString(R.string.title_profile),
+                iconRes = R.drawable.ic_profile,
+            )
         )
     }
 

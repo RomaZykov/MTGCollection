@@ -42,11 +42,15 @@ dependencies {
     implementation Libs.Android.FragmentKtx
 
     implementation Libs.Google.Material
+
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
     implementation project(Modules.Core.Presentation)
     implementation project(Modules.Core.Common)
+
+    // livedata
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation
