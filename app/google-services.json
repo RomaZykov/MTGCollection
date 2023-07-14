@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "414513953201",
+    "project_id": "mtgcollection-f6991",
+    "storage_bucket": "mtgcollection-f6991.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414513953201:android:e8ebabbb0ff2cbdd782590",
+        "android_client_info": {
+          "package_name": "com.andreikslpv.mtgcollection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414513953201-lakctrupdrpqpdvs6ho1c2a8j9m7kjj1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcgQ4mlCxd3J_O2xFAw0OOL9F-Ee6n_Qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414513953201-lakctrupdrpqpdvs6ho1c2a8j9m7kjj1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

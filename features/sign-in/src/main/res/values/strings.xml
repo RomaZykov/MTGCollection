@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="auth_copyright">Зарегистрировавшись, вы соглашаетесь с Условиями обслуживания и Политикой конфиденциальности</string>
+    <string name="sign_in_with_google_button">Продолжить с Google</string>
+    <string name="anonymous_button">Продолжить без авторизации</string>
+
+</resources>

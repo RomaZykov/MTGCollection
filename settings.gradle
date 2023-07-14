@@ -14,3 +14,16 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MTGCollection"
 include ':app'
+include ':features'
+include ':features:sign-in'
+include ':features:profile'
+include ':features:sets'
+include ':features:cards'
+include ':data'
+include ':navigation'
+include ':wiring'
+include ':core'
+include ':core:theme'
+include ':core:presentation'
+include ':core:common'
+include ':core:common-impl'
