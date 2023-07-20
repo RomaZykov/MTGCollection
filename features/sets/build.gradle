@@ -44,6 +44,7 @@ dependencies {
     implementation Libs.Google.Material
 
     implementation Libs.Google.Hilt
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     kapt Libs.Google.HiltCompiler
 
     implementation project(Modules.Core.Presentation)

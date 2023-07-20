@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        //setSupportActionBar(binding.toolbar)
         if (savedInstanceState != null) {
             navComponentRouter.onRestoreInstanceState(savedInstanceState)
         }

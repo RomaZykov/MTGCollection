@@ -5,55 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_main"
     android:orientation="vertical">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <FrameLayout
-            android:id="@+id/cartIconContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/cartImageView"
-                style="@style/ClickableIcon"
-                android:src="@drawable/core_theme_ic_cart"
-                app:tint="@color/white"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/cartCounterTextView"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_gravity="bottom|end"
-                tools:text="8"
-                tools:ignore="SpUsage" />
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/usernameTextView"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="end"
-            android:lines="1"
-            android:ellipsize="end"
-            android:textColor="@color/white"
-            android:layout_marginEnd="6dp"
-            tools:text=" &#64;username"/>
-
-    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
