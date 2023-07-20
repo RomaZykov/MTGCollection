@@ -1,11 +1,11 @@
 package com.andreikslpv.sets.presentation
 
-import com.andreikslpv.presentation.BaseViewModel
+import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-class SetsViewModel@Inject constructor(
+class SetsViewModel @Inject constructor(
     private val router: SetsRouter,
-) : BaseViewModel() {
+    ) : ViewModel() {
 
 
 }

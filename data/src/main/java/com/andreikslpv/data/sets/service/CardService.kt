@@ -1,6 +1,6 @@
-package com.andreikslpv.data.service
+package com.andreikslpv.data.sets.service
 
-import com.andreikslpv.data.dto.cards.CardDetail
+import com.andreikslpv.data.sets.dto.cards.CardDetail
 import retrofit2.Call
 import retrofit2.http.GET
 

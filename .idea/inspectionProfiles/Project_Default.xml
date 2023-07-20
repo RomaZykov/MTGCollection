@@ -1,0 +1,23 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="AndroidLintAllCaps" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="Project Source Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="AndroidLintTypographyDashes" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="Project Source Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="AndroidLintTypographyEllipsis" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="Project Source Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="AndroidLintTypographyFractions" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="Project Source Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="AndroidLintTypographyOther" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="Project Source Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="AndroidLintTypographyQuotes" enabled="true" level="WARNING" enabled_by_default="false">
+      <scope name="Project Source Files" level="WARNING" enabled="true" />
+    </inspection_tool>
+  </profile>
+</component>

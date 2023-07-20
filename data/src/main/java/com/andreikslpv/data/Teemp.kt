@@ -1,7 +1,8 @@
 package com.andreikslpv.data
 
-import com.andreikslpv.data.dto.cards.CardDetail
-import com.andreikslpv.data.service.CardService
+import com.andreikslpv.data.sets.dto.cards.CardDetail
+import com.andreikslpv.data.sets.service.CardService
+import com.andreikslpv.data.sets.constants.ApiConstants.BASE_URL
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Teemp {
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.magicthegathering.io/")
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

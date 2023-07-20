@@ -1,4 +1,4 @@
-package com.andreikslpv.data.dto.cards
+package com.andreikslpv.data.sets.dto.cards
 
 data class ForeignName(
     val flavor: String?,
