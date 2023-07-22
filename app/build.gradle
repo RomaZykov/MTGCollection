@@ -48,6 +48,7 @@ dependencies {
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.AppCompat
     implementation Libs.Android.NavigationFragments
+    implementation Libs.Android.Paging
 
     implementation Libs.Google.Material
     implementation Libs.Google.Auth

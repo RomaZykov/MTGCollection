@@ -23,4 +23,6 @@
     <dimen name="margin_basic">16dp</dimen>
     <dimen name="margin_big_32">32dp</dimen>
 
+    <dimen name="main_radius_card">28dp</dimen>
+
 </resources>

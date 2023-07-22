@@ -1,5 +1,6 @@
 package com.andreikslpv.mtgcollection.glue.sets.di
 
+import com.andreikslpv.mtgcollection.glue.sets.AdapterSetsRouter
 import com.andreikslpv.sets.presentation.SetsRouter
 import dagger.Binds
 import dagger.Module
@@ -11,7 +12,5 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 interface SetsRouterModule {
 
     @Binds
-    fun bindSetsRouter(
-        setsRouter: SetsRouter,
-    ): SetsRouter
+    fun bindSetsRouter(router: AdapterSetsRouter): SetsRouter
 }
