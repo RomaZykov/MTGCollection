@@ -4,10 +4,11 @@ import androidx.paging.PagingData
 import com.andreikslpv.data.sets.dto.cards.ResultCards
 import com.andreikslpv.data.sets.entities.SetLocalModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface SetsDataRepository {
 
-    fun getTypesOfSet(): List<String>
+    suspend fun getTypesOfSet(): MutableStateFlow<List<String>>
 
     fun getStartedTypeOfSet(): String
 

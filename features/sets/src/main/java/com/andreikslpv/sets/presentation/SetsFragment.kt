@@ -2,6 +2,8 @@ package com.andreikslpv.sets.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -34,8 +36,8 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
 
     private val decorator = SpaceItemDecoration(
         paddingBottomInDp = 16,
-        paddingRightInDp = 4,
-        paddingLeftInDp = 4,
+        paddingRightInDp = 8,
+        paddingLeftInDp = 8,
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,8 +45,33 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
 
         initRecipeListRecycler()
         initCollectSets()
-
+        initSpinner()
         viewModel.setType("expansion")
+    }
+
+    private fun initSpinner() {
+        viewModel.typesOfSet.observe(viewLifecycleOwner) {
+            // из списка доступных типов формируем список пунктов выпадающего меню
+            val spinnerAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item ,
+                it
+            )
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item )
+            binding.setsSpinner.adapter = spinnerAdapter
+
+            binding.setsSpinner.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    viewModel.typesOfSet.value?.let { types ->
+                        if (p2 >= 0 && p2 < types.size) viewModel.setType(types[p2])
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+            }
+        }
     }
 
     private fun initRecipeListRecycler() {

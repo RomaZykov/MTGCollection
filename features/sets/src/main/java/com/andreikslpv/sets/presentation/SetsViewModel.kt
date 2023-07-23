@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.sets.domain.entities.SetFeatureModel
 import com.andreikslpv.sets.domain.usecase.GetSetsByTypeUseCase
+import com.andreikslpv.sets.domain.usecase.GetTypesOfSetUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -19,10 +21,17 @@ import javax.inject.Inject
 @HiltViewModel
 class SetsViewModel @Inject constructor(
     private val getSetsByTypeUseCase: GetSetsByTypeUseCase,
+    private val getTypesOfSetUseCase: GetTypesOfSetUseCase,
     private val router: SetsRouter,
 ) : ViewModel() {
 
     val sets: Flow<PagingData<SetFeatureModel>>
+
+    val typesOfSet = liveData {
+        getTypesOfSetUseCase.execute().collect { response ->
+            emit(response)
+        }
+    }
 
     private val _type = MutableLiveData("")
     val type: LiveData<String> = _type

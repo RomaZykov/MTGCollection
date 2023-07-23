@@ -10,6 +10,7 @@ import com.andreikslpv.data.sets.dto.cards.ResultCards
 import com.andreikslpv.data.sets.entities.SetLocalModel
 import com.andreikslpv.data.sets.service.SetsService
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -18,9 +19,8 @@ class SetsDataRepositoryImpl @Inject constructor(
 ) : SetsDataRepository {
     private var isApiAvailable = true
     private var startedType = "core"
-
-    override fun getTypesOfSet(): List<String> {
-        return listOf(
+    private val typesOfSet = MutableStateFlow(
+        listOf(
             "core",
             "expansion",
             "reprint",
@@ -37,7 +37,9 @@ class SetsDataRepositoryImpl @Inject constructor(
             "vanguard",
             "masters"
         )
-    }
+    )
+
+    override suspend fun getTypesOfSet() = typesOfSet
 
     override fun getStartedTypeOfSet(): String {
         return startedType

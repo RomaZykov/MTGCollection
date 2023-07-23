@@ -13,9 +13,7 @@ import javax.inject.Inject
 class AdapterSetsRepository @Inject constructor(
     private val setsDataRepository: SetsDataRepository,
 ) : SetsRepository {
-    override fun getTypesOfSet(): List<String> {
-        return setsDataRepository.getTypesOfSet()
-    }
+    override suspend fun getTypesOfSet() = setsDataRepository.getTypesOfSet()
 
     override fun getStartedTypeOfSet(): String {
         return setsDataRepository.getStartedTypeOfSet()
@@ -26,7 +24,7 @@ class AdapterSetsRepository @Inject constructor(
     }
 
     override fun getSetsByType(type: String): Flow<PagingData<SetFeatureModel>> {
-        return setsDataRepository.getSetsByType(type).map {pagingData->
+        return setsDataRepository.getSetsByType(type).map { pagingData ->
             pagingData.map {
                 SetLocalToFeatureModelMapper.map(it)
             }

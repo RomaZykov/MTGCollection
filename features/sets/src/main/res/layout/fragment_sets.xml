@@ -15,13 +15,15 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/purple"
+            android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <Spinner
                 android:id="@+id/setsSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="@dimen/search_height"
+                android:background="@drawable/background_search_view"
                 android:spinnerMode="dropdown" />
 
         </com.google.android.material.appbar.MaterialToolbar>
@@ -37,8 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
-            android:layout_marginHorizontal="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginHorizontal="@dimen/margin_small_8"
+            android:layout_marginTop="@dimen/margin_basic"
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

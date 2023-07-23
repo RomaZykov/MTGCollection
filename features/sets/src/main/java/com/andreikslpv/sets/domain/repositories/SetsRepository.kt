@@ -3,10 +3,11 @@ package com.andreikslpv.sets.domain.repositories
 import androidx.paging.PagingData
 import com.andreikslpv.sets.domain.entities.SetFeatureModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface SetsRepository {
 
-    fun getTypesOfSet(): List<String>
+    suspend fun getTypesOfSet(): MutableStateFlow<List<String>>
 
     fun getStartedTypeOfSet(): String
 
