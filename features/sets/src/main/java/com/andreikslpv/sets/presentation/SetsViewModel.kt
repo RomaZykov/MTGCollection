@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.sets.domain.entities.SetFeatureModel
+import com.andreikslpv.sets.domain.usecase.ChangeApiAvailabilityUseCase
 import com.andreikslpv.sets.domain.usecase.GetSetsByTypeUseCase
 import com.andreikslpv.sets.domain.usecase.GetTypesOfSetUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class SetsViewModel @Inject constructor(
     private val getSetsByTypeUseCase: GetSetsByTypeUseCase,
     private val getTypesOfSetUseCase: GetTypesOfSetUseCase,
+    private val changeApiAvailabilityUseCase: ChangeApiAvailabilityUseCase,
     private val router: SetsRouter,
 ) : ViewModel() {
 
@@ -35,6 +37,9 @@ class SetsViewModel @Inject constructor(
 
     private val _type = MutableLiveData("")
     val type: LiveData<String> = _type
+
+    var isNewError = true
+        private set
 
     init {
         sets = _type
@@ -50,6 +55,11 @@ class SetsViewModel @Inject constructor(
 
     fun setType(newType: String) {
         _type.postValue(newType)
+    }
+
+    fun changeApiAvailability() {
+        isNewError = false
+        changeApiAvailabilityUseCase.execute(false)
     }
 
 }

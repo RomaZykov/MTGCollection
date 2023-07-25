@@ -46,7 +46,7 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
         initRecipeListRecycler()
         initCollectSets()
         initSpinner()
-        viewModel.setType("expansion")
+        //viewModel.setType("expansion")
     }
 
     private fun initSpinner() {
@@ -103,26 +103,28 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
                     binding.progressBar.show()
                 }
                 if (it.source.prepend is LoadState.Error) {
-                    (it.source.prepend as LoadState.Error).error.message?.makeToast(
-                        requireContext()
-                    )
+                    catchError((it.source.prepend as LoadState.Error).error.message ?: "")
                 }
                 if (it.source.append is LoadState.Error) {
-                    (it.source.append as LoadState.Error).error.message?.makeToast(
-                        requireContext()
-                    )
+                    catchError((it.source.append as LoadState.Error).error.message ?: "")
                 }
                 if (it.source.refresh is LoadState.NotLoading) {
                     binding.progressBar.hide()
                 }
                 if (it.source.refresh is LoadState.Error) {
                     binding.progressBar.hide()
-                    (it.source.refresh as LoadState.Error).error.message?.makeToast(
-                        requireContext()
-                    )
+                    catchError((it.source.refresh as LoadState.Error).error.message ?: "")
                 }
             }
         }
+    }
+
+    private fun catchError(message: String) {
+//        if (viewModel.isNewError) {
+            message.makeToast(requireContext())
+            viewModel.changeApiAvailability()
+            setAdapter.refresh()
+//        }
     }
 
     // Когда пользователь меняет поисковой запрос, то отслеживаем этот момент и прокручиваем в начало списка

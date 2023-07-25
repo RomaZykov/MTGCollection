@@ -5,19 +5,19 @@ import androidx.paging.PagingState
 import com.andreikslpv.data.ApiCallback
 import com.andreikslpv.data.sets.constants.ApiConstants.DEFAULT_PAGE
 import com.andreikslpv.data.sets.constants.ApiConstants.DEFAULT_PAGE_SIZE
-import com.andreikslpv.data.sets.entities.SetLocalModel
-import com.andreikslpv.data.sets.mappers.SetsListDtoToLocalModelMapper
+import com.andreikslpv.data.sets.entities.SetDataModel
+import com.andreikslpv.data.sets.mappers.SetsListDtoToDataModelMapper
 import com.andreikslpv.data.sets.service.SetsService
 import retrofit2.HttpException
 
-class SetsPagingSource(
+class SetsApiPagingSource(
     private val service: SetsService,
     private val type: String,
     private val callback: ApiCallback,
-) : PagingSource<Int, SetLocalModel>() {
+) : PagingSource<Int, SetDataModel>() {
     private val step = 1
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SetLocalModel> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SetDataModel> {
         try {
             val pageNumber = params.key ?: DEFAULT_PAGE
             val response = service.getSets(
@@ -26,7 +26,7 @@ class SetsPagingSource(
             )
 
             return if (response.isSuccessful) {
-                val sets = SetsListDtoToLocalModelMapper.map(response.body()!!.sets)
+                val sets = SetsListDtoToDataModelMapper.map(response.body()!!.sets)
                 callback.onSuccess(sets)
                 LoadResult.Page(
                     data = sets,
@@ -43,7 +43,7 @@ class SetsPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, SetLocalModel>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, SetDataModel>): Int? {
         // Самый последний доступный индекс в списке
         val anchorPosition = state.anchorPosition ?: return null
         // преобразуем item index в page index

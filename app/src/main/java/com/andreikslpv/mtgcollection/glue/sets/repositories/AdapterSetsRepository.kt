@@ -3,7 +3,7 @@ package com.andreikslpv.mtgcollection.glue.sets.repositories
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.andreikslpv.data.sets.SetsDataRepository
-import com.andreikslpv.mtgcollection.glue.sets.SetLocalToFeatureModelMapper
+import com.andreikslpv.mtgcollection.glue.sets.SetDataToFeatureModelMapper
 import com.andreikslpv.sets.domain.entities.SetFeatureModel
 import com.andreikslpv.sets.domain.repositories.SetsRepository
 import kotlinx.coroutines.flow.Flow
@@ -26,8 +26,12 @@ class AdapterSetsRepository @Inject constructor(
     override fun getSetsByType(type: String): Flow<PagingData<SetFeatureModel>> {
         return setsDataRepository.getSetsByType(type).map { pagingData ->
             pagingData.map {
-                SetLocalToFeatureModelMapper.map(it)
+                SetDataToFeatureModelMapper.map(it)
             }
         }
+    }
+
+    override fun changeApiAvailability(newStatus: Boolean) {
+        setsDataRepository.changeApiAvailability(newStatus)
     }
 }

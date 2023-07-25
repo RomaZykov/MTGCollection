@@ -15,4 +15,6 @@ interface SetsRepository {
 
     fun getSetsByType(type: String): Flow<PagingData<SetFeatureModel>>
 
+    fun changeApiAvailability(newStatus: Boolean)
+
 }

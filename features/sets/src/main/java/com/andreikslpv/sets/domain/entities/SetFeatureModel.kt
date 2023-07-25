@@ -6,5 +6,7 @@ data class SetFeatureModel(
     val name: String,
     val onlineOnly: Boolean,
     val releaseDate: String,
-    val type: String
+    val type: String,
+    val symbolUrl: String = "",
+    val cardCount: Int = 0,
 )

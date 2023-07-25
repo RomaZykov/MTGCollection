@@ -1,4 +1,4 @@
-package com.andreikslpv.data.sets.di
+package com.andreikslpv.data.di
 
 import com.andreikslpv.data.BuildConfig
 import com.andreikslpv.data.sets.constants.ApiConstants.BASE_URL
