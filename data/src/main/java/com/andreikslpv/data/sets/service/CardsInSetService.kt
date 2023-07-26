@@ -13,7 +13,7 @@ interface CardsInSetService {
         @Path("version") version: String = ApiConstants.VERSION_API,
         @Path("path") path: String = ApiConstants.PATH_CARDS,
         @Query("set") set: String,
-        @Query("page") page: String = ApiConstants.DEFAULT_PAGE,
-        @Query("pageSize") pageSize: String = ApiConstants.DEFAULT_PAGE_SIZE,
+        @Query("page") page: Int = ApiConstants.DEFAULT_PAGE,
+        @Query("pageSize") pageSize: Int = ApiConstants.DEFAULT_PAGE_SIZE,
     ): Call<ResultCards>
 }

@@ -9,7 +9,9 @@ object ApiConstants {
     const val PATH_SETS = "sets"
     const val PATH_CARDS = "cards"
 
-    const val DEFAULT_PAGE = "1"
-    const val DEFAULT_PAGE_SIZE = "20"
+    const val DEFAULT_PAGE = 1
+    const val DEFAULT_PAGE_SIZE = 20
 
+    //Messages
+    const val ERROR_MESSAGE = "Unexpected error!"
 }

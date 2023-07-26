@@ -40,15 +40,19 @@ dependencies {
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.AppCompat
     implementation Libs.Android.FragmentKtx
+    implementation Libs.Android.Paging
+    implementation Libs.Android.Coordinator
 
     implementation Libs.Google.Material
-
     implementation Libs.Google.Hilt
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     kapt Libs.Google.HiltCompiler
+
+    implementation "io.coil-kt:coil:2.2.0"
+    implementation "io.coil-kt:coil-svg:1.2.2"
 
     implementation project(Modules.Core.Presentation)
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso}
+    implementation Libs.Testing.Espresso
+}

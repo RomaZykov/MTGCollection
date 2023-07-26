@@ -1,17 +1,22 @@
 package com.andreikslpv.data.sets
 
+import androidx.paging.PagingData
 import com.andreikslpv.data.sets.dto.cards.ResultCards
-import com.andreikslpv.data.sets.dto.sets.ResultSets
+import com.andreikslpv.data.sets.entities.SetDataModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface SetsDataRepository {
 
-    fun getTypesOfSet(): List<String>
+    suspend fun getTypesOfSet(): MutableStateFlow<List<String>>
 
     fun getStartedTypeOfSet(): String
 
     fun setStartedTypeOfSet(type: String)
 
-    fun getSetsByType(type: String): ResultSets
+    fun getSetsByType(type: String): Flow<PagingData<SetDataModel>>
+
+    fun changeApiAvailability(newStatus: Boolean)
 
     fun getCardsInSet(codeOfSet: String): ResultCards
 

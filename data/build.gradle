@@ -38,6 +38,7 @@ android {
 dependencies {
 
     implementation Libs.Android.CoreKtx
+    implementation Libs.Android.Paging
 
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
@@ -48,11 +49,15 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    //Room
+    implementation "androidx.room:room-runtime:2.5.2"
+    implementation "androidx.room:room-ktx:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation
     implementation Libs.Testing.Espresso
 
 
-    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
+    implementation 'com.google.firebase:firebase-auth-ktx:22.1.0'
 }

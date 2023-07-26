@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemContainer"
+    android:background="@drawable/background_item"
     android:layout_width="@dimen/item_set_dimen"
     android:layout_height="@dimen/item_set_dimen">
 
@@ -18,10 +20,11 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/itemTitle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
         android:layout_marginTop="@dimen/margin_small"
-        style="@style/TextTitleCategory"
+        style="@style/TextTitle.Center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemImage"
