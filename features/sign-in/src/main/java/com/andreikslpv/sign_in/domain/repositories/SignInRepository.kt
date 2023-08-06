@@ -10,4 +10,6 @@ interface SignInRepository {
 
     fun getCurrentUser(): AccountFeatureEntity?
 
+    suspend fun createUser(uid: String): Flow<Response<Boolean>>
+
 }

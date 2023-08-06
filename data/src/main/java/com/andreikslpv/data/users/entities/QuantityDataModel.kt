@@ -1,0 +1,25 @@
+package com.andreikslpv.data.users.entities
+
+data class QuantityDataModel(
+    val id: String = "",
+    val germanCount: Int = 0,
+    val germanFoiledCount: Int = 0,
+    val spanishCount: Int = 0,
+    val spanishFoiledCount: Int = 0,
+    val frenchCount: Int = 0,
+    val frenchFoiledCount: Int = 0,
+    val italianCount: Int = 0,
+    val italianFoiledCount: Int = 0,
+    val japaneseCount: Int = 0,
+    val japaneseFoiledCount: Int = 0,
+    val koreanCount: Int = 0,
+    val koreanFoiledCount: Int = 0,
+    val portugueseCount: Int = 0,
+    val portugueseFoiledCount: Int = 0,
+    val russianCount: Int = 0,
+    val russianFoiledCount: Int = 0,
+    val chineseSimpCount: Int = 0,
+    val chineseSimpFoiledCount: Int = 0,
+    val chineseTradCount: Int = 0,
+    val chineseTradFoiledCount: Int = 0,
+)

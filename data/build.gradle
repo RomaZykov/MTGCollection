@@ -42,6 +42,10 @@ dependencies {
 
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
     implementation project(Modules.Core.Common)
 
@@ -59,5 +63,5 @@ dependencies {
     implementation Libs.Testing.Espresso
 
 
-    implementation 'com.google.firebase:firebase-auth-ktx:22.1.0'
+
 }

@@ -8,6 +8,7 @@ import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.ActivityRequired
 import com.andreikslpv.data.auth.AuthDataRepository
+import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.extensions.GoogleSignInContract
 import com.andreikslpv.sign_in.domain.entities.AccountFeatureEntity
 import com.andreikslpv.sign_in.domain.repositories.SignInRepository
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class AdapterAuthRepository @Inject constructor(
     private val authDataRepository: AuthDataRepository,
     private val googleSignInClient: GoogleSignInClient,
+    private val usersDataRepository: UsersDataRepository,
 ) : SignInRepository, ActivityRequired {
 
     private var isActivityStarted = false
@@ -60,6 +62,17 @@ class AdapterAuthRepository @Inject constructor(
             displayName = currentUser.displayName,
             photoUrl = currentUser.photoUrl
         )
+    }
+
+    override suspend fun createUser(uid: String) = flow {
+        usersDataRepository.createUser(uid).collect { response ->
+            println("AAA AdapterAuthRepository $uid")
+            when (response) {
+                is Response.Loading -> emit(Response.Loading)
+                is Response.Failure -> emit(Response.Failure(response.errorMessage))
+                is Response.Success -> emit(Response.Success(response.data))
+            }
+        }
     }
 
     override fun onActivityCreated(activity: FragmentActivity) {
