@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.andreikslpv.data.sets.constants.RoomConstants
+import com.andreikslpv.data.constants.RoomConstants
 
 @Entity(
     tableName = RoomConstants.TABLE_CACHED_SETS,

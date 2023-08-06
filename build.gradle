@@ -28,10 +28,13 @@ buildscript {
                         Hilt: "com.google.dagger:hilt-android:$hiltVersion",
                         HiltCompiler: "com.google.dagger:hilt-compiler:$hiltVersion",
                         Auth: "com.google.android.gms:play-services-auth:20.6.0",
-
                 ],
                 JetBrains: [
                         CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
+                ],
+                Other: [
+                        Coil: "io.coil-kt:coil:2.2.0",
+                        CoilSvg: "io.coil-kt:coil-svg:1.2.2",
                 ],
                 Testing: [
                         JUnit: "junit:junit:4.13.2",

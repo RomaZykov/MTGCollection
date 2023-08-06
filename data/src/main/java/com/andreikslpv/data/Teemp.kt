@@ -1,8 +1,8 @@
 package com.andreikslpv.data
 
-import com.andreikslpv.data.sets.dto.cards.CardDetail
-import com.andreikslpv.data.sets.service.CardService
-import com.andreikslpv.data.sets.constants.ApiConstants.BASE_URL
+import com.andreikslpv.data.cards.dto.CardDetail
+import com.andreikslpv.data.cards.services.CardService
+import com.andreikslpv.data.constants.ApiConstants.BASE_URL
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

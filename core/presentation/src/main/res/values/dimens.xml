@@ -5,4 +5,10 @@
     <dimen name="item_padding">4dp</dimen>
     <dimen name="progress_bar_elevation">12dp</dimen>
     <dimen name="progress_bar_size">32dp</dimen>
+
+    <dimen name="item_set_dimen">156dp</dimen>
+
+    <!-- for FAB -->
+    <dimen name="FAB_margin">8dp</dimen>
+    <dimen name="FAB_dimen">24dp</dimen>
 </resources>

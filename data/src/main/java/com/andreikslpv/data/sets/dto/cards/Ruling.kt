@@ -1,6 +1,0 @@
-package com.andreikslpv.data.sets.dto.cards
-
-data class Ruling(
-    val date: String,
-    val text: String
-)

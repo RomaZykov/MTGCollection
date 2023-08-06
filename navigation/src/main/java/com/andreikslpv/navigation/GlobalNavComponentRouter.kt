@@ -96,6 +96,10 @@ class GlobalNavComponentRouter @Inject constructor(
         requireRealRouter().switchToTabs(destinationsProvider.provideMainTabs(), startTabDestinationId)
     }
 
+    fun startTabs(startTabDestinationId: Int? = null, args: java.io.Serializable? = null) = invoke {
+        requireRealRouter().switchToTabs(destinationsProvider.provideMainTabs(), startTabDestinationId, args)
+    }
+
     private fun setupBackHandlers() {
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
