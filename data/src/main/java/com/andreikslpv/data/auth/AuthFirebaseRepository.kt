@@ -53,7 +53,7 @@ class AuthFirebaseRepository @Inject constructor(
 
     override fun getCurrentUser() = auth.currentUser.toAccount()
 
-    override suspend fun deleteUser(idToken: String?) = flow {
+    override suspend fun deleteUserInAuth(idToken: String?) = flow {
         try {
             emit(Response.Loading)
             val credential = GoogleAuthProvider.getCredential(idToken, null)

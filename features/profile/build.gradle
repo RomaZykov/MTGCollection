@@ -40,6 +40,8 @@ dependencies {
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.AppCompat
     implementation Libs.Android.FragmentKtx
+    implementation Libs.Android.Coordinator
+    implementation Libs.Android.Livedata
 
     implementation Libs.Google.Material
 
@@ -47,6 +49,7 @@ dependencies {
     kapt Libs.Google.HiltCompiler
 
     implementation project(Modules.Core.Presentation)
+    implementation project(Modules.Core.CommonImpl)
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation

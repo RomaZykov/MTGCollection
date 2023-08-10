@@ -21,7 +21,7 @@ class UsersDataRepositoryImpl @Inject constructor(
     private val availableCards = MutableStateFlow(emptyList<String>())
     private val history = MutableStateFlow(emptyList<String>())
 
-    override suspend fun createUser(uid: String) = flow {
+    override suspend fun createUserInDb(uid: String) = flow {
         try {
             println("AAA UsersDataRepositoryImpl $uid")
             emit(Response.Loading)
@@ -46,7 +46,7 @@ class UsersDataRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun deleteUser(uid: String) = flow {
+    override suspend fun deleteUserInDb(uid: String) = flow {
         try {
             emit(Response.Loading)
             database.collection(FirestoreConstants.PATH_USERS).document(uid).delete().await()

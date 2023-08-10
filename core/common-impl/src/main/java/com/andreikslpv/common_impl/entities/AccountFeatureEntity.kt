@@ -1,4 +1,4 @@
-package com.andreikslpv.sign_in.domain.entities
+package com.andreikslpv.common_impl.entities
 
 import android.net.Uri
 

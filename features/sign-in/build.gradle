@@ -48,6 +48,7 @@ dependencies {
 
     implementation project(Modules.Core.Presentation)
     implementation project(Modules.Core.Common)
+    implementation project(Modules.Core.CommonImpl)
 
     // livedata
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"

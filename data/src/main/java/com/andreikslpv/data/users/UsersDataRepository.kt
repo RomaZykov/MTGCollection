@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface UsersDataRepository {
 
-    suspend fun createUser(uid: String): Flow<Response<Boolean>>
+    suspend fun createUserInDb(uid: String): Flow<Response<Boolean>>
 
     fun startObserveUser(uid: String)
 
-    suspend fun deleteUser(uid: String): Flow<Response<Boolean>>
+    suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
 
     fun getAvailable(): MutableStateFlow<List<String>>
 

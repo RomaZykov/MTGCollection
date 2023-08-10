@@ -1,5 +1,6 @@
-package com.andreikslpv.mtgcollection.glue.signin.repositories
+package com.andreikslpv.mtgcollection.glue.profile
 
+import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.FragmentActivity
 import com.andreikslpv.common.AlreadyInProgressException
@@ -7,39 +8,50 @@ import com.andreikslpv.common.CalledNotFromUiException
 import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.ActivityRequired
+import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import com.andreikslpv.data.auth.AuthDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.extensions.GoogleSignInContract
-import com.andreikslpv.common_impl.entities.AccountFeatureEntity
-import com.andreikslpv.sign_in.domain.repositories.SignInRepository
+import com.andreikslpv.profile.domain.repositories.ProfileRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class AdapterAuthRepository @Inject constructor(
+class AdapterProfileRepository @Inject constructor(
     private val authDataRepository: AuthDataRepository,
-    private val googleSignInClient: GoogleSignInClient,
     private val usersDataRepository: UsersDataRepository,
-) : SignInRepository, ActivityRequired {
+    private val googleSignInClient: GoogleSignInClient,
+) : ProfileRepository, ActivityRequired {
 
     private var isActivityStarted = false
     private var signInLauncher: ActivityResultLauncher<Unit>? = null
     private var completableDeferred: CompletableDeferred<String>? = null
 
-    override suspend fun signIn() = flow {
+    override fun signOut() = authDataRepository.signOut()
+
+    override fun getAuthState() = authDataRepository.getAuthState()
+
+    override suspend fun deleteUser() = flow {
         try {
             emit(Response.Loading)
             if (!isActivityStarted) throw CalledNotFromUiException()
             val signInLauncher = signInLauncher ?: throw CalledNotFromUiException()
             if (completableDeferred != null) throw AlreadyInProgressException()
             signInLauncher.launch(Unit)
-
             CompletableDeferred<String>().let {
                 completableDeferred = it
                 it.await()
             }.also { token ->
-                authDataRepository.signIn(token).collect { response ->
+                val uid = authDataRepository.getCurrentUser()?.uid ?: ""
+                usersDataRepository.deleteUserInDb(uid).collect { response ->
+                    when (response) {
+                        is Response.Loading -> emit(Response.Loading)
+                        is Response.Failure -> emit(Response.Failure(response.errorMessage))
+                        is Response.Success -> emit(Response.Success(response.data))
+                    }
+                }
+                authDataRepository.deleteUserInAuth(token).collect { response ->
                     when (response) {
                         is Response.Loading -> emit(Response.Loading)
                         is Response.Failure -> emit(Response.Failure(response.errorMessage))
@@ -64,16 +76,9 @@ class AdapterAuthRepository @Inject constructor(
         )
     }
 
-    override suspend fun createUser(uid: String) = flow {
-        usersDataRepository.createUserInDb(uid).collect { response ->
-            println("AAA AdapterAuthRepository $uid")
-            when (response) {
-                is Response.Loading -> emit(Response.Loading)
-                is Response.Failure -> emit(Response.Failure(response.errorMessage))
-                is Response.Success -> emit(Response.Success(response.data))
-            }
-        }
-    }
+    override suspend fun editUserName(newName: String) = authDataRepository.editUserName(newName)
+
+    override suspend fun changeUserPhoto(uri: Uri) = authDataRepository.changeUserPhoto(uri)
 
     // ----- ActivityRequired impl
 
@@ -110,4 +115,5 @@ class AdapterAuthRepository @Inject constructor(
     override fun hashCode(): Int {
         return javaClass.name.hashCode()
     }
+
 }

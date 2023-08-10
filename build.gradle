@@ -21,7 +21,8 @@ buildscript {
                         NavigationFragments: "androidx.navigation:navigation-fragment-ktx:2.4.0",
                         NavigationUI: "androidx.navigation:navigation-ui-ktx:2.4.0",
                         Paging: "androidx.paging:paging-runtime:3.2.0-rc01",
-                        Coordinator: "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
+                        Coordinator: "androidx.coordinatorlayout:coordinatorlayout:1.2.0",
+                        Livedata: "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
                 ],
                 Google: [
                         Material: "com.google.android.material:material:1.9.0",
