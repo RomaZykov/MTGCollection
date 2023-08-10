@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.sign_in.R
@@ -26,7 +25,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         }
 
         binding.anonymousButton.setOnClickListener {
-            viewModel.anonymousLogin()
+            signInAnonymously()
         }
     }
 
@@ -34,11 +33,19 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         viewModel.signInWithGoogle().observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
-                is Response.Success -> binding.progressBar.hide()
-                is Response.Failure -> {
-                    Core.logger.log(response.errorMessage)
-                    binding.progressBar.hide()
-                }
+                is Response.Success<*> -> binding.progressBar.hide()
+                is Response.Failure -> binding.progressBar.hide()
+            }
+        }
+    }
+
+    private fun signInAnonymously() {
+        viewModel.signInAnonymously().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success<*> -> binding.progressBar.hide()
+                is Response.Failure -> binding.progressBar.hide()
+
             }
         }
     }

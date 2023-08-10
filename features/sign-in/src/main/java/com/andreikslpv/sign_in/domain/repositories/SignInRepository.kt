@@ -8,6 +8,8 @@ interface SignInRepository {
 
     suspend fun signIn(): Flow<Response<Boolean>>
 
+    suspend fun signInAnonymously(): Flow<Response<Boolean>>
+
     fun getCurrentUser(): AccountFeatureEntity?
 
     suspend fun createUser(uid: String): Flow<Response<Boolean>>

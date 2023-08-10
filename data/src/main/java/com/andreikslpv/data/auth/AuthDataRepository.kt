@@ -9,6 +9,8 @@ interface AuthDataRepository {
 
     suspend fun signIn(idToken: String?): Flow<Response<Boolean>>
 
+    suspend fun signInAnonymously(): Flow<Response<Boolean>>
+
     fun signOut(): Flow<Response<Void>>
 
     fun getAuthState(): Flow<Boolean>

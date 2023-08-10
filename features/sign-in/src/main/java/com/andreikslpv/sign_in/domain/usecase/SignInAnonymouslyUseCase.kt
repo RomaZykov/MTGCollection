@@ -6,17 +6,15 @@ import com.andreikslpv.sign_in.domain.repositories.SignInRepository
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class CreateUserUseCase @Inject constructor(
+class SignInAnonymouslyUseCase @Inject constructor(
     private val signInRepository: SignInRepository,
 ) {
 
     suspend fun execute() = flow {
         try {
             emit(Response.Loading)
-            signInRepository.getCurrentUser()?.let { user ->
-                signInRepository.createUser(user.uid).collect { response ->
-                    emit(response)
-                }
+            signInRepository.signInAnonymously().collect { response ->
+                emit(response)
             }
         } catch (e: Exception) {
             emit(Response.Failure(e.message ?: Constants.ERROR_AUTH))

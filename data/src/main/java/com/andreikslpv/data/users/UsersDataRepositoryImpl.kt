@@ -23,7 +23,6 @@ class UsersDataRepositoryImpl @Inject constructor(
 
     override suspend fun createUserInDb(uid: String) = flow {
         try {
-            println("AAA UsersDataRepositoryImpl $uid")
             emit(Response.Loading)
             val user = UserDataModel(uid = uid)
             database.collection(FirestoreConstants.PATH_USERS).document(user.uid).set(user).await()
