@@ -7,4 +7,9 @@ interface CardsRouter {
      */
     fun launchDetails(cardId: String)
 
+    /**
+     * Go back to the previous screen.
+     */
+    fun goBack()
+
 }

@@ -39,6 +39,12 @@ class CardsViewModel @AssistedInject constructor(
             .cachedIn(viewModelScope)
     }
 
+    fun getNameOfSet() = screen?.setName ?: ""
+
+    fun goBack() {
+        router.goBack()
+    }
+
     fun refresh() {
         set.postValue(set.value)
     }

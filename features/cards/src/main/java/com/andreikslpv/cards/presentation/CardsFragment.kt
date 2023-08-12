@@ -53,11 +53,23 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //binding.toolbar.setupWithNavController(findNavController())
-        //(requireActivity() as MainActivity).setSupportActionBar(binding.toolbar)
-
+        initToolbar()
         initCardsRecycler()
         initCollectCards()
+    }
+
+    private fun initToolbar() {
+        if (viewModel.getNameOfSet().isNotBlank()) {
+            binding.toolbar.apply {
+                this.setNavigationIcon(com.andreikslpv.presentation.R.drawable.ic_arrow_back)
+                this.setNavigationOnClickListener {
+                    viewModel.goBack()
+                }
+                this.title = viewModel.getNameOfSet()
+            }
+        } else {
+            binding.toolbar.title = getString(R.string.title_cards)
+        }
     }
 
     private fun initCardsRecycler() {
