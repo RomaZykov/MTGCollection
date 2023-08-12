@@ -53,6 +53,9 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //binding.toolbar.setupWithNavController(findNavController())
+        //(requireActivity() as MainActivity).setSupportActionBar(binding.toolbar)
+
         initCardsRecycler()
         initCollectCards()
     }

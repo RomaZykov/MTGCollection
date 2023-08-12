@@ -11,7 +11,6 @@ class GetCardsInSetUseCase @Inject constructor(
 ) {
 
     fun execute(codeOfSet: String?): Flow<PagingData<CardFeatureModel>> {
-        println("AAA GetCardsInSetUseCase")
         return if (codeOfSet != null) {
              cardsRepository.getCardsInSet(codeOfSet)
         } else {

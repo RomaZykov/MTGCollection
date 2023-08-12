@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -41,6 +43,16 @@ dependencies {
     implementation Libs.Android.Paging
 
     implementation Libs.Google.Material
+
+    implementation Libs.Google.Hilt
+    kapt Libs.Google.HiltCompiler
+
+    // Glide
+    implementation Libs.Other.Glide
+    annotationProcessor Libs.Other.GlideAP
+    implementation("com.github.bumptech.glide:okhttp3-integration:$glideVersion") {
+        exclude group: 'glide-parent'
+    }
 
     api project(Modules.Core.Common)
     api project(Modules.Core.Theme)

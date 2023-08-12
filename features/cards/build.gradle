@@ -46,14 +46,12 @@ dependencies {
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
-    implementation Libs.Other.Coil
-
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+    implementation Libs.Other.Glide
+    annotationProcessor Libs.Other.GlideAP
 
     implementation project(Modules.Core.Presentation)
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso}
+    implementation Libs.Testing.Espresso
+}

@@ -19,13 +19,14 @@
     <dimen name="button_radius">30dp</dimen>
 
     <!-- margins -->
-    <dimen name="margin_small_8">12dp</dimen>
+    <dimen name="margin_small_4">4dp</dimen>
+    <dimen name="margin_small_8">8dp</dimen>
     <dimen name="margin_small">12dp</dimen>
     <dimen name="margin_basic">16dp</dimen>
     <dimen name="margin_big_24">24dp</dimen>
     <dimen name="margin_big_32">32dp</dimen>
 
-    <dimen name="main_radius_card">28dp</dimen>
+    <dimen name="main_radius_card">12dp</dimen>
 
     <!-- for profile dialog-->
     <dimen name="profile_dialog_height">200dp</dimen>
