@@ -4,6 +4,8 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.andreikslpv.cards.domain.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.repositories.CardsRepository
+import com.andreikslpv.common_impl.entities.AccountFeatureEntity
+import com.andreikslpv.data.auth.AuthDataRepository
 import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.glue.cards.CardDataToFeatureModelMapper
@@ -14,6 +16,7 @@ import javax.inject.Inject
 class AdapterCardsRepository @Inject constructor(
     private val cardsDataRepository: CardsDataRepository,
     private val usersDataRepository: UsersDataRepository,
+    private val authDataRepository: AuthDataRepository,
 ) : CardsRepository {
 
     override fun getCardsInSet(codeOfSet: String): Flow<PagingData<CardFeatureModel>> {
@@ -27,4 +30,23 @@ class AdapterCardsRepository @Inject constructor(
     override fun changeApiAvailability(newStatus: Boolean) {
         cardsDataRepository.changeApiAvailability(newStatus)
     }
+
+    override fun getCurrentUser(): AccountFeatureEntity? {
+        val currentUser = authDataRepository.getCurrentUser()
+        return if (currentUser == null) null
+        else AccountFeatureEntity(
+            uid = currentUser.uid,
+            email = currentUser.email,
+            displayName = currentUser.displayName,
+            photoUrl = currentUser.photoUrl
+        )
+    }
+
+    override fun getAvailable() = usersDataRepository.getAvailable()
+
+    override fun addToAvailable(uid: String, cardId: String) =
+        usersDataRepository.addToAvailable(uid, cardId)
+
+    override fun removeFromAvailable(uid: String, cardId: String) =
+        usersDataRepository.removeFromAvailable(uid, cardId)
 }

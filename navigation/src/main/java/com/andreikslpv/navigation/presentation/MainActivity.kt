@@ -10,6 +10,7 @@ import com.andreikslpv.navigation.databinding.ActivityMainBinding
 import com.andreikslpv.navigation.presentation.navigation.NavComponentRouter
 import com.andreikslpv.navigation.presentation.navigation.RouterHolder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         navComponentRouterFactory.create(R.id.fragmentContainer)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -50,6 +52,8 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         activityRequiredSet.forEach {
             it.onActivityCreated(this)
         }
+
+        getAuthState()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -79,6 +83,13 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
     override fun requireRouter(): NavComponentRouter {
         return navComponentRouter
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun getAuthState() {
+        viewModel.getAuthState().observe(this) {
+            viewModel.startObserveUser()
+        }
     }
 
 }

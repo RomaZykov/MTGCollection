@@ -42,6 +42,7 @@ dependencies {
     implementation Libs.Android.ActivityKtx
     implementation Libs.Android.NavigationFragments
     implementation Libs.Android.NavigationUI
+    implementation Libs.Android.Livedata
 
     implementation Libs.Google.Material
 
