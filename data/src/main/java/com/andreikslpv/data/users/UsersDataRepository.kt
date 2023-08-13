@@ -12,13 +12,13 @@ interface UsersDataRepository {
 
     suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
 
-    fun getAvailable(): MutableStateFlow<List<String>>
+    fun getCollection(): MutableStateFlow<List<String>>
 
-    fun addToAvailable(uid: String, cardId: String)
+    fun addToCollection(uid: String, cardId: String)
 
-    fun removeFromAvailable(uid: String, cardId: String)
+    fun removeFromCollection(uid: String, cardId: String)
 
-    fun removeAllFromAvailable(uid: String)
+    fun removeAllFromCollection(uid: String)
 
     fun getHistory(): MutableStateFlow<List<String>>
 

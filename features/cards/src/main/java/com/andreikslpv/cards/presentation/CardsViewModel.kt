@@ -9,7 +9,7 @@ import androidx.paging.cachedIn
 import com.andreikslpv.cards.domain.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.usecase.ChangeApiAvailabilityUseCase
 import com.andreikslpv.cards.domain.usecase.GetCardsInSetUseCase
-import com.andreikslpv.cards.domain.usecase.TryToChangeAvailableStatusUseCase
+import com.andreikslpv.cards.domain.usecase.TryToChangeCollectionStatusUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -22,7 +22,7 @@ class CardsViewModel @AssistedInject constructor(
     @Assisted private val screen: CardsFragment.Screen?,
     private val getCardsInSetUseCase: GetCardsInSetUseCase,
     private val changeApiAvailabilityUseCase: ChangeApiAvailabilityUseCase,
-    private val tryToChangeAvailableStatusUseCase: TryToChangeAvailableStatusUseCase,
+    private val tryToChangeCollectionStatusUseCase: TryToChangeCollectionStatusUseCase,
     private val router: CardsRouter,
 ) : ViewModel() {
 
@@ -55,8 +55,8 @@ class CardsViewModel @AssistedInject constructor(
         changeApiAvailabilityUseCase.execute(false)
     }
 
-    fun tryToChangeAvailableStatus(cardId: String): Boolean {
-        return tryToChangeAvailableStatusUseCase.execute(cardId)
+    fun tryToChangeCollectionStatus(cardId: String): Boolean {
+        return tryToChangeCollectionStatusUseCase.execute(cardId)
     }
 
 

@@ -18,7 +18,7 @@ class UsersDataRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore,
 ) : UsersDataRepository {
 
-    private val availableCards = MutableStateFlow(emptyList<String>())
+    private val collection = MutableStateFlow(emptyList<String>())
     private val history = MutableStateFlow(emptyList<String>())
 
     override suspend fun createUserInDb(uid: String) = flow {
@@ -39,7 +39,7 @@ class UsersDataRepositoryImpl @Inject constructor(
             .addSnapshotListener { value, error ->
                 if (error == null && value != null) {
                     val user = value.toObject(UserDataModel::class.java) ?: UserDataModel()
-                    availableCards.tryEmit(user.available)
+                    collection.tryEmit(user.collection)
                     history.tryEmit(user.history)
                 }
             }
@@ -55,28 +55,28 @@ class UsersDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAvailable(): MutableStateFlow<List<String>> {
-        return availableCards
+    override fun getCollection(): MutableStateFlow<List<String>> {
+        return collection
     }
 
-    override fun addToAvailable(uid: String, cardId: String) {
+    override fun addToCollection(uid: String, cardId: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-            user.update(FirestoreConstants.FIELD_AVAILABLE, FieldValue.arrayUnion(cardId))
+            user.update(FirestoreConstants.FIELD_COLLECTION, FieldValue.arrayUnion(cardId))
         }
     }
 
-    override fun removeFromAvailable(uid: String, cardId: String) {
+    override fun removeFromCollection(uid: String, cardId: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-            user.update(FirestoreConstants.FIELD_AVAILABLE, FieldValue.arrayRemove(cardId))
+            user.update(FirestoreConstants.FIELD_COLLECTION, FieldValue.arrayRemove(cardId))
         }
     }
 
-    override fun removeAllFromAvailable(uid: String) {
+    override fun removeAllFromCollection(uid: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-            user.update(FirestoreConstants.FIELD_AVAILABLE, arrayListOf<String>())
+            user.update(FirestoreConstants.FIELD_COLLECTION, arrayListOf<String>())
         }
     }
 

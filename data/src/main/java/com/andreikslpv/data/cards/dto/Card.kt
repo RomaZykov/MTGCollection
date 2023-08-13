@@ -4,33 +4,33 @@ import com.google.gson.annotations.SerializedName
 
 data class Card(
     @SerializedName("artist")
-    val artist: String,
+    val artist: String?,
     @SerializedName("cmc")
-    val cmc: Double,
+    val cmc: Double?,
     @SerializedName("colorIdentity")
-    val colorIdentity: List<String>,
+    val colorIdentity: List<String>?,
     @SerializedName("colors")
-    val colors: List<String>,
+    val colors: List<String>?,
     @SerializedName("flavor")
     val flavor: String?,
     @SerializedName("foreignNames")
-    val foreignNames: List<ForeignName>,
+    val foreignNames: List<ForeignName>?,
     @SerializedName("id")
     val id: String,
     @SerializedName("imageUrl")
     val imageUrl: String?,
     @SerializedName("layout")
-    val layout: String,
+    val layout: String?,
     @SerializedName("legalities")
-    val legalities: List<Legality>,
+    val legalities: List<Legality>?,
     @SerializedName("manaCost")
-    val manaCost: String,
+    val manaCost: String?,
     @SerializedName("multiverseid")
     val multiverseid: String?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("number")
-    val number: String,
+    val number: String?,
     @SerializedName("originalText")
     val originalText: String?,
     @SerializedName("originalType")
@@ -38,15 +38,15 @@ data class Card(
     @SerializedName("power")
     val power: String?,
     @SerializedName("printings")
-    val printings: List<String>,
+    val printings: List<String>?,
     @SerializedName("rarity")
-    val rarity: String,
+    val rarity: String?,
     @SerializedName("rulings")
-    val rulings: List<Ruling>,
+    val rulings: List<Ruling>?,
     @SerializedName("set")
-    val set: String,
+    val set: String?,
     @SerializedName("setName")
-    val setName: String,
+    val setName: String?,
     @SerializedName("subtypes")
     val subtypes: List<String>?,
     @SerializedName("text")
@@ -54,9 +54,9 @@ data class Card(
     @SerializedName("toughness")
     val toughness: String?,
     @SerializedName("type")
-    val type: String,
+    val type: String?,
     @SerializedName("types")
-    val types: List<String>,
+    val types: List<String>?,
     @SerializedName("watermark")
     val watermark: String?
 )

@@ -3,7 +3,7 @@ package com.andreikslpv.cards.presentation.recyclers
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.cards.domain.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.entities.CardLanguage
-import com.andreikslpv.cards.domain.usecase.GetAvailableUseCase
+import com.andreikslpv.cards.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
 import com.bumptech.glide.RequestManager
 import dagger.hilt.EntryPoint
@@ -21,7 +21,7 @@ class CardPreviewViewHolder(val binding: ItemCardPreviewBinding) :
     @InstallIn(SingletonComponent::class)
     interface CardPreviewEntryPoint {
         fun provideGlide(): RequestManager
-        fun provideGetAvailableUseCase(): GetAvailableUseCase
+        fun provideGetCollectionUseCase(): GetCollectionUseCase
     }
 
     fun bind(card: CardFeatureModel) {
@@ -38,11 +38,11 @@ class CardPreviewViewHolder(val binding: ItemCardPreviewBinding) :
             .into(binding.itemImage)
 
         CoroutineScope(Dispatchers.Main).launch {
-            hiltEntryPoint.provideGetAvailableUseCase().execute().collect {
+            hiltEntryPoint.provideGetCollectionUseCase().execute().collect {
                 if (it.contains(card.id))
-                    binding.itemButtonHaving.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having)
+                    binding.itemButtonCollection.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having)
                 else
-                    binding.itemButtonHaving.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having_not)
+                    binding.itemButtonCollection.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having_not)
             }
         }
     }

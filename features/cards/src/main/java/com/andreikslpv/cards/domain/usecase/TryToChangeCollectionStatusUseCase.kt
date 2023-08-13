@@ -3,18 +3,18 @@ package com.andreikslpv.cards.domain.usecase
 import com.andreikslpv.cards.domain.repositories.CardsRepository
 import javax.inject.Inject
 
-class TryToChangeAvailableStatusUseCase @Inject constructor(
+class TryToChangeCollectionStatusUseCase @Inject constructor(
     private val cardsRepository: CardsRepository,
 ) {
 
     fun execute(cardId: String): Boolean {
         val user = cardsRepository.getCurrentUser()
         return if (user != null) {
-            cardsRepository.getAvailable().value.let { available ->
-                if (available.contains(cardId))
-                    cardsRepository.removeFromAvailable(user.uid, cardId)
+            cardsRepository.getCollection().value.let { collection ->
+                if (collection.contains(cardId))
+                    cardsRepository.removeFromCollection(user.uid, cardId)
                 else
-                    cardsRepository.addToAvailable(user.uid, cardId)
+                    cardsRepository.addToCollection(user.uid, cardId)
             }
             true
         } else {

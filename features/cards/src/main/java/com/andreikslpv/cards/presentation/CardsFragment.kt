@@ -83,7 +83,7 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
                 },
                 object : ItemClickListener {
                     override fun click(id: String) {
-                        val result = viewModel.tryToChangeAvailableStatus(id)
+                        val result = viewModel.tryToChangeCollectionStatus(id)
 //                        if (!result) Snackbar.make(
 //                            binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
 //                        ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()

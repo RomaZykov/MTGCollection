@@ -14,10 +14,10 @@ interface CardsRepository {
 
     fun getCurrentUser(): AccountFeatureEntity?
 
-    fun getAvailable(): MutableStateFlow<List<String>>
+    fun getCollection(): MutableStateFlow<List<String>>
 
-    fun addToAvailable(uid: String, cardId: String)
+    fun addToCollection(uid: String, cardId: String)
 
-    fun removeFromAvailable(uid: String, cardId: String)
+    fun removeFromCollection(uid: String, cardId: String)
 
 }

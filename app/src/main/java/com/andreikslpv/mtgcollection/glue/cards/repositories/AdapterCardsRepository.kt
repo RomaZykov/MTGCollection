@@ -42,11 +42,11 @@ class AdapterCardsRepository @Inject constructor(
         )
     }
 
-    override fun getAvailable() = usersDataRepository.getAvailable()
+    override fun getCollection() = usersDataRepository.getCollection()
 
-    override fun addToAvailable(uid: String, cardId: String) =
-        usersDataRepository.addToAvailable(uid, cardId)
+    override fun addToCollection(uid: String, cardId: String) =
+        usersDataRepository.addToCollection(uid, cardId)
 
-    override fun removeFromAvailable(uid: String, cardId: String) =
-        usersDataRepository.removeFromAvailable(uid, cardId)
+    override fun removeFromCollection(uid: String, cardId: String) =
+        usersDataRepository.removeFromCollection(uid, cardId)
 }

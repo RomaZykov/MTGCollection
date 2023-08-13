@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/itemImage">
 
         <ImageView
-            android:id="@+id/itemButtonHaving"
+            android:id="@+id/itemButtonCollection"
             android:layout_width="@dimen/FAB_dimen"
             android:layout_height="@dimen/FAB_dimen"
             android:layout_marginStart="@dimen/margin_small_8"

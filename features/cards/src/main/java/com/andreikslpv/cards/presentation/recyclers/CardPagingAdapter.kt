@@ -9,7 +9,7 @@ import com.andreikslpv.presentation.recyclers.ItemClickListener
 
 class CardPagingAdapter(
     private val cardClickListener: CardItemClickListener,
-    private val availableClickListener: ItemClickListener,
+    private val collectionClickListener: ItemClickListener,
 ) : PagingDataAdapter<CardFeatureModel, CardPreviewViewHolder>(CardItemDiff()) {
 
     override fun onBindViewHolder(holder: CardPreviewViewHolder, position: Int) {
@@ -23,9 +23,9 @@ class CardPagingAdapter(
             }
         }
 
-        holder.binding.itemButtonHaving.setOnClickListener {
+        holder.binding.itemButtonCollection.setOnClickListener {
             getItem(position)?.let { card ->
-                availableClickListener.click(card.id)
+                collectionClickListener.click(card.id)
             }
         }
     }
