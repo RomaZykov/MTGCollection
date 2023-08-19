@@ -70,6 +70,7 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
             }
         } else {
             binding.toolbar.title = getString(R.string.title_cards)
+            viewModel.refresh()
         }
     }
 
@@ -150,6 +151,7 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     private fun initCollectCards() {
         this.lifecycleScope.launch {
             viewModel.cards.collectLatest { pagedData ->
+                println("AAA initCollectCards")
                 cardAdapter.submitData(pagedData)
             }
         }

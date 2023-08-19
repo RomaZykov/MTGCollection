@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.cards.domain.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.usecase.ChangeApiAvailabilityUseCase
-import com.andreikslpv.cards.domain.usecase.GetCardsInSetUseCase
+import com.andreikslpv.cards.domain.usecase.GetCardsUseCase
 import com.andreikslpv.cards.domain.usecase.TryToChangeCollectionStatusUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 @OptIn(ExperimentalCoroutinesApi::class)
 class CardsViewModel @AssistedInject constructor(
     @Assisted private val screen: CardsFragment.Screen?,
-    private val getCardsInSetUseCase: GetCardsInSetUseCase,
+    private val getCardsUseCase: GetCardsUseCase,
     private val changeApiAvailabilityUseCase: ChangeApiAvailabilityUseCase,
     private val tryToChangeCollectionStatusUseCase: TryToChangeCollectionStatusUseCase,
     private val router: CardsRouter,
@@ -36,7 +36,10 @@ class CardsViewModel @AssistedInject constructor(
 
         cards = set
             .asFlow()
-            .flatMapLatest { getCardsInSetUseCase.execute(it) }
+            .flatMapLatest {
+                println("AAA flatMapLatest $it")
+                getCardsUseCase.execute(it)
+            }
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
     }

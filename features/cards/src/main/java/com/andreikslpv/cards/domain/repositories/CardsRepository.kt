@@ -10,6 +10,8 @@ interface CardsRepository {
 
     fun getCardsInSet(codeOfSet: String): Flow<PagingData<CardFeatureModel>>
 
+    fun getCardsInCollection(ids: List<String>): Flow<PagingData<CardFeatureModel>>
+
     fun changeApiAvailability(newStatus: Boolean)
 
     fun getCurrentUser(): AccountFeatureEntity?

@@ -52,6 +52,16 @@ class CardsDataRepositoryImpl @Inject constructor(
         ).flow
     }
 
+    override fun getCardsInCollection(ids: List<String>): Flow<PagingData<CardDataModel>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = ApiConstants.DEFAULT_PAGE_SIZE,
+                enablePlaceholders = false,
+                initialLoadSize = ApiConstants.DEFAULT_PAGE_SIZE
+            ),
+            pagingSourceFactory = { cacheDataSource.getCardsByIds(ids) }).flow
+    }
+
     override fun changeApiAvailability(newStatus: Boolean) {
         isApiAvailable = newStatus
     }
