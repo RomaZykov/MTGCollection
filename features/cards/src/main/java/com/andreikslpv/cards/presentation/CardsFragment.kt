@@ -127,11 +127,9 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     }
 
     private fun catchError(message: String) {
-//        if (viewModel.isNewError) {
         message.makeToast(requireContext())
         viewModel.changeApiAvailability()
         cardAdapter.refresh()
-//        }
     }
 
     // Когда пользователь меняет поисковой запрос, то отслеживаем этот момент и прокручиваем в начало списка
@@ -151,7 +149,6 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     private fun initCollectCards() {
         this.lifecycleScope.launch {
             viewModel.cards.collectLatest { pagedData ->
-                println("AAA initCollectCards")
                 cardAdapter.submitData(pagedData)
             }
         }

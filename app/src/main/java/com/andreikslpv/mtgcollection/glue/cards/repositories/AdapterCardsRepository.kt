@@ -21,19 +21,13 @@ class AdapterCardsRepository @Inject constructor(
 
     override fun getCardsInSet(codeOfSet: String): Flow<PagingData<CardFeatureModel>> {
         return cardsDataRepository.getCardsInSet(codeOfSet).map { pagingData ->
-            pagingData.map {
-                CardDataToFeatureModelMapper.map(it)
-            }
+            pagingData.map { CardDataToFeatureModelMapper.map(it) }
         }
     }
 
     override fun getCardsInCollection(ids: List<String>): Flow<PagingData<CardFeatureModel>> {
         return cardsDataRepository.getCardsInCollection(ids).map { pagingData ->
-            println("AAA getCardsInCollection pagingData = $pagingData")
-            pagingData.map {
-                println("AAA getCardsInCollection $it")
-                CardDataToFeatureModelMapper.map(it)
-            }
+            pagingData.map { CardDataToFeatureModelMapper.map(it) }
         }
     }
 

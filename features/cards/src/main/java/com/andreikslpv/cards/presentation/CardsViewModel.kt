@@ -7,15 +7,21 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.cards.domain.entities.CardFeatureModel
+import com.andreikslpv.cards.domain.entities.CardsInitialData
+import com.andreikslpv.cards.domain.repositories.CardsRepository
 import com.andreikslpv.cards.domain.usecase.ChangeApiAvailabilityUseCase
 import com.andreikslpv.cards.domain.usecase.GetCardsUseCase
 import com.andreikslpv.cards.domain.usecase.TryToChangeCollectionStatusUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CardsViewModel @AssistedInject constructor(
@@ -23,23 +29,31 @@ class CardsViewModel @AssistedInject constructor(
     private val getCardsUseCase: GetCardsUseCase,
     private val changeApiAvailabilityUseCase: ChangeApiAvailabilityUseCase,
     private val tryToChangeCollectionStatusUseCase: TryToChangeCollectionStatusUseCase,
+    private val cardsRepository: CardsRepository,
     private val router: CardsRouter,
 ) : ViewModel() {
 
-    val set = MutableLiveData<String?>()
+    private val initialData = MutableLiveData<CardsInitialData>()
     val cards: Flow<PagingData<CardFeatureModel>>
 
     init {
-        screen?.let {
-            set.postValue(screen.setCode)
+        if (screen != null) {
+            val newInitialData = CardsInitialData(codeOfSet = screen.setCode)
+            initialData.postValue(newInitialData)
+        } else {
+            CoroutineScope(Dispatchers.IO).launch {
+                cardsRepository.getCollection().collect {
+                    withContext(Dispatchers.Main) {
+                        val newInitialData = CardsInitialData(ids = it)
+                        initialData.postValue(newInitialData)
+                    }
+                }
+            }
         }
 
-        cards = set
+        cards = initialData
             .asFlow()
-            .flatMapLatest {
-                println("AAA flatMapLatest $it")
-                getCardsUseCase.execute(it)
-            }
+            .flatMapLatest { getCardsUseCase.execute(it) }
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
     }
@@ -51,7 +65,7 @@ class CardsViewModel @AssistedInject constructor(
     }
 
     fun refresh() {
-        set.postValue(set.value)
+        initialData.postValue(initialData.value)
     }
 
     fun changeApiAvailability() {
