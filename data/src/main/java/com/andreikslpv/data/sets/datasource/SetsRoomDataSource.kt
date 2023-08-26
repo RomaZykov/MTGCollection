@@ -26,7 +26,7 @@ class SetsRoomDataSource @Inject constructor(
             try{
                 setsDao.insertSets(SetsListDataToRoomModelMapper.map(sets))
             } catch (e: Exception) {
-                println("AAA error ${e.message}")
+                println("AAA saveSetsToDb error ${e.message}")
             }
 
         }
@@ -37,6 +37,12 @@ class SetsRoomDataSource @Inject constructor(
     }
 
     override fun deleteAllSets() {
-        TODO("Not yet implemented")
+        scope.launch {
+            try{
+                setsDao.deleteAllSets()
+            } catch (e: Exception) {
+                println("AAA deleteAllSets error ${e.message}")
+            }
+        }
     }
 }

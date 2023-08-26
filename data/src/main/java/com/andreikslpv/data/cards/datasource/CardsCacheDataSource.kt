@@ -2,12 +2,13 @@ package com.andreikslpv.data.cards.datasource
 
 import androidx.paging.PagingSource
 import com.andreikslpv.data.cards.entities.CardDataModel
-import com.google.firebase.firestore.QuerySnapshot
 
 interface CardsCacheDataSource {
 
-    fun getCardsByIds(ids: List<String>): PagingSource<QuerySnapshot, CardDataModel>
+    fun getCardsInSet(codeOfSet: String): PagingSource<Int, CardDataModel>
 
-    suspend fun saveCardsToDb(cards: List<CardDataModel>)
+    fun saveCardsToDb(cards: List<CardDataModel>)
+
+    fun deleteAllCards()
 
 }

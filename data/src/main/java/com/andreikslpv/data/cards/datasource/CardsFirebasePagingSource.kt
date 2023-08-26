@@ -14,12 +14,14 @@ class CardsFirebasePagingSource(private val query: Query) :
 
     override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, CardDataModel> {
         return try {
-            println("AAA key = ${params.key}")
+            println("AAA load key = ${params.key}")
             val currentPage = params.key ?: query.get().await()
-            val lastVisibleProduct =
+            println("AAA load currentPage = ${currentPage.size()}")
+            val lastVisibleCard =
                 if (currentPage.size() > 0) currentPage.documents[currentPage.size() - 1] else null
+            println("AAA load lastVisibleCard = $lastVisibleCard")
             val nextPage =
-                if (lastVisibleProduct != null) query.startAfter(lastVisibleProduct).get()
+                if (lastVisibleCard != null) query.startAfter(lastVisibleCard).get()
                     .await() else null
             LoadResult.Page(
                 data = currentPage.toObjects(CardDataModel::class.java),

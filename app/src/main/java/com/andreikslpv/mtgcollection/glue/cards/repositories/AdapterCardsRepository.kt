@@ -9,6 +9,7 @@ import com.andreikslpv.data.auth.AuthDataRepository
 import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.glue.cards.CardDataToFeatureModelMapper
+import com.andreikslpv.mtgcollection.glue.cards.CardFeatureToDataModelMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -25,8 +26,8 @@ class AdapterCardsRepository @Inject constructor(
         }
     }
 
-    override fun getCardsInCollection(ids: List<String>): Flow<PagingData<CardFeatureModel>> {
-        return cardsDataRepository.getCardsInCollection(ids).map { pagingData ->
+    override fun getCardsInCollection(uid: String): Flow<PagingData<CardFeatureModel>> {
+        return cardsDataRepository.getCardsInCollection(uid).map { pagingData ->
             pagingData.map { CardDataToFeatureModelMapper.map(it) }
         }
     }
@@ -48,9 +49,15 @@ class AdapterCardsRepository @Inject constructor(
 
     override fun getCollection() = usersDataRepository.getCollection()
 
-    override fun addToCollection(uid: String, cardId: String) =
+    override fun addToUsersCollection(uid: String, cardId: String) =
         usersDataRepository.addToCollection(uid, cardId)
 
-    override fun removeFromCollection(uid: String, cardId: String) =
+    override fun removeFromUsersCollection(uid: String, cardId: String) =
         usersDataRepository.removeFromCollection(uid, cardId)
+
+    override fun addToCardsCollection(uid: String, card: CardFeatureModel) =
+        cardsDataRepository.addToCollection(uid, CardFeatureToDataModelMapper.map(card))
+
+    override fun removeFromCardsCollection(uid: String, card: CardFeatureModel) =
+        cardsDataRepository.removeFromCollection(uid, CardFeatureToDataModelMapper.map(card))
 }

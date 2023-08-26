@@ -2,6 +2,7 @@ package com.andreikslpv.data.cards.entities
 
 data class CardDataModel(
     val artist: String = "",
+    val availableCards: List<AvailableCardDataModel> = listOf(),
     val cmc: Double = 0.0,
     val colorIdentity: List<String> = listOf(),
     val colors: List<String> = listOf(),

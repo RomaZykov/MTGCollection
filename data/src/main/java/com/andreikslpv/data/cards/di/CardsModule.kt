@@ -3,7 +3,7 @@ package com.andreikslpv.data.cards.di
 import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.cards.CardsDataRepositoryImpl
 import com.andreikslpv.data.cards.datasource.CardsCacheDataSource
-import com.andreikslpv.data.cards.datasource.CardsFirebaseDataSource
+import com.andreikslpv.data.cards.datasource.CardsRoomDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ class CardsModule {
 
     @Provides
     @Singleton
-    fun providesCardsCacheDataSource(cardsCacheDataSource: CardsFirebaseDataSource): CardsCacheDataSource {
+    fun providesCardsCacheDataSource(cardsCacheDataSource: CardsRoomDataSource): CardsCacheDataSource {
         return cardsCacheDataSource
     }
 }

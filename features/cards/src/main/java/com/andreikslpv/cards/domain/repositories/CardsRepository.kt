@@ -10,7 +10,7 @@ interface CardsRepository {
 
     fun getCardsInSet(codeOfSet: String): Flow<PagingData<CardFeatureModel>>
 
-    fun getCardsInCollection(ids: List<String>): Flow<PagingData<CardFeatureModel>>
+    fun getCardsInCollection(uid: String): Flow<PagingData<CardFeatureModel>>
 
     fun changeApiAvailability(newStatus: Boolean)
 
@@ -18,8 +18,12 @@ interface CardsRepository {
 
     fun getCollection(): MutableStateFlow<List<String>>
 
-    fun addToCollection(uid: String, cardId: String)
+    fun addToUsersCollection(uid: String, cardId: String)
 
-    fun removeFromCollection(uid: String, cardId: String)
+    fun removeFromUsersCollection(uid: String, cardId: String)
+
+    fun addToCardsCollection(uid: String, card: CardFeatureModel)
+
+    fun removeFromCardsCollection(uid: String, card: CardFeatureModel)
 
 }

@@ -15,7 +15,6 @@ import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
 import com.andreikslpv.presentation.makeToast
-import com.andreikslpv.presentation.recyclers.ItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.simpleScan
 import com.andreikslpv.presentation.viewBinding
@@ -78,13 +77,13 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
         binding.cardsRecycler.apply {
             cardAdapter = CardPagingAdapter(
                 object : CardItemClickListener {
-                    override fun click(set: CardFeatureModel) {
+                    override fun click(card: CardFeatureModel) {
                         //viewModel.launchCards(set)
                     }
                 },
-                object : ItemClickListener {
-                    override fun click(id: String) {
-                        val result = viewModel.tryToChangeCollectionStatus(id)
+                object : CardItemClickListener {
+                    override fun click(card: CardFeatureModel) {
+                        val result = viewModel.tryToChangeCollectionStatus(card)
 //                        if (!result) Snackbar.make(
 //                            binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
 //                        ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()

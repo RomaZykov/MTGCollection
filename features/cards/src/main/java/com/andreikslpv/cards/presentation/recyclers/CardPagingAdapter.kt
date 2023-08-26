@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.andreikslpv.cards.domain.entities.CardFeatureModel
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
-import com.andreikslpv.presentation.recyclers.ItemClickListener
 
 class CardPagingAdapter(
     private val cardClickListener: CardItemClickListener,
-    private val collectionClickListener: ItemClickListener,
+    private val collectionClickListener: CardItemClickListener,
 ) : PagingDataAdapter<CardFeatureModel, CardPreviewViewHolder>(CardItemDiff()) {
 
     override fun onBindViewHolder(holder: CardPreviewViewHolder, position: Int) {
@@ -25,7 +24,7 @@ class CardPagingAdapter(
 
         holder.binding.itemButtonCollection.setOnClickListener {
             getItem(position)?.let { card ->
-                collectionClickListener.click(card.id)
+                collectionClickListener.click(card)
             }
         }
     }

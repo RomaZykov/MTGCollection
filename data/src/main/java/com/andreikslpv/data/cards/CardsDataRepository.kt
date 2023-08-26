@@ -8,8 +8,14 @@ interface CardsDataRepository {
 
     fun getCardsInSet(codeOfSet: String): Flow<PagingData<CardDataModel>>
 
-    fun getCardsInCollection(ids: List<String>): Flow<PagingData<CardDataModel>>
+    fun getCardsInCollection(uid: String): Flow<PagingData<CardDataModel>>
 
     fun changeApiAvailability(newStatus: Boolean)
+
+    fun addToCollection(uid: String, card: CardDataModel)
+
+    fun removeFromCollection(uid: String, card: CardDataModel)
+
+    fun removeAllFromCollection(uid: String)
 
 }
