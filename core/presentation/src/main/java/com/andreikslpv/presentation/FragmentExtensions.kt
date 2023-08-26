@@ -13,7 +13,10 @@ const val ARG_SCREEN = "screen"
 /**
  * Get screen args attached to the [Fragment].
  */
-fun <T : BaseScreen> Fragment.args(): T {
-    return requireArguments().getSerializable(ARG_SCREEN) as? T
-        ?: throw IllegalStateException("Screen args don't exist")
+fun <T : BaseScreen> Fragment.args(): T? {
+    return try {
+        requireArguments().getSerializable(ARG_SCREEN) as? T
+    } catch (e: Exception) {
+        null
+    }
 }

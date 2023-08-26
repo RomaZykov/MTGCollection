@@ -13,4 +13,8 @@ class AdapterCardsRouter @Inject constructor(
     override fun launchDetails(cardId: String) {
         TODO("Not yet implemented")
     }
+
+    override fun goBack() {
+        globalNavComponentRouter.pop()
+    }
 }

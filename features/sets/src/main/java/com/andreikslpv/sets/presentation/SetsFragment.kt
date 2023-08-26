@@ -18,7 +18,7 @@ import com.andreikslpv.sets.databinding.FragmentSetsBinding
 import com.andreikslpv.sets.domain.entities.SetFeatureModel
 import com.andreikslpv.sets.presentation.recyclers.SetItemClickListener
 import com.andreikslpv.sets.presentation.recyclers.SetPagingAdapter
-import com.andreikslpv.sets.presentation.recyclers.itemDecoration.SpaceItemDecoration
+import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -43,7 +43,7 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecipeListRecycler()
+        initSetsRecycler()
         initCollectSets()
         initSpinner()
         //viewModel.setType("expansion")
@@ -74,13 +74,12 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
         }
     }
 
-    private fun initRecipeListRecycler() {
+    private fun initSetsRecycler() {
         binding.setsRecycler.apply {
             setAdapter = SetPagingAdapter(
                 object : SetItemClickListener {
                     override fun click(set: SetFeatureModel) {
-//                        viewModel.setCategoryDish(id)
-//                        goToCatalogFragment()
+                        viewModel.launchCards(set)
                     }
                 }
             )

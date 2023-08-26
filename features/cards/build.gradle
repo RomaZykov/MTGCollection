@@ -40,14 +40,19 @@ dependencies {
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.AppCompat
     implementation Libs.Android.FragmentKtx
+    implementation Libs.Android.Paging
 
     implementation Libs.Google.Material
-
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
+    implementation Libs.Other.Glide
+    annotationProcessor Libs.Other.GlideAP
+
     implementation project(Modules.Core.Presentation)
+    implementation project(Modules.Core.CommonImpl)
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso}
+    implementation Libs.Testing.Espresso
+}

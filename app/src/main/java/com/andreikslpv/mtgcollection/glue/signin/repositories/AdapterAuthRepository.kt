@@ -7,9 +7,10 @@ import com.andreikslpv.common.CalledNotFromUiException
 import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.ActivityRequired
+import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import com.andreikslpv.data.auth.AuthDataRepository
+import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.extensions.GoogleSignInContract
-import com.andreikslpv.sign_in.domain.entities.AccountFeatureEntity
 import com.andreikslpv.sign_in.domain.repositories.SignInRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.coroutines.CompletableDeferred
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class AdapterAuthRepository @Inject constructor(
     private val authDataRepository: AuthDataRepository,
     private val googleSignInClient: GoogleSignInClient,
+    private val usersDataRepository: UsersDataRepository,
 ) : SignInRepository, ActivityRequired {
 
     private var isActivityStarted = false
@@ -51,6 +53,8 @@ class AdapterAuthRepository @Inject constructor(
 
     }
 
+    override suspend fun signInAnonymously() = authDataRepository.signInAnonymously()
+
     override fun getCurrentUser(): AccountFeatureEntity? {
         val currentUser = authDataRepository.getCurrentUser()
         return if (currentUser == null) null
@@ -61,6 +65,18 @@ class AdapterAuthRepository @Inject constructor(
             photoUrl = currentUser.photoUrl
         )
     }
+
+    override suspend fun createUser(uid: String) = flow {
+        usersDataRepository.createUserInDb(uid).collect { response ->
+            when (response) {
+                is Response.Loading -> emit(Response.Loading)
+                is Response.Failure -> emit(Response.Failure(response.errorMessage))
+                is Response.Success -> emit(Response.Success(response.data))
+            }
+        }
+    }
+
+    // ----- ActivityRequired impl
 
     override fun onActivityCreated(activity: FragmentActivity) {
         signInLauncher =
@@ -73,8 +89,6 @@ class AdapterAuthRepository @Inject constructor(
                 completableDeferred = null
             }
     }
-
-// ----- ActivityRequired impl
 
     override fun onActivityStarted() {
         isActivityStarted = true

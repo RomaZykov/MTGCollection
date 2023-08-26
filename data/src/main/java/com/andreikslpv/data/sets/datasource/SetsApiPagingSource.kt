@@ -2,18 +2,18 @@ package com.andreikslpv.data.sets.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.andreikslpv.data.ApiCallback
-import com.andreikslpv.data.sets.constants.ApiConstants.DEFAULT_PAGE
-import com.andreikslpv.data.sets.constants.ApiConstants.DEFAULT_PAGE_SIZE
+import com.andreikslpv.data.sets.SetsApiCallback
+import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE
+import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
 import com.andreikslpv.data.sets.entities.SetDataModel
 import com.andreikslpv.data.sets.mappers.SetsListDtoToDataModelMapper
-import com.andreikslpv.data.sets.service.SetsService
+import com.andreikslpv.data.sets.services.SetsService
 import retrofit2.HttpException
 
 class SetsApiPagingSource(
     private val service: SetsService,
     private val type: String,
-    private val callback: ApiCallback,
+    private val callback: SetsApiCallback,
 ) : PagingSource<Int, SetDataModel>() {
     private val step = 1
 

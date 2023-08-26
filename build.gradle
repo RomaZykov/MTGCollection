@@ -10,6 +10,7 @@ buildscript {
         kotlinVersion = '17'
 
         hiltVersion = "2.44"
+        glideVersion = "4.15.1"
         navVersion = "2.4.0"
 
         Libs = [
@@ -21,17 +22,23 @@ buildscript {
                         NavigationFragments: "androidx.navigation:navigation-fragment-ktx:2.4.0",
                         NavigationUI: "androidx.navigation:navigation-ui-ktx:2.4.0",
                         Paging: "androidx.paging:paging-runtime:3.2.0-rc01",
-                        Coordinator: "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
+                        Coordinator: "androidx.coordinatorlayout:coordinatorlayout:1.2.0",
+                        Livedata: "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
                 ],
                 Google: [
                         Material: "com.google.android.material:material:1.9.0",
                         Hilt: "com.google.dagger:hilt-android:$hiltVersion",
                         HiltCompiler: "com.google.dagger:hilt-compiler:$hiltVersion",
                         Auth: "com.google.android.gms:play-services-auth:20.6.0",
-
                 ],
                 JetBrains: [
                         CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
+                ],
+                Other: [
+                        Coil: "io.coil-kt:coil:2.2.0",
+                        CoilSvg: "io.coil-kt:coil-svg:1.2.2",
+                        Glide: "com.github.bumptech.glide:glide:$glideVersion",
+                        GlideAP: "com.github.bumptech.glide:compiler:$glideVersion",
                 ],
                 Testing: [
                         JUnit: "junit:junit:4.13.2",

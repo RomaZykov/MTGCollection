@@ -31,6 +31,18 @@ class AuthFirebaseRepository @Inject constructor(
         }
     }
 
+    override suspend fun signInAnonymously() = flow {
+        try {
+            emit(Response.Loading)
+            val authResult = auth.signInAnonymously().await()
+            authResult.additionalUserInfo?.apply {
+                emit(Response.Success(isNewUser))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_AUTH))
+        }
+    }
+
     override fun signOut() = flow {
         try {
             emit(Response.Loading)
@@ -53,7 +65,7 @@ class AuthFirebaseRepository @Inject constructor(
 
     override fun getCurrentUser() = auth.currentUser.toAccount()
 
-    override suspend fun deleteUser(idToken: String?) = flow {
+    override suspend fun deleteUserInAuth(idToken: String?) = flow {
         try {
             emit(Response.Loading)
             val credential = GoogleAuthProvider.getCredential(idToken, null)

@@ -62,4 +62,8 @@ class SetsViewModel @Inject constructor(
         changeApiAvailabilityUseCase.execute(false)
     }
 
+    fun launchCards(set: SetFeatureModel) {
+        router.launchCards(set)
+    }
+
 }

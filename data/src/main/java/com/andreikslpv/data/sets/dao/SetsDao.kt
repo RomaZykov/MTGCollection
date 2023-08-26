@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.andreikslpv.data.sets.constants.RoomConstants
+import com.andreikslpv.data.constants.RoomConstants
 import com.andreikslpv.data.sets.entities.SetRoomModel
 
 @Dao

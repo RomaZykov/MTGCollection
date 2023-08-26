@@ -1,7 +1,7 @@
 package com.andreikslpv.data.sets.mappers
 
 import com.andreikslpv.common.BaseMapper
-import com.andreikslpv.data.sets.dto.sets.Set
+import com.andreikslpv.data.sets.dto.Set
 import com.andreikslpv.data.sets.entities.SetDataModel
 import com.andreikslpv.data.sets.entities.SetRoomModel
 

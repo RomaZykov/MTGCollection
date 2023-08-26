@@ -2,8 +2,8 @@ package com.andreikslpv.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.andreikslpv.data.constants.RoomConstants
 import com.andreikslpv.data.db.AppDatabase
-import com.andreikslpv.data.sets.constants.RoomConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,5 +30,9 @@ class DbModule {
     @Singleton
     @Provides
     fun provideSetsDao(appDatabase: AppDatabase) = appDatabase.setsDao()
+
+    @Singleton
+    @Provides
+    fun provideCardsDao(appDatabase: AppDatabase) = appDatabase.cardsDao()
 
 }

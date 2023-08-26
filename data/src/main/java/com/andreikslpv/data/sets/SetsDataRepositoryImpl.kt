@@ -3,13 +3,11 @@ package com.andreikslpv.data.sets
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.andreikslpv.data.ApiCallback
-import com.andreikslpv.data.sets.constants.ApiConstants.DEFAULT_PAGE_SIZE
+import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
 import com.andreikslpv.data.sets.datasource.SetsApiPagingSource
 import com.andreikslpv.data.sets.datasource.SetsCacheDataSource
-import com.andreikslpv.data.sets.dto.cards.ResultCards
 import com.andreikslpv.data.sets.entities.SetDataModel
-import com.andreikslpv.data.sets.service.SetsService
+import com.andreikslpv.data.sets.services.SetsService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Retrofit
@@ -63,7 +61,7 @@ class SetsDataRepositoryImpl @Inject constructor(
                     SetsApiPagingSource(
                         retrofit.create(SetsService::class.java),
                         type,
-                        object : ApiCallback {
+                        object : SetsApiCallback {
                             override fun onSuccess(items: List<SetDataModel>) {
                                 if (isApiAvailable) cacheDataSource.saveSetsToDb(items)
                             }
@@ -84,7 +82,4 @@ class SetsDataRepositoryImpl @Inject constructor(
         isApiAvailable = newStatus
     }
 
-    override fun getCardsInSet(codeOfSet: String): ResultCards {
-        TODO("Not yet implemented")
-    }
 }

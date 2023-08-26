@@ -38,7 +38,12 @@ class NavComponentRouter @AssistedInject constructor(
     private val destinationListeners = mutableSetOf<() -> Unit>()
 
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
-        override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+        override fun onFragmentViewCreated(
+            fm: FragmentManager,
+            f: Fragment,
+            v: View,
+            savedInstanceState: Bundle?
+        ) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
             if (f is TabsFragment || f is NavHostFragment) return
             val currentNavController = f.findNavController()
@@ -83,8 +88,9 @@ class NavComponentRouter @AssistedInject constructor(
     fun onRestoreInstanceState(bundle: Bundle) {
         currentStartDestination = bundle.getInt(KEY_START_DESTINATION, 0)
         @Suppress("DEPRECATION")
-        navigationModeHolder.navigationMode = bundle.getSerializable(KEY_NAV_MODE) as? NavigationMode
-            ?: throw IllegalStateException("No state to be restored")
+        navigationModeHolder.navigationMode =
+            bundle.getSerializable(KEY_NAV_MODE) as? NavigationMode
+                ?: throw IllegalStateException("No state to be restored")
         restoreRoot()
     }
 
@@ -100,6 +106,19 @@ class NavComponentRouter @AssistedInject constructor(
             startTabDestinationId
         )
         switchRoot(destinationsProvider.provideTabsDestinationId())
+        currentStartDestination = destinationsProvider.provideTabsDestinationId()
+    }
+
+    fun switchToTabs(
+        rootDestinations: List<NavTab>,
+        startTabDestinationId: Int?,
+        args: java.io.Serializable? = null
+    ) {
+        navigationModeHolder.navigationMode = NavigationMode.Tabs(
+            ArrayList(rootDestinations),
+            startTabDestinationId
+        )
+        switchRoot(destinationsProvider.provideTabsDestinationId(), args)
         currentStartDestination = destinationsProvider.provideTabsDestinationId()
     }
 
@@ -148,8 +167,40 @@ class NavComponentRouter @AssistedInject constructor(
         }
     }
 
+    private fun switchRoot(@IdRes rootDestinationId: Int, args: java.io.Serializable? = null) {
+        if (currentStartDestination == 0) {
+            restoreRoot()
+        } else {
+            if(args == null) {
+                getRootNavController().navigate(
+                    resId = rootDestinationId,
+                    args = null,
+                    navOptions {
+                        popUpTo(currentStartDestination) {
+                            inclusive = true
+                        }
+                    }
+                )
+            } else {
+
+                getRootNavController().navigate(
+                    resId = rootDestinationId,
+                    args = Bundle().apply {
+                        putSerializable(ARG_SCREEN, args)
+                    },
+                    navOptions {
+                        popUpTo(currentStartDestination) {
+                            inclusive = true
+                        }
+                    }
+                )
+            }
+        }
+    }
+
     private fun restoreRoot() {
-        val graph = getRootNavController().navInflater.inflate(destinationsProvider.provideNavigationGraphId())
+        val graph =
+            getRootNavController().navInflater.inflate(destinationsProvider.provideNavigationGraphId())
         graph.setStartDestination(destinationsProvider.provideStartDestinationId())
         getRootNavController().graph = graph
     }
@@ -167,14 +218,20 @@ class NavComponentRouter @AssistedInject constructor(
         this.navController = navController
     }
 
-    private val destinationListener = NavController.OnDestinationChangedListener { _, destination, arguments ->
-        val appCompatActivity = activity as? AppCompatActivity ?: return@OnDestinationChangedListener
-        val title = prepareTitle(destination.label, arguments)
-        if (title.isNotBlank()) {
-            appCompatActivity.supportActionBar?.title = title
+    private val destinationListener =
+        NavController.OnDestinationChangedListener { _, destination, arguments ->
+            val appCompatActivity =
+                activity as? AppCompatActivity ?: return@OnDestinationChangedListener
+            val title = prepareTitle(destination.label, arguments)
+            if (title.isNotBlank()) {
+                appCompatActivity.supportActionBar?.title = title
+            }
+            appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(
+                !isStartDestination(
+                    destination
+                )
+            )
         }
-        appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(!isStartDestination(destination))
-    }
 
     private fun isStartDestination(destination: NavDestination?): Boolean {
         if (destination == null) return false

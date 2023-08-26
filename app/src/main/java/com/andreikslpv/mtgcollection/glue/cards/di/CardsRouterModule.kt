@@ -1,6 +1,7 @@
 package com.andreikslpv.mtgcollection.glue.cards.di
 
 import com.andreikslpv.cards.presentation.CardsRouter
+import com.andreikslpv.mtgcollection.glue.cards.AdapterCardsRouter
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,6 +13,6 @@ interface CardsRouterModule {
 
     @Binds
     fun bindCardsRouter(
-        cardsRouter: CardsRouter,
+        cardsRouter: AdapterCardsRouter,
     ): CardsRouter
 }

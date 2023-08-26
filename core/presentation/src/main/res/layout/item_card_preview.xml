@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemContainer"
+    android:layout_width="@dimen/item_set_dimen"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_item">
+
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_card_preview_height"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:id="@+id/titleContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small_8"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemImage">
+
+        <ImageView
+            android:id="@+id/itemButtonCollection"
+            android:layout_width="@dimen/FAB_dimen"
+            android:layout_height="@dimen/FAB_dimen"
+            android:layout_marginStart="@dimen/margin_small_8"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_having_not"
+            tools:ignore="ContentDescription"
+            tools:src="@tools:sample/avatars" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/itemTitle"
+            style="@style/TextRecipeBasic.Bold"
+            android:layout_width="124dp"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/margin_small_4"
+            android:ellipsize="end"
+            android:maxLines="3"
+            tools:text="Title" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_small_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
