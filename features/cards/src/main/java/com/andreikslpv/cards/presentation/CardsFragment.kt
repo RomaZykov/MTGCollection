@@ -78,7 +78,7 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
             cardAdapter = CardPagingAdapter(
                 object : CardItemClickListener {
                     override fun click(card: CardFeatureModel) {
-                        //viewModel.launchCards(set)
+                        viewModel.launchDetails(card)
                     }
                 },
                 object : CardItemClickListener {

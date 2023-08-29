@@ -29,4 +29,4 @@ data class CardFeatureModel(
     val type: String,
     val types: List<String>,
     val watermark: String,
-)
+) : java.io.Serializable

@@ -1,11 +1,13 @@
 package com.andreikslpv.cards.presentation
 
+import com.andreikslpv.cards.domain.entities.CardFeatureModel
+
 interface CardsRouter {
 
     /**
      * Launch card details screen.
      */
-    fun launchDetails(cardId: String)
+    fun launchDetails(card: CardFeatureModel)
 
     /**
      * Go back to the previous screen.

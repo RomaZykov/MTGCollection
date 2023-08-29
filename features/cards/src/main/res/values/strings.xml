@@ -1,3 +1,5 @@
 <resources>
     <string name="title_cards">Коллекция</string>
+    <string name="details_text_having">Карта добавлена в коллекцию. Вы можете уточнить количество таких карт в вашей коллекции и их состояние</string>
+    <string name="details_text_having_not">Карта отсутствует в вашей коллекции</string>
 </resources>

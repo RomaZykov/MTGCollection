@@ -46,6 +46,10 @@ class CardsViewModel @AssistedInject constructor(
         router.goBack()
     }
 
+    fun launchDetails(card: CardFeatureModel) {
+        router.launchDetails(card)
+    }
+
     fun refresh() {
         set.postValue(set.value)
     }

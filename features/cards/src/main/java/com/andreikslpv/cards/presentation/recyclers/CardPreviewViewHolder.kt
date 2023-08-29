@@ -2,8 +2,8 @@ package com.andreikslpv.cards.presentation.recyclers
 
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.cards.domain.entities.CardFeatureModel
-import com.andreikslpv.cards.domain.entities.CardLanguage
 import com.andreikslpv.cards.domain.usecase.GetCollectionUseCase
+import com.andreikslpv.cards.presentation.utils.LangUtils
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
 import com.bumptech.glide.RequestManager
 import dagger.hilt.EntryPoint
@@ -25,14 +25,17 @@ class CardPreviewViewHolder(val binding: ItemCardPreviewBinding) :
     }
 
     fun bind(card: CardFeatureModel) {
-        val systemLang = chooseLanguage()
-        binding.itemTitle.text = getCardNameByLanguage(card, systemLang)
+        val systemLang = LangUtils.chooseLanguage(binding.root.context)
+        binding.itemTitle.text = LangUtils.getCardNameByLanguage(card, systemLang)
 
         val hiltEntryPoint =
-            EntryPointAccessors.fromApplication(binding.root.context, CardPreviewEntryPoint::class.java)
+            EntryPointAccessors.fromApplication(
+                binding.root.context,
+                CardPreviewEntryPoint::class.java
+            )
 
         val glide = hiltEntryPoint.provideGlide()
-        glide.load(getCardImageByLanguage(card, systemLang))
+        glide.load(LangUtils.getCardImageByLanguage(card, systemLang))
             .placeholder(com.andreikslpv.presentation.R.drawable.cover_small)
             .centerCrop()
             .into(binding.itemImage)
@@ -47,28 +50,5 @@ class CardPreviewViewHolder(val binding: ItemCardPreviewBinding) :
         }
     }
 
-    private fun getCardNameByLanguage(card: CardFeatureModel, systemLang: CardLanguage): String {
-        var result = card.name
-        card.foreignNames.forEach {
-            if (it.language == systemLang.cardLang) result = it.name
-        }
-        return result
-    }
 
-    private fun getCardImageByLanguage(card: CardFeatureModel, systemLang: CardLanguage): String {
-        var result = card.imageUrl
-        card.foreignNames.forEach {
-            if (it.language == systemLang.cardLang) result = it.imageUrl
-        }
-        return result
-    }
-
-    private fun chooseLanguage(): CardLanguage{
-        val systemLang = binding.root.context.resources.configuration.locales.get(0).displayLanguage.lowercase()
-        var result = CardLanguage.ENGLISH
-        CardLanguage.values().forEach {
-            if(it.systemLang == systemLang) result = it
-        }
-        return result
-    }
 }
