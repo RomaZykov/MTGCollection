@@ -7,4 +7,7 @@ interface MainRepository {
     fun getAuthState() : Flow<Boolean>
 
     fun startObserveUser()
+
+
+    fun isUserAuthenticatedInFirebase(): Boolean
 }

@@ -3,8 +3,8 @@ package com.andreikslpv.navigation.presentation
 interface MainRouter {
 
     /**
-     * Launch Cart screen.
+     * Launch main tabs for already logged-in user.
      */
-    fun launchCart()
+    fun launchMain()
 
 }

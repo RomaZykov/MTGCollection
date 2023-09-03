@@ -9,6 +9,7 @@ import com.andreikslpv.data.cards.datasource.CardsFirebasePagingSource
 import com.andreikslpv.data.cards.entities.CardDataModel
 import com.andreikslpv.data.cards.services.CardsInSetService
 import com.andreikslpv.data.constants.ApiConstants
+import com.andreikslpv.data.constants.FirestoreConstants
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,8 +65,11 @@ class CardsDataRepositoryImpl @Inject constructor(
                 initialLoadSize = ApiConstants.DEFAULT_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                val collection =
-                    if (uid.isNotBlank()) database.collection(uid) else database.collection("invalid")
+//                val collection =
+//                    if (uid.isNotBlank()) database.collection(uid) else database.collection("invalid")
+                val collection = database.collection(FirestoreConstants.PATH_CARDS)
+                    .document(uid)
+                    .collection(FirestoreConstants.PATH_COLLECTION)
                 val query = collection
                     .orderBy("name")
                     .limit(ApiConstants.DEFAULT_PAGE_SIZE.toLong())
@@ -79,17 +83,29 @@ class CardsDataRepositoryImpl @Inject constructor(
 
     override fun addToCollection(uid: String, card: CardDataModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            val collection = database.collection(uid)
+            val collection = database.collection(FirestoreConstants.PATH_CARDS)
+                .document(uid)
+                .collection(FirestoreConstants.PATH_COLLECTION)
             val document = collection.document(card.id)
             document.set(card).await()
+
+
+//            val collection = database.collection(uid)
+//            val document = collection.document(card.id)
+//            document.set(card).await()
         }
     }
 
     override fun removeFromCollection(uid: String, card: CardDataModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            val collection = database.collection(uid)
+            val collection = database.collection(FirestoreConstants.PATH_CARDS)
+                .document(uid)
+                .collection(FirestoreConstants.PATH_COLLECTION)
             val document = collection.document(card.id)
             document.delete().await()
+//            val collection = database.collection(uid)
+//            val document = collection.document(card.id)
+//            document.delete().await()
         }
     }
 

@@ -43,7 +43,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         viewModel.card.observe(viewLifecycleOwner) { card ->
             if (card != null) {
                 val systemLang = LangUtils.chooseLanguage(binding.root.context)
-                //binding.itemTitle.text = LangUtils.getCardNameByLanguage(card, systemLang)
                 binding.toolbar.title = LangUtils.getCardNameByLanguage(card, systemLang)
 
                 glide.load(LangUtils.getCardImageByLanguage(card, systemLang))
@@ -64,6 +63,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                         binding.itemTitle.text = getString(R.string.details_text_having_not)
                     }
                 }
+
+                viewModel.setHistory(card.id)
             }
         }
     }

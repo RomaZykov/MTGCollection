@@ -46,13 +46,16 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         navComponentRouter.addDestinationListener {
         }
         navComponentRouter.onCreate()
-        if (savedInstanceState == null) {
-            navComponentRouter.switchToStack(destinationsProvider.provideStartDestinationId())
-        }
+
         activityRequiredSet.forEach {
             it.onActivityCreated(this)
         }
 
+        if (savedInstanceState == null) {
+            navComponentRouter.switchToStack(destinationsProvider.provideStartDestinationId())
+            if (viewModel.isUserAuthenticated)
+                navComponentRouter.switchToTabs(destinationsProvider.provideMainTabs(), null)
+        }
         getAuthState()
     }
 
@@ -67,7 +70,10 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
     override fun onStart() {
         super.onStart()
+        //if (viewModel.isUserAuthenticated) viewModel.launchMain()
         activityRequiredSet.forEach { it.onActivityStarted() }
+
+
     }
 
     override fun onStop() {
