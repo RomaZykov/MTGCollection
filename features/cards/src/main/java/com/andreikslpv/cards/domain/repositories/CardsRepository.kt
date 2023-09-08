@@ -26,6 +26,8 @@ interface CardsRepository {
 
     fun removeFromCardsCollection(uid: String, card: CardFeatureModel)
 
+    fun getCardFromCollection(uid: String, cardId: String): Flow<CardFeatureModel>
+
     fun getHistory(): MutableStateFlow<List<String>>
 
     fun setHistory(uid: String, newHistory: List<String>)

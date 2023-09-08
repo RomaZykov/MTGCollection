@@ -2,4 +2,31 @@
     <string name="title_cards">Коллекция</string>
     <string name="details_text_having">Карта добавлена в коллекцию. Вы можете уточнить количество таких карт в вашей коллекции и их состояние</string>
     <string name="details_text_having_not">Карта отсутствует в вашей коллекции</string>
+
+    //for available
+    <string name="available_empty_text">Пополните его автоматически\nиз карточки рецепта или добавьте\nпродукты нажав на «+»</string>
+    <string name="available_select_all">Выбрать все</string>
+    <string name="available_clear">Очистить выбранные</string>
+    <string name="available_share_text">Список покупок: \n%s</string>
+    <string name="available_item_count">%d шт.</string>
+    <string name="available_item_name_not_foil">%s, %s</string>
+    <string name="available_item_name_foil">%s, %s, foil</string>
+
+    //for available dialog
+    <string name="available_dialog_title_edit">Редактирование</string>
+    <string name="available_dialog_title_add">Добавление</string>
+    <string name="available_dialog_action_edit">Изменить</string>
+    <string name="available_dialog_action_add">Добавить</string>
+    <string name="available_dialog_action_cancel">Отменить</string>
+    <string name="available_dialog_field_name">Язык</string>
+    <string name="available_dialog_field_count">Количество</string>
+    <string name="available_dialog_field_unit">Ед.измерения</string>
+    <string name="available_dialog_field_error">Заполните это поле</string>
+    <string name="content_description_end_icon">Очистить поле</string>
+    <string name="foil_yes">да</string>
+    <string name="foil_no">нет</string>
+
+    //Toolbar menu
+    <string name="share">Поделиться</string>
+    <string name="clearList">Очистить список</string>
 </resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/itemCheckBox"
+        style="@style/Widget.App.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="@+id/itemCount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemName" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/itemName"
+        style="@style/TextRecipeBasic"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/available_name_height"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        app:layout_constraintStart_toEndOf="@+id/itemCheckBox"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Available name" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/itemCount"
+        style="@style/TextSelectAll"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/available_count_height"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        app:layout_constraintStart_toEndOf="@+id/itemCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/itemName"
+        tools:text="count" />
+
+    <ImageView
+        android:id="@+id/itemPencil"
+        android:layout_width="@dimen/available_name_height"
+        android:layout_height="@dimen/available_name_height"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="@dimen/margin_basic"
+        android:src="@drawable/ic_pencil"
+        app:tint="@color/text_menu_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/itemCount"
+        app:layout_constraintTop_toTopOf="@+id/itemName"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/itemDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/available_item_divider"
+        android:background="@color/background_main"
+        android:backgroundTint="@color/background_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemCount" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

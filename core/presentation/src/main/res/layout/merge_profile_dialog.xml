@@ -18,10 +18,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/profile_dialog_width"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="@dimen/profile_dialog_height"
         android:background="@drawable/background_dialog"
-        android:elevation="@dimen/profile_dialog_elevation"
+        android:elevation="@dimen/dialog_elevation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,7 +1,8 @@
 package com.andreikslpv.cards.domain.entities
 
 enum class CardLanguage(val systemLang: String, val cardLang: String) {
-    ENGLISH("english", "default"),
+    NONE("", ""),
+    ENGLISH("english", "English"),
     RUSSIAN("русский", "Russian"),
     GERMAN("deutsch", "German"),
     SPANISH("español", "Spanish"),
@@ -10,9 +11,13 @@ enum class CardLanguage(val systemLang: String, val cardLang: String) {
     PORTUGUESE("português", "Portuguese (Brazil)"),
     KOREAN("한국어", "Korean"),
     JAPANESE("日本語", "Japanese"),
-    CHINESE("中文", "Chinese Simplified"),
+    CHINESE_SIMPL("中文", "Chinese Simplified"),
+    CHINESE_TRAD("none", "Chinese Traditional"),
+    FUN_LATIN("none", "Latin"),
+    FUN_GREEK("none", "Classic Greek"),
+    FUN_SANSKRIT("none", "Sanskrit"),
+    FUN_ARABIC("none", "Arabic"),
+    FUN_HEBREW("none", "Hebrew"),
+    FUN_PHYREXIAN("none", "Phyrexian"),
+    FUN_PIG_LATIN("none", "Pig Latin"),
 }
-
-//Portuguese (Brazil)
-//Chinese Simplified
-//Chinese Traditional

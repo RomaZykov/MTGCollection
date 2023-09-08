@@ -61,6 +61,11 @@ class AdapterCardsRepository @Inject constructor(
     override fun removeFromCardsCollection(uid: String, card: CardFeatureModel) =
         cardsDataRepository.removeFromCollection(uid, CardFeatureToDataModelMapper.map(card))
 
+    override fun getCardFromCollection(uid: String, cardId: String) =
+        cardsDataRepository.getCardFromCollection(uid, cardId).map { response ->
+            CardDataToFeatureModelMapper.map(response)
+        }
+
     override fun getHistory() = usersDataRepository.getHistory()
 
     override fun setHistory(uid: String, newHistory: List<String>) {

@@ -10,9 +10,34 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
+        <item name="checkboxStyle">@style/Widget.App.CheckBox</item>
+
+
         <item name="textInputStyle">@style/GlobalTextInputStyle</item>
         <item name="materialButtonStyle">@style/GlobalButtonStyle</item>
     </style>
+
+    <!-- CheckBox -->
+    <style name="Widget.App.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CheckBox" parent="">
+        <!-- Container colors -->
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorError">@color/design_default_color_error</item>
+        <!-- Icon colors -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnError">@color/design_default_color_error</item>
+    </style>
+
+
+
+
+
+
 
     <style name="GlobalTextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:minWidth">@dimen/core_theme_big_width</item>

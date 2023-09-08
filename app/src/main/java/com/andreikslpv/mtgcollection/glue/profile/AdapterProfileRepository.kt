@@ -10,6 +10,7 @@ import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.ActivityRequired
 import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import com.andreikslpv.data.auth.AuthDataRepository
+import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.extensions.GoogleSignInContract
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class AdapterProfileRepository @Inject constructor(
     private val authDataRepository: AuthDataRepository,
     private val usersDataRepository: UsersDataRepository,
+    private val cardsDataRepository: CardsDataRepository,
     private val googleSignInClient: GoogleSignInClient,
 ) : ProfileRepository, ActivityRequired {
 
@@ -45,6 +47,13 @@ class AdapterProfileRepository @Inject constructor(
             }.also { token ->
                 val uid = authDataRepository.getCurrentUser()?.uid ?: ""
                 usersDataRepository.deleteUserInDb(uid).collect { response ->
+                    when (response) {
+                        is Response.Loading -> emit(Response.Loading)
+                        is Response.Failure -> emit(Response.Failure(response.errorMessage))
+                        is Response.Success -> emit(Response.Success(response.data))
+                    }
+                }
+                cardsDataRepository.removeAllFromCollection(uid).collect { response ->
                     when (response) {
                         is Response.Loading -> emit(Response.Loading)
                         is Response.Failure -> emit(Response.Failure(response.errorMessage))
