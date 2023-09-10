@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dialog_shadow"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_dialog"
+        android:elevation="@dimen/dialog_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialogTitle"
+            style="@style/TextName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_big_24"
+            android:layout_marginTop="@dimen/margin_big_32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Название" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialogLanguageField"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="@dimen/available_dialog_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big_24"
+            android:hint="@string/available_dialog_field_language"
+            app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/search_corner_radius"
+            app:boxStrokeColor="@color/purple"
+            app:endIconTint="@color/black"
+            app:hintTextColor="@color/purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogTitle">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/dialogLanguageText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dropDownHeight="@dimen/available_dialog_dropdown_height"
+                android:inputType="none"
+                android:textSize="@dimen/text_title_button"
+                tools:ignore="LabelFor"
+                tools:text="@string/available_dialog_field_language" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialogConditionField"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="@dimen/available_dialog_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big_24"
+            android:hint="@string/available_dialog_field_condition"
+            app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/search_corner_radius"
+            app:boxStrokeColor="@color/purple"
+            app:endIconTint="@color/black"
+            app:hintTextColor="@color/purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogLanguageField">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/dialogConditionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dropDownHeight="@dimen/available_dialog_dropdown_height"
+                android:inputType="none"
+                android:textSize="@dimen/text_title_button"
+                tools:ignore="LabelFor"
+                tools:text="@string/available_dialog_field_condition" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialogCountField"
+            android:layout_width="@dimen/available_dialog_field_width_half"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_big_28"
+            android:layout_marginTop="@dimen/margin_big_24"
+            android:hint="@string/available_dialog_field_count"
+            app:endIconContentDescription="@string/content_description_end_icon"
+            app:endIconDrawable="@drawable/ic_delete_round"
+            app:endIconMode="clear_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogConditionField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialogCountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="@dimen/text_title_button"
+                tools:text="@string/available_dialog_field_count" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialogFoilField"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="@dimen/available_dialog_field_width_half"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big_24"
+            android:layout_marginEnd="@dimen/margin_big_28"
+            android:hint="@string/available_dialog_field_foil"
+            app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/search_corner_radius"
+            app:boxStrokeColor="@color/purple"
+            app:endIconTint="@color/black"
+            app:hintTextColor="@color/purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogConditionField">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/dialogFoilText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dropDownHeight="@dimen/available_dialog_dropdown_height"
+                android:inputType="none"
+                android:textSize="@dimen/text_title_button"
+                tools:ignore="LabelFor"
+                tools:text="@string/available_dialog_field_foil" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/dialogActionContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big_32"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogFoilField">
+
+            <ImageView
+                android:id="@+id/dialogDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_big_32"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_delete"
+                tools:ignore="ContentDescription" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dialogActionButton"
+                style="@style/TextButtonSmall.Center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_big_32"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                tools:text="@string/available_dialog_action_edit" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dialogCancelButton"
+                style="@style/TextButtonSmall.Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/available_dialog_action_cancel" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_big_32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogActionContainer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

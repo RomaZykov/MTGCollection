@@ -1,6 +1,7 @@
 package com.andreikslpv.data.cards
 
 import androidx.paging.PagingData
+import com.andreikslpv.common.Response
 import com.andreikslpv.data.cards.entities.CardDataModel
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +17,8 @@ interface CardsDataRepository {
 
     fun removeFromCollection(uid: String, card: CardDataModel)
 
-    fun removeAllFromCollection(uid: String)
+    fun getCardFromCollection(uid: String, cardId: String): Flow<CardDataModel?>
+
+    fun removeAllFromCollection(uid: String): Flow<Response<Boolean>>
 
 }

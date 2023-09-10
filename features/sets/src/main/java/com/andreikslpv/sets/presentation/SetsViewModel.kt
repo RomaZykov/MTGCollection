@@ -38,9 +38,6 @@ class SetsViewModel @Inject constructor(
     private val _type = MutableLiveData("")
     val type: LiveData<String> = _type
 
-    var isNewError = true
-        private set
-
     init {
         sets = _type
             .asFlow()
@@ -49,21 +46,12 @@ class SetsViewModel @Inject constructor(
             .cachedIn(viewModelScope)
     }
 
-    fun refresh() {
-        _type.postValue(_type.value)
-    }
+    fun refresh() = _type.postValue(_type.value)
 
-    fun setType(newType: String) {
-        _type.postValue(newType)
-    }
+    fun setType(newType: String) = _type.postValue(newType)
 
-    fun changeApiAvailability() {
-        isNewError = false
-        changeApiAvailabilityUseCase.execute(false)
-    }
+    fun changeApiAvailability() = changeApiAvailabilityUseCase.execute(false)
 
-    fun launchCards(set: SetFeatureModel) {
-        router.launchCards(set)
-    }
+    fun launchCards(set: SetFeatureModel) = router.launchCards(set)
 
 }

@@ -14,6 +14,8 @@ class MainViewModel @Inject constructor(
     private val mainRepository: MainRepository,
 ) : BaseViewModel() {
 
+    val isUserAuthenticated get() = mainRepository.isUserAuthenticatedInFirebase()
+
     @ExperimentalCoroutinesApi
     fun getAuthState() = liveData(Dispatchers.IO) {
         mainRepository.getAuthState().collect { response ->

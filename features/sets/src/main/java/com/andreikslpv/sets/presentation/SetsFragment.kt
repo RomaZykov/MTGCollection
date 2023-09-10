@@ -6,7 +6,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.andreikslpv.presentation.BaseLoadStateAdapter
@@ -54,10 +56,10 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
             // из списка доступных типов формируем список пунктов выпадающего меню
             val spinnerAdapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_item ,
+                android.R.layout.simple_spinner_item,
                 it
             )
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item )
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.setsSpinner.adapter = spinnerAdapter
 
             binding.setsSpinner.onItemSelectedListener = object :
@@ -92,38 +94,46 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
             addItemDecoration(decorator)
         }
         initLoadStateListening()
-        handleScrollingToTopWhenSearching()
+        //handleScrollingToTopWhenSearching()
     }
 
     private fun initLoadStateListening() {
         this.lifecycleScope.launch {
-            setAdapter.loadStateFlow.collect {
-                if (it.source.prepend is LoadState.NotLoading) {
-                    binding.progressBar.show()
-                }
-                if (it.source.prepend is LoadState.Error) {
-                    catchError((it.source.prepend as LoadState.Error).error.message ?: "")
-                }
-                if (it.source.append is LoadState.Error) {
-                    catchError((it.source.append as LoadState.Error).error.message ?: "")
-                }
-                if (it.source.refresh is LoadState.NotLoading) {
-                    binding.progressBar.hide()
-                }
-                if (it.source.refresh is LoadState.Error) {
-                    binding.progressBar.hide()
-                    catchError((it.source.refresh as LoadState.Error).error.message ?: "")
+            // Suspend the coroutine until the lifecycle is DESTROYED.
+            // repeatOnLifecycle launches the block in a new coroutine every time the
+            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                // Safely collect from source when the lifecycle is STARTED
+                // and stop collecting when the lifecycle is STOPPED
+                viewLifecycleOwner.lifecycleScope.launch {
+                    setAdapter.loadStateFlow.collect {
+                        if (it.source.prepend is LoadState.NotLoading) {
+                            binding.progressBar.show()
+                        }
+                        if (it.source.prepend is LoadState.Error) {
+                            catchError((it.source.prepend as LoadState.Error).error.message ?: "")
+                        }
+                        if (it.source.append is LoadState.Error) {
+                            catchError((it.source.append as LoadState.Error).error.message ?: "")
+                        }
+                        if (it.source.refresh is LoadState.NotLoading) {
+                            binding.progressBar.hide()
+                        }
+                        if (it.source.refresh is LoadState.Error) {
+                            binding.progressBar.hide()
+                            catchError((it.source.refresh as LoadState.Error).error.message ?: "")
+                        }
+                    }
                 }
             }
+            // Note: at this point, the lifecycle is DESTROYED!
         }
     }
 
     private fun catchError(message: String) {
-//        if (viewModel.isNewError) {
-            message.makeToast(requireContext())
-            viewModel.changeApiAvailability()
-            setAdapter.refresh()
-//        }
+        message.makeToast(requireContext())
+        viewModel.changeApiAvailability()
+        setAdapter.refresh()
     }
 
     // Когда пользователь меняет поисковой запрос, то отслеживаем этот момент и прокручиваем в начало списка
@@ -142,8 +152,12 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
 
     private fun initCollectSets() {
         this.lifecycleScope.launch {
-            viewModel.sets.collectLatest { pagedData ->
-                setAdapter.submitData(pagedData)
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.sets.collectLatest { pagedData ->
+                        setAdapter.submitData(pagedData)
+                    }
+                }
             }
         }
     }

@@ -17,4 +17,7 @@ class AdapterMainRepository @Inject constructor(
             usersDataRepository.startObserveUser(user.uid)
         }
     }
+
+    override fun isUserAuthenticatedInFirebase() = authDataRepository.getCurrentUser() != null
+
 }

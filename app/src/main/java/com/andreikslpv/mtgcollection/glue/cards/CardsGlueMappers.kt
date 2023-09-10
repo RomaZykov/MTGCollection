@@ -11,7 +11,7 @@ import com.andreikslpv.data.cards.entities.ForeignNameDataModel
 object CardDataToFeatureModelMapper : BaseMapper<CardDataModel, CardFeatureModel> {
     override fun map(type: CardDataModel?): CardFeatureModel {
         return CardFeatureModel(
-            availableCards = AcDataToFeatureModelMapper.map(type?.availableCards),
+            availableCards = AcDataToFeatureModelMapper.map(type?.availableCards).toMutableList(),
             artist = type?.artist ?: "",
             cmc = type?.cmc ?: 0.0,
             colorIdentity = type?.colorIdentity ?: emptyList(),
