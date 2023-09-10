@@ -2,7 +2,7 @@ package com.andreikslpv.cards.domain.entities
 
 data class CardFeatureModel(
     var ownerUid: String = "",
-    val availableCards: List<AvailableCardFeatureModel> = listOf(),
+    val availableCards: MutableList<AvailableCardFeatureModel> = mutableListOf(),
     val artist: String = "",
     val cmc: Double =0.0,
     val colorIdentity: List<String> = listOf(),

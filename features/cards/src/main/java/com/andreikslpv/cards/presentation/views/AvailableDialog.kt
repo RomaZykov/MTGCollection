@@ -17,9 +17,12 @@ class AvailableDialog(context: Context, attributeSet: AttributeSet?) :
     val actionButton = binding.dialogActionButton
     val deleteButton = binding.dialogDelete
     val languageText = binding.dialogLanguageText
+    val languageField = binding.dialogLanguageField
     val conditionText = binding.dialogConditionText
+    val conditionField = binding.dialogConditionField
     val countText = binding.dialogCountText
     val foilText = binding.dialogFoilText
+    val foilField = binding.dialogFoilField
     val dialogTitle = binding.dialogTitle
 
     init {

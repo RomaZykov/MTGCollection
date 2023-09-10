@@ -12,6 +12,6 @@
     <!-- for available dialog -->
     <dimen name="available_dialog_field_width">256dp</dimen>
     <dimen name="available_dialog_field_width_half">120dp</dimen>
-    <dimen name="available_dialog_dropdown_height">150dp</dimen>
+    <dimen name="available_dialog_dropdown_height">200dp</dimen>
 
 </resources>

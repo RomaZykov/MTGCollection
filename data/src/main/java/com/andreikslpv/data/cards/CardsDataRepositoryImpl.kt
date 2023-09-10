@@ -85,21 +85,23 @@ class CardsDataRepositoryImpl @Inject constructor(
 
     override fun addToCollection(uid: String, card: CardDataModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            val collection = database.collection(FirestoreConstants.PATH_CARDS)
+            database.collection(FirestoreConstants.PATH_CARDS)
                 .document(uid)
                 .collection(FirestoreConstants.PATH_COLLECTION)
-            val document = collection.document(card.id)
-            document.set(card).await()
+                .document(card.id)
+                .set(card)
+                .await()
         }
     }
 
     override fun removeFromCollection(uid: String, card: CardDataModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            val collection = database.collection(FirestoreConstants.PATH_CARDS)
+            database.collection(FirestoreConstants.PATH_CARDS)
                 .document(uid)
                 .collection(FirestoreConstants.PATH_COLLECTION)
-            val document = collection.document(card.id)
-            document.delete().await()
+                .document(card.id)
+                .delete()
+                .await()
         }
     }
 
@@ -113,39 +115,13 @@ class CardsDataRepositoryImpl @Inject constructor(
                     val tempList = value.documents.mapNotNull {
                         it.toObject(CardDataModel::class.java)
                     }
-                    if (tempList.isNotEmpty()) trySend(tempList[0])
-                    else trySend(null)
+                    if (tempList.isNotEmpty()) trySend(tempList[0]) else trySend(null)
                 } else trySend(null)
             }
-        awaitClose {
-            cardStateListener.remove()
-        }
+        awaitClose { cardStateListener.remove() }
     }
 
-
-
-//        try {
-//            emit(Response.Loading)
-//            val collection = database.collection(FirestoreConstants.PATH_CARDS)
-//                .document(uid)
-//                .collection(FirestoreConstants.PATH_COLLECTION)
-//            val result = collection
-//                .whereEqualTo("id", cardId)
-//                .get()
-//                .addOnCompleteListener {
-//
-//                }
-//
-//            val tempList = result.documents.mapNotNull {
-//                it.toObject(CardDataModel::class.java)
-//            }
-//
-//            if (tempList.isNotEmpty()) emit(Response.Success(tempList[0]))
-//            else emit(Response.Success(null))
-//        } catch (e: Exception) {
-//            emit(Response.Failure(e.message ?: ApiConstants.ERROR_MESSAGE))
-//        }
-
+    // TODO перписать с использованием команды сервера
     override fun removeAllFromCollection(uid: String) = flow {
         try {
             emit(Response.Loading)

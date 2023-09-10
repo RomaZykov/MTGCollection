@@ -100,51 +100,52 @@
 
             </LinearLayout>
 
-            <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/availableSelectAllCheckBox"
-                style="@style/Widget.App.CheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_basic"
-                android:layout_marginTop="@dimen/margin_basic"
-                android:checked="false"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleContainer" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/availableSelectAllText"
-                style="@style/TextSelectAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/available_select_all"
-                app:layout_constraintBottom_toBottomOf="@+id/availableSelectAllCheckBox"
-                app:layout_constraintStart_toEndOf="@+id/availableSelectAllCheckBox"
-                app:layout_constraintTop_toTopOf="@+id/availableSelectAllCheckBox" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/availableClearButton"
-                style="@style/TextButtonSmall.End"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_basic"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="end|center_vertical"
-                android:text="@string/available_clear"
-                app:layout_constraintBottom_toBottomOf="@+id/availableSelectAllCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/availableSelectAllCheckBox" />
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/availableRecyclerContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/background_main_card"
+                android:layout_marginTop="@dimen/margin_basic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleContainer">
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/availableSelectAllCheckBox"
+                    style="@style/Widget.App.CheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:checked="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/availableSelectAllText"
+                    style="@style/TextSelectAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/available_select_all"
+                    app:layout_constraintBottom_toBottomOf="@+id/availableSelectAllCheckBox"
+                    app:layout_constraintStart_toEndOf="@+id/availableSelectAllCheckBox"
+                    app:layout_constraintTop_toTopOf="@+id/availableSelectAllCheckBox" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/availableClearButton"
+                    style="@style/TextButtonSmall.End"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_basic"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="end|center_vertical"
+                    android:text="@string/available_clear"
+                    app:layout_constraintBottom_toBottomOf="@+id/availableSelectAllCheckBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/availableSelectAllCheckBox" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/availableRecycler"
@@ -155,7 +156,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/availableSelectAllCheckBox"
                     tools:listitem="@layout/item_available" />
 
                 <Space
@@ -174,7 +175,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/availableAddButton"
-        style="?attr/floatingActionButtonSmallStyle"
+        style="?attr/floatingActionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

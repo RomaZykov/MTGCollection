@@ -1,6 +1,9 @@
 package com.andreikslpv.navigation.presentation
 
+import android.content.Context
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.andreikslpv.common_impl.ActivityRequired
@@ -70,10 +73,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
     override fun onStart() {
         super.onStart()
-        //if (viewModel.isUserAuthenticated) viewModel.launchMain()
         activityRequiredSet.forEach { it.onActivityStarted() }
-
-
     }
 
     override fun onStop() {
@@ -85,6 +85,14 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         super.onDestroy()
         navComponentRouter.onDestroy()
         activityRequiredSet.forEach { it.onActivityDestroyed() }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (currentFocus != null) {
+            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(this.currentFocus!!.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun requireRouter(): NavComponentRouter {

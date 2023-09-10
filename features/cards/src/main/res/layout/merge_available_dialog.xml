@@ -7,6 +7,7 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <View
+        android:id="@+id/shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog_shadow"
@@ -45,7 +46,7 @@
             android:layout_width="@dimen/available_dialog_field_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big_24"
-            android:hint="@string/available_dialog_field_name"
+            android:hint="@string/available_dialog_field_language"
             app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
@@ -65,7 +66,7 @@
                 android:inputType="none"
                 android:textSize="@dimen/text_title_button"
                 tools:ignore="LabelFor"
-                tools:text="Язык" />
+                tools:text="@string/available_dialog_field_language" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +76,7 @@
             android:layout_width="@dimen/available_dialog_field_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big_24"
-            android:hint="@string/available_dialog_field_name"
+            android:hint="@string/available_dialog_field_condition"
             app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
@@ -95,7 +96,7 @@
                 android:inputType="none"
                 android:textSize="@dimen/text_title_button"
                 tools:ignore="LabelFor"
-                tools:text="Состояние" />
+                tools:text="@string/available_dialog_field_condition" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,7 +121,7 @@
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="@dimen/text_title_button"
-                tools:text="count" />
+                tools:text="@string/available_dialog_field_count" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big_24"
             android:layout_marginEnd="@dimen/margin_big_28"
-            android:hint="@string/available_dialog_field_unit"
+            android:hint="@string/available_dialog_field_foil"
             app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
             app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
@@ -151,7 +152,7 @@
                 android:inputType="none"
                 android:textSize="@dimen/text_title_button"
                 tools:ignore="LabelFor"
-                tools:text="foil" />
+                tools:text="@string/available_dialog_field_foil" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -16,6 +16,7 @@ import com.andreikslpv.cards.presentation.recyclers.AvailableRecyclerAdapter
 import com.andreikslpv.cards.presentation.utils.LangUtils
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
+import com.andreikslpv.presentation.makeToast
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation.viewModelCreator
@@ -45,12 +46,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val dialogAnimDuration = 500L
     private val dialogAnimAlfa = 1f
+    private val defaultCount = "0"
 
     private lateinit var recyclerAdapter: AvailableRecyclerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initToolbar()
         collectCard()
         initRecyclers()
         initSelectAllButton()
@@ -58,6 +61,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         initAddButton()
         initClearListButton()
         initShareButton()
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.setNavigationIcon(com.andreikslpv.presentation.R.drawable.ic_arrow_back)
+        binding.toolbar.setNavigationOnClickListener { viewModel.goBack() }
     }
 
     private fun initRecyclers() {
@@ -70,7 +78,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 },
                 object : AvailableItemClickListener {
                     override fun click(availableItem: AvailableCardFeatureModel) {
-                        //viewModel.changeSelectedStatus(shoppingItem)
+                        viewModel.changeSelectedStatus(availableItem)
                     }
                 },
                 viewModel.selectedAvailableItem
@@ -106,9 +114,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     if (it.contains(card.id)) {
                         binding.itemButtonCollection.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having)
                         binding.itemTitle.text = getString(R.string.details_text_having)
+                        binding.availableRecyclerContainer.visible(true)
+                        binding.availableAddButton.visible(true)
                     } else {
                         binding.itemButtonCollection.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having_not)
                         binding.itemTitle.text = getString(R.string.details_text_having_not)
+                        binding.availableRecyclerContainer.visible(false)
+                        binding.availableAddButton.visible(false)
                     }
                 }
 
@@ -124,31 +136,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         viewModel.getCardFromCollection(cardId).observe(viewLifecycleOwner) { response ->
             recyclerAdapter.changeItems(response.availableCards)
             recyclerAdapter.notifyDataSetChanged()
-
-            if (response.availableCards.isEmpty()) {
-//                                binding.shoppingEmptyView.visible(true)
-                binding.availableRecyclerContainer.visible(false)
-            } else {
-//                                binding.shoppingEmptyView.visible(false)
-                binding.availableRecyclerContainer.visible(true)
-            }
-            binding.progressBar.hide()
         }
     }
 
     private fun initSelectAllButton() {
         binding.availableSelectAllCheckBox.setOnCheckedChangeListener { _, isChecked ->
-//            if (!isChecked)
-//                viewModel.unSelectAll()
-//            else
-//                viewModel.selectAll()
+            if (!isChecked) viewModel.unSelectAll()
+            else viewModel.selectAll()
         }
     }
 
     private fun initClearButton() {
         binding.availableClearButton.setOnClickListener {
-//            if (!viewModel.removeSelectedFromShoppingList())
-//                authRequiered()
+            viewModel.removeSelectedFromAvailableList()
             binding.availableSelectAllCheckBox.isChecked = false
         }
     }
@@ -169,8 +169,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 .alpha(dialogAnimAlfa)
                 .start()
 
-            viewModel.setCurrentAvailableListWithoutEditable(availableItem)
-
             deleteButton.visible(true)
             dialogTitle.text = getString(R.string.available_dialog_title_edit)
             actionButton.text = getString(R.string.available_dialog_action_edit)
@@ -179,25 +177,30 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 availableItem.language,
                 false
             )
-            languageText.isEnabled = false
+            languageField.isEnabled = false
             (conditionText as? MaterialAutoCompleteTextView)?.setText(
                 availableItem.condition,
                 false
             )
+            conditionField.isEnabled = false
             (foilText as? MaterialAutoCompleteTextView)?.setText(
                 if (availableItem.foiled) getString(R.string.foil_yes) else getString(R.string.foil_no),
                 false
             )
-            countText.setText(availableItem.count)
+            foilField.isEnabled = false
+            countText.setText(availableItem.count.toString())
 
             actionButton.setOnClickListener {
                 val newAvailableItem = getAvailableItemFromDialog()
-                //viewModel.addCardWithNewAvailableItemToCollection(newAvailableItem)
+                newAvailableItem?.let {
+                    viewModel.tryToAddAvailableItem(it, true)
+                    this.visible(false)
+                }
             }
 
             deleteButton.setOnClickListener {
-//                if (!viewModel.removeFromShoppingList(listOf(availableItem))) authRequiered()
-//                else this.visible(false)
+                viewModel.removeAvailableItem(availableItem)
+                this.visible(false)
             }
         }
     }
@@ -219,31 +222,46 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 CardLanguage.NONE.cardLang,
                 false
             )
+            languageField.isEnabled = true
             (conditionText as? MaterialAutoCompleteTextView)?.setText(
                 CardCondition.NONE.fullName,
                 false
             )
+            conditionField.isEnabled = true
             (foilText as? MaterialAutoCompleteTextView)?.setText(
                 getString(R.string.foil_no),
                 false
             )
-            countText.setText(0)
+            foilField.isEnabled = true
+            countText.setText(defaultCount)
 
             actionButton.setOnClickListener {
                 val newAvailableItem = getAvailableItemFromDialog()
-//                newShoppingItem?.let {
-//                    if (!viewModel.addToShoppingList(it)) authRequiered()
-//                    else this.visible(false)
-//                }
+                newAvailableItem?.let {
+                    if (!viewModel.tryToAddAvailableItem(it, false)) availableIsExist(it)
+                    else this.visible(false)
+                }
             }
+        }
+    }
+
+    private fun availableIsExist(newAvailableItem: AvailableCardFeatureModel) {
+        getString(R.string.snackbar_text).makeToast(requireContext())
+        binding.availableDialog.actionButton.text = getString(R.string.snackbar_action)
+        binding.availableDialog.actionButton.setOnClickListener {
+            viewModel.tryToAddAvailableItem(newAvailableItem, true)
+            binding.availableDialog.visible(false)
         }
     }
 
 
     private fun getAvailableItemFromDialog(): AvailableCardFeatureModel? {
         binding.availableDialog.apply {
-            return if (languageText.text.isNullOrBlank()) {
-                languageText.error = getString(R.string.available_dialog_field_error)
+            return if (languageText.text.isNullOrBlank() || conditionText.text.isNullOrBlank()) {
+                if (languageText.text.isNullOrBlank()) languageText.error =
+                    getString(R.string.available_dialog_field_error)
+                if (conditionText.text.isNullOrBlank()) conditionText.error =
+                    getString(R.string.available_dialog_field_error)
                 null
             } else {
                 AvailableCardFeatureModel(
@@ -273,8 +291,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initClearListButton() {
         binding.toolbar.menu.findItem(R.id.favoritesClearList).setOnMenuItemClickListener {
-//            if (!viewModel.removeAllFromShoppingList())
-//                authRequiered()
+            viewModel.removeAllFromAvailableList()
             true
         }
     }

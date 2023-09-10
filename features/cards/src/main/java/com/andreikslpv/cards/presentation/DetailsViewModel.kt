@@ -37,7 +37,6 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     private var currentCard = CardFeatureModel()
-    private val currentAvailableListWithoutEditable = mutableListOf<AvailableCardFeatureModel>()
 
     val selectedAvailableItem = MutableStateFlow(mutableListOf<AvailableCardFeatureModel>())
 
@@ -56,22 +55,58 @@ class DetailsViewModel @AssistedInject constructor(
         return tryToChangeCollectionStatusUseCase.execute(card)
     }
 
-    fun addCardWithNewAvailableItemToCollection(newAvailableItem: AvailableCardFeatureModel) {
-
-        //addCardToCollectionUseCase.execute(card)
+    fun tryToAddAvailableItem(newAvailableItem: AvailableCardFeatureModel, rewrite: Boolean): Boolean {
+        currentCard.availableCards.forEach {item->
+            if (item.language == newAvailableItem.language
+                && item.condition == newAvailableItem.condition
+                && item.foiled == newAvailableItem.foiled) {
+                return if (rewrite) {
+                    item.count = newAvailableItem.count
+                    addCardToCollectionUseCase.execute(currentCard)
+                    true
+                } else false
+            }
+        }
+        currentCard.availableCards.add(newAvailableItem)
+        addCardToCollectionUseCase.execute(currentCard)
+        return true
     }
 
-//    private fun addNewAvailableItemInCard(newAvailableItem: AvailableCardFeatureModel): List<AvailableCardFeatureModel> {
-//
-//    }
-
-
-    fun setCurrentAvailableListWithoutEditable(availableItem: AvailableCardFeatureModel) {
-        currentAvailableListWithoutEditable.clear()
-        currentAvailableListWithoutEditable.addAll(currentCard.availableCards)
-        currentAvailableListWithoutEditable.remove(availableItem)
+    fun removeAvailableItem(availableItem: AvailableCardFeatureModel) {
+        currentCard.availableCards.remove(availableItem)
+        addCardToCollectionUseCase.execute(currentCard)
     }
 
+    fun changeSelectedStatus(availableItem: AvailableCardFeatureModel) {
+        if (selectedAvailableItem.value.contains(availableItem))
+            selectedAvailableItem.value.remove(availableItem)
+        else
+            selectedAvailableItem.value.add(availableItem)
+    }
+
+    fun selectAll() {
+        refreshAvailableList(currentCard.availableCards)
+    }
+
+    fun unSelectAll() {
+        refreshAvailableList(mutableListOf())
+    }
+
+    private fun refreshAvailableList(newList: MutableList<AvailableCardFeatureModel>) {
+        CoroutineScope(Dispatchers.Main).launch {
+            selectedAvailableItem.emit(newList)
+        }
+    }
+
+    fun removeSelectedFromAvailableList() {
+        currentCard.availableCards.removeAll(selectedAvailableItem.value)
+        addCardToCollectionUseCase.execute(currentCard)
+    }
+
+    fun removeAllFromAvailableList() {
+        currentCard.availableCards.clear()
+        addCardToCollectionUseCase.execute(currentCard)
+    }
 
     fun setHistory(cardId: String) {
         CoroutineScope(Dispatchers.IO).launch {
