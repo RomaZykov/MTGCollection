@@ -29,7 +29,6 @@ buildscript {
                         Material: "com.google.android.material:material:1.9.0",
                         Hilt: "com.google.dagger:hilt-android:$hiltVersion",
                         HiltCompiler: "com.google.dagger:hilt-compiler:$hiltVersion",
-                        Auth: "com.google.android.gms:play-services-auth:20.6.0",
                 ],
                 JetBrains: [
                         CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",

@@ -51,9 +51,9 @@ dependencies {
     implementation Libs.Android.Paging
 
     implementation Libs.Google.Material
-    implementation Libs.Google.Auth
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
     implementation project(Modules.Wiring)
     implementation project(Modules.Core.CommonImpl)
