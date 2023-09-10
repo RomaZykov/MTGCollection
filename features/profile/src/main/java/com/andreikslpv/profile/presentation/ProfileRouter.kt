@@ -12,4 +12,9 @@ interface ProfileRouter {
      */
     fun restartApp()
 
+    /**
+     * Launch Settings screen.
+     */
+    fun launchSettings()
+
 }
