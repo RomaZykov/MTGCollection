@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.profile.R
 import com.andreikslpv.profile.databinding.FragmentSettingsBinding
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,12 +21,25 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         initToolbar()
+        initStartSetsType()
     }
 
     private fun initToolbar() {
         binding.toolbar.title = getString(R.string.settings_title)
         binding.toolbar.setNavigationIcon(com.andreikslpv.presentation.R.drawable.ic_arrow_back)
         binding.toolbar.setNavigationOnClickListener { viewModel.goBack() }
+    }
+
+    private fun initStartSetsType() {
+        viewModel.typesOfSet.observe(viewLifecycleOwner) {
+            (binding.startSetTypeText as? MaterialAutoCompleteTextView)?.apply {
+                this.setSimpleItems(it.toTypedArray())
+                this.setText(viewModel.getStartedTypeOfSet(), false)
+                this.setOnItemClickListener { parent, _, position, _ ->
+                    viewModel.setStartedTypeOfSet(parent.getItemAtPosition(position) as String)
+                }
+            }
+        }
     }
 
 }

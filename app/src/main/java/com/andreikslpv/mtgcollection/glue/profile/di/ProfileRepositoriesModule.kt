@@ -1,7 +1,9 @@
 package com.andreikslpv.mtgcollection.glue.profile.di
 
 import com.andreikslpv.mtgcollection.glue.profile.AdapterProfileRepository
+import com.andreikslpv.mtgcollection.glue.profile.AdapterSettingsRepository
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
+import com.andreikslpv.profile.domain.repositories.SettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,5 +19,11 @@ interface ProfileRepositoriesModule {
     fun bindProfileRepository(
         profileRepository: AdapterProfileRepository
     ): ProfileRepository
+
+    @Binds
+    @Singleton
+    fun bindSettingsRepository(
+        settingsRepository: AdapterSettingsRepository
+    ): SettingsRepository
 
 }

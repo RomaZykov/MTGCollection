@@ -18,6 +18,6 @@
 
     <string name="settings_title">Настройки</string>
     <string name="settings_start_set_type_title">Тип сетов, показываемый по умолчанию</string>
-    <string name="settings_start_set_type_hint">Тип сетов</string>
+    <string name="set_type_hint">Тип сетов</string>
 
 </resources>

@@ -18,13 +18,31 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <Spinner
-                android:id="@+id/setsSpinner"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/setTypeField"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="@dimen/search_height"
-                android:background="@drawable/background_search_view"
-                android:spinnerMode="dropdown" />
+                android:layout_height="wrap_content"
+                android:hint="@string/set_type_hint"
+                android:paddingEnd="@dimen/margin_basic"
+                app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/search_corner_radius"
+                app:boxStrokeColor="@color/purple"
+                app:endIconTint="@color/black"
+                app:hintTextColor="@color/purple">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/setTypeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textSize="@dimen/text_title_button"
+                    tools:ignore="LabelFor"
+                    tools:text="@string/set_type_hint" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

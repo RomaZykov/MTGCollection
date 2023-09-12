@@ -2,8 +2,6 @@ package com.andreikslpv.sets.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,6 +11,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.makeToast
+import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.simpleScan
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.sets.R
@@ -20,7 +19,7 @@ import com.andreikslpv.sets.databinding.FragmentSetsBinding
 import com.andreikslpv.sets.domain.entities.SetFeatureModel
 import com.andreikslpv.sets.presentation.recyclers.SetItemClickListener
 import com.andreikslpv.sets.presentation.recyclers.SetPagingAdapter
-import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -47,30 +46,17 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
 
         initSetsRecycler()
         initCollectSets()
-        initSpinner()
-        //viewModel.setType("expansion")
+        initSetsTypeSpinner()
     }
 
-    private fun initSpinner() {
+    private fun initSetsTypeSpinner() {
         viewModel.typesOfSet.observe(viewLifecycleOwner) {
-            // из списка доступных типов формируем список пунктов выпадающего меню
-            val spinnerAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                it
-            )
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.setsSpinner.adapter = spinnerAdapter
-
-            binding.setsSpinner.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    viewModel.typesOfSet.value?.let { types ->
-                        if (p2 >= 0 && p2 < types.size) viewModel.setType(types[p2])
-                    }
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
+            (binding.setTypeText as? MaterialAutoCompleteTextView)?.apply {
+                this.setSimpleItems(it.toTypedArray())
+                if (viewModel.type.value.isNullOrBlank())
+                    this.setText(viewModel.getStartedTypeOfSet(), false)
+                this.setOnItemClickListener { parent, _, position, _ ->
+                    viewModel.setType(parent.getItemAtPosition(position) as String)
                 }
             }
         }
@@ -94,7 +80,7 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
             addItemDecoration(decorator)
         }
         initLoadStateListening()
-        //handleScrollingToTopWhenSearching()
+        handleScrollingToTopWhenSearching()
     }
 
     private fun initLoadStateListening() {

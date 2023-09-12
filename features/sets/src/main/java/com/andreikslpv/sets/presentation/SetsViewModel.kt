@@ -9,9 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.sets.domain.entities.SetFeatureModel
-import com.andreikslpv.sets.domain.usecase.ChangeApiAvailabilityUseCase
-import com.andreikslpv.sets.domain.usecase.GetSetsByTypeUseCase
-import com.andreikslpv.sets.domain.usecase.GetTypesOfSetUseCase
+import com.andreikslpv.sets.domain.repositories.SetsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -21,16 +19,14 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SetsViewModel @Inject constructor(
-    private val getSetsByTypeUseCase: GetSetsByTypeUseCase,
-    private val getTypesOfSetUseCase: GetTypesOfSetUseCase,
-    private val changeApiAvailabilityUseCase: ChangeApiAvailabilityUseCase,
+    private val setsRepository: SetsRepository,
     private val router: SetsRouter,
 ) : ViewModel() {
 
     val sets: Flow<PagingData<SetFeatureModel>>
 
     val typesOfSet = liveData {
-        getTypesOfSetUseCase.execute().collect { response ->
+        setsRepository.getTypesOfSet().collect { response ->
             emit(response)
         }
     }
@@ -41,16 +37,18 @@ class SetsViewModel @Inject constructor(
     init {
         sets = _type
             .asFlow()
-            .flatMapLatest { getSetsByTypeUseCase.execute(it) }
+            .flatMapLatest { setsRepository.getSetsByType(it) }
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
     }
+
+    fun getStartedTypeOfSet() = setsRepository.getStartedTypeOfSet()
 
     fun refresh() = _type.postValue(_type.value)
 
     fun setType(newType: String) = _type.postValue(newType)
 
-    fun changeApiAvailability() = changeApiAvailabilityUseCase.execute(false)
+    fun changeApiAvailability() = setsRepository.changeApiAvailability(false)
 
     fun launchCards(set: SetFeatureModel) = router.launchCards(set)
 
