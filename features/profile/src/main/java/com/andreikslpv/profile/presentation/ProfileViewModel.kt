@@ -1,7 +1,7 @@
 package com.andreikslpv.profile.presentation
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.andreikslpv.presentation.BaseViewModel
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val router: ProfileRouter,
-) : BaseViewModel() {
+) : ViewModel() {
 
     fun signOut() = liveData(Dispatchers.IO) {
         profileRepository.signOut().collect { response ->
@@ -33,5 +33,7 @@ class ProfileViewModel @Inject constructor(
             emit(response)
         }
     }
+
+    fun launchSettings() = router.launchSettings()
 
 }

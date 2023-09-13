@@ -33,5 +33,11 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.andreikslpv.cards.presentation.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details"/>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.andreikslpv.profile.presentation.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
 </navigation>

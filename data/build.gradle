@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
-    implementation project(Modules.Core.Common)
+    implementation project(Modules.Core.CommonImpl)
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

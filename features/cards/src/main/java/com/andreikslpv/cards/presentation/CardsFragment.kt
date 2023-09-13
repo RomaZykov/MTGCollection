@@ -3,7 +3,9 @@ package com.andreikslpv.cards.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.andreikslpv.cards.R
@@ -99,27 +101,36 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
             addItemDecoration(decorator)
         }
         initLoadStateListening()
-        handleScrollingToTopWhenSearching()
+        //handleScrollingToTopWhenSearching()
     }
 
     private fun initLoadStateListening() {
         this.lifecycleScope.launch {
-            cardAdapter.loadStateFlow.collect {
-                if (it.source.prepend is LoadState.NotLoading) {
-                    binding.progressBar.show()
-                }
-                if (it.source.prepend is LoadState.Error) {
-                    catchError((it.source.prepend as LoadState.Error).error.message ?: "")
-                }
-                if (it.source.append is LoadState.Error) {
-                    catchError((it.source.append as LoadState.Error).error.message ?: "")
-                }
-                if (it.source.refresh is LoadState.NotLoading) {
-                    binding.progressBar.hide()
-                }
-                if (it.source.refresh is LoadState.Error) {
-                    binding.progressBar.hide()
-                    catchError((it.source.refresh as LoadState.Error).error.message ?: "")
+            // Suspend the coroutine until the lifecycle is DESTROYED.
+            // repeatOnLifecycle launches the block in a new coroutine every time the
+            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                // Safely collect from source when the lifecycle is STARTED
+                // and stop collecting when the lifecycle is STOPPED
+                viewLifecycleOwner.lifecycleScope.launch {
+                    cardAdapter.loadStateFlow.collect {
+                        if (it.source.prepend is LoadState.NotLoading) {
+                            binding.progressBar.show()
+                        }
+                        if (it.source.prepend is LoadState.Error) {
+                            catchError((it.source.prepend as LoadState.Error).error.message ?: "")
+                        }
+                        if (it.source.append is LoadState.Error) {
+                            catchError((it.source.append as LoadState.Error).error.message ?: "")
+                        }
+                        if (it.source.refresh is LoadState.NotLoading) {
+                            binding.progressBar.hide()
+                        }
+                        if (it.source.refresh is LoadState.Error) {
+                            binding.progressBar.hide()
+                            catchError((it.source.refresh as LoadState.Error).error.message ?: "")
+                        }
+                    }
                 }
             }
         }
@@ -147,8 +158,12 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
 
     private fun initCollectCards() {
         this.lifecycleScope.launch {
-            viewModel.cards.collectLatest { pagedData ->
-                cardAdapter.submitData(pagedData)
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.cards.collectLatest { pagedData ->
+                        cardAdapter.submitData(pagedData)
+                    }
+                }
             }
         }
     }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="profile_title">Профиль</string>
+    <string name="profile_settings">Настройки</string>
+
     <string name="profile_dialog_title">Удалить профиль</string>
     <string name="profile_dialog_text">Вы уверены, что хотите удалить свой профиль?</string>
     <string name="profile_dialog_action_cancel">Отменить</string>
@@ -11,5 +14,10 @@
     <string name="profile_edit_name_success">"Имя пользователя было успешно изменено"</string>
     <string name="profile_delete_user">Удалить профиль</string>
     <string name="profile_ups">Ваша история просмотров пуста</string>
+
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_start_set_type_title">Тип сетов, показываемый по умолчанию</string>
+    <string name="set_type_hint">Тип сетов</string>
 
 </resources>

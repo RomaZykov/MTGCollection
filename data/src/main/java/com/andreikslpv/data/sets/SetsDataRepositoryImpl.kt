@@ -3,11 +3,13 @@ package com.andreikslpv.data.sets
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.andreikslpv.common.SettingsDataSource
 import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
 import com.andreikslpv.data.sets.datasource.SetsApiPagingSource
 import com.andreikslpv.data.sets.datasource.SetsCacheDataSource
 import com.andreikslpv.data.sets.entities.SetDataModel
 import com.andreikslpv.data.sets.services.SetsService
+import com.andreikslpv.data.settings.ProjectSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Retrofit
@@ -16,9 +18,10 @@ import javax.inject.Inject
 class SetsDataRepositoryImpl @Inject constructor(
     private val retrofit: Retrofit,
     private val cacheDataSource: SetsCacheDataSource,
+    private val settingsDataSource: SettingsDataSource,
 ) : SetsDataRepository {
+
     private var isApiAvailable = true
-    private var startedType = "core"
     private val typesOfSet = MutableStateFlow(
         listOf(
             "core",
@@ -42,11 +45,15 @@ class SetsDataRepositoryImpl @Inject constructor(
     override suspend fun getTypesOfSet() = typesOfSet
 
     override fun getStartedTypeOfSet(): String {
-        return startedType
+        return try {
+            (settingsDataSource.getSettingsValue(ProjectSettings.START_SETS_TYPE.value) as String)
+        } catch (e: Exception) {
+            (ProjectSettings.START_SETS_TYPE.value.defaultValue as String)
+        }
     }
 
     override fun setStartedTypeOfSet(type: String) {
-        startedType = type
+        settingsDataSource.putSettingsValue(ProjectSettings.START_SETS_TYPE.value, type)
     }
 
     override fun getSetsByType(type: String): Flow<PagingData<SetDataModel>> {
@@ -68,8 +75,7 @@ class SetsDataRepositoryImpl @Inject constructor(
 
                             override fun onFailure() {}
                         })
-                }
-                else {
+                } else {
                     // загружаем данные из кэша и меняем статус доступности апи на true,
                     // чтобы в следующий раз снова сначала была попытка получить данные из апи
                     isApiAvailable = true

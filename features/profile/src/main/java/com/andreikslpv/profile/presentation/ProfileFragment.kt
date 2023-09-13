@@ -26,9 +26,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initToolbar()
         initSignOutButton()
         getAuthState()
         initDeleteUserButton()
+    }
+
+    private fun initToolbar() {
+        binding.profileToolbar.title = getString(R.string.profile_title)
+        binding.profileToolbar.menu.findItem(R.id.settingsButton).setOnMenuItemClickListener {
+            viewModel.launchSettings()
+            true
+        }
     }
 
     private fun initSignOutButton() {

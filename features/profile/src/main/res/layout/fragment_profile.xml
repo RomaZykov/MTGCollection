@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:menu="@menu/menu_toolbar_profile"
             app:layout_scrollFlags="scroll|enterAlways">
 
         </com.google.android.material.appbar.MaterialToolbar>
