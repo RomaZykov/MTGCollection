@@ -47,8 +47,8 @@ dependencies {
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
-    implementation Libs.Other.Coil
-    implementation Libs.Other.CoilSvg
+    implementation 'io.coil-kt:coil:2.4.0'
+    implementation 'io.coil-kt:coil-svg:2.4.0'
 
     implementation project(Modules.Core.Presentation)
 

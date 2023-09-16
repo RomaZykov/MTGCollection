@@ -2,7 +2,9 @@ package com.andreikslpv.data.sets.di
 
 import com.andreikslpv.data.sets.SetsDataRepository
 import com.andreikslpv.data.sets.SetsDataRepositoryImpl
+import com.andreikslpv.data.sets.datasource.SetsApiDataSource
 import com.andreikslpv.data.sets.datasource.SetsCacheDataSource
+import com.andreikslpv.data.sets.datasource.SetsFirebaseDataSource
 import com.andreikslpv.data.sets.datasource.SetsRoomDataSource
 import dagger.Module
 import dagger.Provides
@@ -18,6 +20,12 @@ class SetsModule {
     @Singleton
     fun providesSetsCacheDataSource(setsCacheDataSource: SetsRoomDataSource): SetsCacheDataSource {
         return setsCacheDataSource
+    }
+
+    @Provides
+    @Singleton
+    fun providesSetsApiDataSource(setsApiDataSource: SetsFirebaseDataSource): SetsApiDataSource {
+        return setsApiDataSource
     }
 
     @Provides

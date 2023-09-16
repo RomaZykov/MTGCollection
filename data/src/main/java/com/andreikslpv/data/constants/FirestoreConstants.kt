@@ -7,4 +7,6 @@ object FirestoreConstants {
 
     const val PATH_CARDS = "cards"
     const val PATH_COLLECTION = "collection"
+
+    const val PATH_SETS = "sets"
 }

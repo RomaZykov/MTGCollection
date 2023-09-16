@@ -139,6 +139,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextRecipeBasic.Center" parent="TextRecipeBasic.Bold">
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="TextLink">
         <item name="android:textSize">@dimen/text_title_category</item>
         <item name="android:textColor">@color/link</item>

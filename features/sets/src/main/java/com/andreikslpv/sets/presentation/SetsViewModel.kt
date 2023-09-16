@@ -31,7 +31,7 @@ class SetsViewModel @Inject constructor(
         }
     }
 
-    private val _type = MutableLiveData("")
+    private val _type = MutableLiveData(setsRepository.getStartedTypeOfSet())
     val type: LiveData<String> = _type
 
     init {
@@ -41,8 +41,6 @@ class SetsViewModel @Inject constructor(
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
     }
-
-    fun getStartedTypeOfSet() = setsRepository.getStartedTypeOfSet()
 
     fun refresh() = _type.postValue(_type.value)
 

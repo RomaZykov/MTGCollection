@@ -5,18 +5,16 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.andreikslpv.common.SettingsDataSource
 import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
-import com.andreikslpv.data.sets.datasource.SetsApiPagingSource
+import com.andreikslpv.data.sets.datasource.SetsApiDataSource
 import com.andreikslpv.data.sets.datasource.SetsCacheDataSource
 import com.andreikslpv.data.sets.entities.SetDataModel
-import com.andreikslpv.data.sets.services.SetsService
 import com.andreikslpv.data.settings.ProjectSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import retrofit2.Retrofit
 import javax.inject.Inject
 
 class SetsDataRepositoryImpl @Inject constructor(
-    private val retrofit: Retrofit,
+    private val apiDataSource: SetsApiDataSource,
     private val cacheDataSource: SetsCacheDataSource,
     private val settingsDataSource: SettingsDataSource,
 ) : SetsDataRepository {
@@ -38,7 +36,10 @@ class SetsDataRepositoryImpl @Inject constructor(
             "archenemy",
             "promo",
             "vanguard",
-            "masters"
+            "masters",
+            "memorabilia",
+            "draft_innovation",
+            "masterpiece",
         )
     )
 
@@ -65,8 +66,7 @@ class SetsDataRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 if (isApiAvailable) {
-                    SetsApiPagingSource(
-                        retrofit.create(SetsService::class.java),
+                    apiDataSource.getSetsByType(
                         type,
                         object : SetsApiCallback {
                             override fun onSuccess(items: List<SetDataModel>) {
@@ -74,7 +74,8 @@ class SetsDataRepositoryImpl @Inject constructor(
                             }
 
                             override fun onFailure() {}
-                        })
+                        }
+                    )
                 } else {
                     // загружаем данные из кэша и меняем статус доступности апи на true,
                     // чтобы в следующий раз снова сначала была попытка получить данные из апи
