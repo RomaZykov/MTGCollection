@@ -19,8 +19,10 @@ interface AuthDataRepository {
 
     suspend fun deleteUserInAuth(idToken: String?): Flow<Response<Boolean>>
 
+    suspend fun deleteUsersPhotoInDb(uid: String): Flow<Response<Boolean>>
+
     suspend fun editUserName(newName: String): Flow<Response<Boolean>>
 
-    suspend fun changeUserPhoto(uri: Uri): Flow<Response<Boolean>>
+    suspend fun changeUserPhoto(localUri: Uri): Flow<Response<Boolean>>
 
 }

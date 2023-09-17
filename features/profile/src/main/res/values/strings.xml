@@ -11,7 +11,8 @@
     <string name="profile_title_history">История просмотра</string>
     <string name="profile_sign_out">Выйти</string>
     <string name="profile_delete_success">"Профиль был успешно удален"</string>
-    <string name="profile_edit_name_success">"Имя пользователя было успешно изменено"</string>
+    <string name="profile_edit_name_failure">Не удалось изменить имя пользователя</string>
+    <string name="profile_edit_photo_failure">Не удалось сменить фото пользователя</string>
     <string name="profile_delete_user">Удалить профиль</string>
     <string name="profile_ups">Ваша история просмотров пуста</string>
 

@@ -46,27 +46,10 @@ class AdapterProfileRepository @Inject constructor(
                 it.await()
             }.also { token ->
                 val uid = authDataRepository.getCurrentUser()?.uid ?: ""
-                usersDataRepository.deleteUserInDb(uid).collect { response ->
-                    when (response) {
-                        is Response.Loading -> emit(Response.Loading)
-                        is Response.Failure -> emit(Response.Failure(response.errorMessage))
-                        is Response.Success -> emit(Response.Success(response.data))
-                    }
-                }
-                cardsDataRepository.removeAllFromCollection(uid).collect { response ->
-                    when (response) {
-                        is Response.Loading -> emit(Response.Loading)
-                        is Response.Failure -> emit(Response.Failure(response.errorMessage))
-                        is Response.Success -> emit(Response.Success(response.data))
-                    }
-                }
-                authDataRepository.deleteUserInAuth(token).collect { response ->
-                    when (response) {
-                        is Response.Loading -> emit(Response.Loading)
-                        is Response.Failure -> emit(Response.Failure(response.errorMessage))
-                        is Response.Success -> emit(Response.Success(response.data))
-                    }
-                }
+                usersDataRepository.deleteUserInDb(uid).collect { emit(it) }
+                cardsDataRepository.removeAllFromCollection(uid).collect { emit(it) }
+                authDataRepository.deleteUsersPhotoInDb(uid).collect { emit(it) }
+                authDataRepository.deleteUserInAuth(token).collect { emit(it) }
             }
         } catch (e: Exception) {
             emit(Response.Failure(e.message ?: Constants.ERROR_AUTH))
@@ -87,7 +70,8 @@ class AdapterProfileRepository @Inject constructor(
 
     override suspend fun editUserName(newName: String) = authDataRepository.editUserName(newName)
 
-    override suspend fun changeUserPhoto(uri: Uri) = authDataRepository.changeUserPhoto(uri)
+    override suspend fun changeUserPhoto(localUri: Uri) =
+        authDataRepository.changeUserPhoto(localUri)
 
     // ----- ActivityRequired impl
 

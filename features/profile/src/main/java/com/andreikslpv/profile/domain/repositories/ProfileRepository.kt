@@ -17,6 +17,6 @@ interface ProfileRepository {
 
     suspend fun editUserName(newName: String): Flow<Response<Boolean>>
 
-    suspend fun changeUserPhoto(uri: Uri): Flow<Response<Boolean>>
+    suspend fun changeUserPhoto(localUri: Uri): Flow<Response<Boolean>>
 
 }
