@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.cards.R
 import com.andreikslpv.cards.databinding.ItemAvailableBinding
-import com.andreikslpv.cards.domain.entities.AvailableCardFeatureModel
+import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

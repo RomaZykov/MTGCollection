@@ -1,6 +1,6 @@
 package com.andreikslpv.cards.presentation
 
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.CardFeatureModel
 
 interface CardsRouter {
 

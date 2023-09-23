@@ -13,7 +13,7 @@ interface SetsDataRepository {
 
     fun setStartedTypeOfSet(type: String)
 
-    fun getSetsByType(type: String): Flow<PagingData<SetDataModel>>
+    fun getSetsByType(nameOfType: String): Flow<PagingData<SetDataModel>>
 
     fun changeApiAvailability(newStatus: Boolean)
 

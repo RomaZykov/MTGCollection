@@ -1,7 +1,7 @@
 package com.andreikslpv.cards.domain.repositories
 
 import androidx.paging.PagingData
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,8 +28,8 @@ interface CardsRepository {
 
     fun getCardFromCollection(uid: String, cardId: String): Flow<CardFeatureModel>
 
-    fun getHistory(): MutableStateFlow<List<String>>
+    fun getHistory(): MutableStateFlow<List<CardFeatureModel>>
 
-    fun setHistory(uid: String, newHistory: List<String>)
+    fun setHistory(uid: String, newHistory: List<CardFeatureModel>)
 
 }

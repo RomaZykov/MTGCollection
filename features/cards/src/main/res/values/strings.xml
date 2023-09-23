@@ -4,10 +4,8 @@
     <string name="details_text_having_not">Карта отсутствует в вашей коллекции</string>
 
     //for available
-    <string name="available_empty_text">Пополните его автоматически\nиз карточки рецепта или добавьте\nпродукты нажав на «+»</string>
     <string name="available_select_all">Выбрать все</string>
     <string name="available_clear">Очистить выбранные</string>
-    <string name="available_share_text">Список покупок: \n%s</string>
     <string name="available_item_count">%d шт.</string>
     <string name="available_item_name_not_foil">%s, %s</string>
     <string name="available_item_name_foil">%s, %s, foil</string>
@@ -28,7 +26,6 @@
     <string name="foil_no">нет</string>
     <string name="snackbar_text">Такая карта уже добавлена в вашу коллекцию</string>
     <string name="snackbar_action">Переписать</string>
-    <string name="snackbar_cancel">Отменить</string>
 
     //Toolbar menu
     <string name="share">Поделиться</string>

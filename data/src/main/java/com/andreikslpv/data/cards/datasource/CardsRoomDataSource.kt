@@ -20,8 +20,7 @@ class CardsRoomDataSource @Inject constructor(
         scope.launch {
             try{
                 cardsDao.insertCards(CardsListDataToRoomModelMapper.map(cards))
-            } catch (e: Exception) {
-                println("AAA saveCardsToDb error ${e.message}")
+            } catch (_: Exception) {
             }
         }
     }
@@ -30,8 +29,7 @@ class CardsRoomDataSource @Inject constructor(
         scope.launch {
             try{
                 cardsDao.deleteAllCards()
-            } catch (e: Exception) {
-                println("AAA deleteAllCards error ${e.message}")
+            } catch (_: Exception) {
             }
         }
     }

@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('d:\\Android\\MTGCollection\\keystore.jks')
+            storePassword 'ACDsee565'
+            keyPassword 'ACDsee565'
+            keyAlias 'key0'
+        }
+    }
     namespace 'com.andreikslpv.mtgcollection'
     compileSdk targetAndroidSdk
 
@@ -24,6 +32,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

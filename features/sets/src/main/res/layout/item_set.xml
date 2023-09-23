@@ -11,7 +11,9 @@
         android:id="@+id/itemImage"
         android:layout_width="@dimen/item_set_image_dimen"
         android:layout_height="@dimen/item_set_image_dimen"
-        android:scaleType="centerCrop"
+        android:layout_marginTop="@dimen/margin_small"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="4dp"
-        android:layout_marginTop="@dimen/margin_small"
-        style="@style/TextTitle.Center"
+        android:layout_marginTop="@dimen/margin_small_8"
+        style="@style/TextRecipeBasic.Center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemImage"
@@ -34,11 +36,11 @@
         android:id="@+id/countContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small_8"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemTitle">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countOfCards"
@@ -49,7 +51,7 @@
             tools:text="xxx" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/totalNumber"
+            android:id="@+id/totalCount"
             style="@style/TextButtonSmall.Cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

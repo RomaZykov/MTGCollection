@@ -5,44 +5,24 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.andreikslpv.common.SettingsDataSource
 import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
-import com.andreikslpv.data.sets.datasource.SetsApiPagingSource
+import com.andreikslpv.data.sets.datasource.SetsApiDataSource
 import com.andreikslpv.data.sets.datasource.SetsCacheDataSource
+import com.andreikslpv.data.sets.datasource.TypesDataSource
 import com.andreikslpv.data.sets.entities.SetDataModel
-import com.andreikslpv.data.sets.services.SetsService
 import com.andreikslpv.data.settings.ProjectSettings
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import retrofit2.Retrofit
 import javax.inject.Inject
 
 class SetsDataRepositoryImpl @Inject constructor(
-    private val retrofit: Retrofit,
+    private val apiDataSource: SetsApiDataSource,
     private val cacheDataSource: SetsCacheDataSource,
     private val settingsDataSource: SettingsDataSource,
+    private val typesDataSource: TypesDataSource,
 ) : SetsDataRepository {
 
     private var isApiAvailable = true
-    private val typesOfSet = MutableStateFlow(
-        listOf(
-            "core",
-            "expansion",
-            "reprint",
-            "box",
-            "un",
-            "from_the_vault",
-            "premium_deck",
-            "duel_deck",
-            "starter",
-            "commander",
-            "planechase",
-            "archenemy",
-            "promo",
-            "vanguard",
-            "masters"
-        )
-    )
 
-    override suspend fun getTypesOfSet() = typesOfSet
+    override suspend fun getTypesOfSet() = typesDataSource.getTypeNames()
 
     override fun getStartedTypeOfSet(): String {
         return try {
@@ -56,7 +36,8 @@ class SetsDataRepositoryImpl @Inject constructor(
         settingsDataSource.putSettingsValue(ProjectSettings.START_SETS_TYPE.value, type)
     }
 
-    override fun getSetsByType(type: String): Flow<PagingData<SetDataModel>> {
+    override fun getSetsByType(nameOfType: String): Flow<PagingData<SetDataModel>> {
+        val codeOfType = typesDataSource.getTypeCodeByName(nameOfType)
         return Pager(
             config = PagingConfig(
                 pageSize = DEFAULT_PAGE_SIZE,
@@ -65,21 +46,21 @@ class SetsDataRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 if (isApiAvailable) {
-                    SetsApiPagingSource(
-                        retrofit.create(SetsService::class.java),
-                        type,
+                    apiDataSource.getSetsByType(
+                        codeOfType,
                         object : SetsApiCallback {
                             override fun onSuccess(items: List<SetDataModel>) {
                                 if (isApiAvailable) cacheDataSource.saveSetsToDb(items)
                             }
 
                             override fun onFailure() {}
-                        })
+                        }
+                    )
                 } else {
                     // загружаем данные из кэша и меняем статус доступности апи на true,
                     // чтобы в следующий раз снова сначала была попытка получить данные из апи
                     isApiAvailable = true
-                    cacheDataSource.getSetsByType(type)
+                    cacheDataSource.getSetsByType(codeOfType)
                 }
             }).flow
     }

@@ -10,8 +10,9 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.andreikslpv.cards.R
 import com.andreikslpv.cards.databinding.FragmentCardsBinding
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
-import com.andreikslpv.cards.presentation.recyclers.CardItemClickListener
+import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.cards.domain.usecase.GetCollectionUseCase
+import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.cards.presentation.recyclers.CardPagingAdapter
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.BaseScreen
@@ -21,6 +22,7 @@ import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.simpleScan
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation.viewModelCreator
+import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -45,6 +47,12 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     private val binding by viewBinding<FragmentCardsBinding>()
 
     private lateinit var cardAdapter: CardPagingAdapter
+
+    @Inject
+    lateinit var getCollectionUseCase: GetCollectionUseCase
+
+    @Inject
+    lateinit var glide: RequestManager
 
     private val decorator = SpaceItemDecoration(
         paddingBottomInDp = 16,
@@ -85,12 +93,11 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
                 },
                 object : CardItemClickListener {
                     override fun click(card: CardFeatureModel) {
-                        val result = viewModel.tryToChangeCollectionStatus(card)
-//                        if (!result) Snackbar.make(
-//                            binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
-//                        ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+                        viewModel.tryToChangeCollectionStatus(card)
                     }
-                }
+                },
+                getCollectionUseCase,
+                glide
             )
             adapter = cardAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)

@@ -1,4 +1,4 @@
-package com.andreikslpv.cards.domain.entities
+package com.andreikslpv.common_impl.entities
 
 enum class CardLanguage(val systemLang: String, val cardLang: String) {
     NONE("", ""),

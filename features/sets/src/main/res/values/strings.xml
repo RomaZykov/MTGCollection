@@ -1,5 +1,4 @@
 <resources>
-    <string name="hello_blank_fragment_sets">Экран Сеты. Здесь выбирается сет и показываются карты, входящие в него</string>
     <string name="description_image">Лого сета</string>
     <string name="set_type_hint">Тип сетов</string>
 </resources>

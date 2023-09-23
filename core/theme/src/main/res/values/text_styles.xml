@@ -19,42 +19,11 @@
         <item name="android:gravity">start</item>
     </style>
 
-    <style name="TextTitle.Center" parent="TextTitle">
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="TextTitleCategory">
-        <item name="android:textSize">@dimen/text_title_category</item>
-        <item name="android:textColor">@color/text_card_title</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="TextTitleCategory.Start" parent="TextTitleCategory">
-        <item name="android:gravity">start</item>
-    </style>
-
-    <style name="TextWarning">
-        <item name="android:textSize">@dimen/text_warning</item>
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:gravity">start</item>
-    </style>
-
-    <style name="TextUps">
-        <item name="android:textSize">@dimen/text_title</item>
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-    </style>
-
 
     <style name="TextButtonBig">
         <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:foreground">?android:attr/actionBarItemBackground</item>
-    </style>
-
-    <style name="TextButtonBig.End" parent="TextButtonBig">
-        <item name="android:gravity">end</item>
     </style>
 
     <style name="TextButtonBig.Start" parent="TextButtonBig">
@@ -97,12 +66,6 @@
     </style>
 
 
-    <style name="TextEmpty">
-        <item name="android:textSize">@dimen/text_title_button</item>
-        <item name="android:textColor">@color/text_menu_title</item>
-        <item name="android:gravity">center</item>
-    </style>
-
     <style name="TextCopyright">
         <item name="android:textSize">@dimen/text_warning</item>
         <item name="android:textColor">@color/text_menu_title</item>
@@ -131,18 +94,12 @@
         <item name="android:gravity">start</item>
     </style>
 
-    <style name="TextRecipeBasic.End" parent="TextRecipeBasic">
-        <item name="android:gravity">end</item>
-    </style>
-
     <style name="TextRecipeBasic.Bold" parent="TextRecipeBasic">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextLink">
-        <item name="android:textSize">@dimen/text_title_category</item>
-        <item name="android:textColor">@color/link</item>
-        <item name="android:gravity">start</item>
+    <style name="TextRecipeBasic.Center" parent="TextRecipeBasic.Bold">
+        <item name="android:gravity">center</item>
     </style>
 
 

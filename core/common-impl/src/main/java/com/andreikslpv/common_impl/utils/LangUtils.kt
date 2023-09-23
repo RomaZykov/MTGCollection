@@ -1,8 +1,8 @@
-package com.andreikslpv.cards.presentation.utils
+package com.andreikslpv.common_impl.utils
 
 import android.content.Context
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
-import com.andreikslpv.cards.domain.entities.CardLanguage
+import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.CardLanguage
 
 object LangUtils {
 

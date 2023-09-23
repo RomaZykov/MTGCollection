@@ -4,10 +4,13 @@ import android.net.Uri
 import com.andreikslpv.common.Constants.ERROR_AUTH
 import com.andreikslpv.common.Response
 import com.andreikslpv.data.auth.entities.AccountDataEntity
+import com.andreikslpv.data.constants.ApiConstants.ERROR_MESSAGE
+import com.andreikslpv.data.constants.StorageConstants.PATH_USERS
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
@@ -16,6 +19,7 @@ import javax.inject.Inject
 
 class AuthFirebaseRepository @Inject constructor(
     private val auth: FirebaseAuth,
+    private val storage: FirebaseStorage,
 ) : AuthDataRepository {
 
     override suspend fun signIn(idToken: String?) = flow {
@@ -79,6 +83,24 @@ class AuthFirebaseRepository @Inject constructor(
         }
     }
 
+    override suspend fun deleteUsersPhotoInDb(uid: String) = flow {
+        try {
+            emit(Response.Loading)
+            if (uid.isNotBlank()) {
+                // формируем ссылку в storage по которой находится аватарка
+                val ref = storage.reference.child("${PATH_USERS}/${uid}")
+                // удаляем файл в storage по сформированной ссылке
+                ref.delete().await().also {
+                    emit(Response.Success(true))
+                }
+            } else {
+                emit(Response.Failure("Require auth"))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+        }
+    }
+
     override suspend fun editUserName(newName: String) = flow {
         try {
             emit(Response.Loading)
@@ -91,7 +113,39 @@ class AuthFirebaseRepository @Inject constructor(
         }
     }
 
-    override suspend fun changeUserPhoto(uri: Uri) = flow {
+    override suspend fun changeUserPhoto(localUri: Uri) = flow {
+        try {
+            emit(Response.Loading)
+            val user = getCurrentUser()
+            if (user != null) {
+                // формируем ссылку в storage по которой будет находиться аватарка
+                val ref = storage.reference.child("$PATH_USERS/${user.uid}")
+                // загружаем локальный файл в storage по сформированной ссылке
+                ref.putFile(localUri).await().also { taskSnapshot ->
+                    // получаем внешнюю ссылку на загруженный файл
+                    taskSnapshot.metadata?.reference?.downloadUrl?.await().also {
+                        it?.let {
+                            // если ссылка не null меняем аватарку в Firebase Auth
+                            changeUserPhotoInAuth(it).collect { response ->
+                                when (response) {
+                                    is Response.Success -> emit(Response.Success(true))
+                                    is Response.Failure -> emit(Response.Failure(response.errorMessage))
+                                    is Response.Loading -> {}
+                                }
+                            }
+                        }
+                    }
+
+                }
+            } else {
+                emit(Response.Failure("Require auth"))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+        }
+    }
+
+    private suspend fun changeUserPhotoInAuth(uri: Uri) = flow {
         try {
             emit(Response.Loading)
             val profileUpdates = userProfileChangeRequest { photoUri = uri }

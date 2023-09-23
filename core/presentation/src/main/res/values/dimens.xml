@@ -8,9 +8,7 @@
 
     <dimen name="item_set_dimen">156dp</dimen>
     <dimen name="item_card_preview_height">218dp</dimen>
-    <dimen name="item_divider">2dp</dimen>
 
     <!-- for FAB -->
-    <dimen name="FAB_margin">8dp</dimen>
     <dimen name="FAB_dimen">24dp</dimen>
 </resources>

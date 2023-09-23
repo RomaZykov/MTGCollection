@@ -1,6 +1,6 @@
 package com.andreikslpv.mtgcollection.glue.cards
 
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.cards.presentation.CardsRouter
 import com.andreikslpv.cards.presentation.DetailsFragment
 import com.andreikslpv.common.AppRestarter

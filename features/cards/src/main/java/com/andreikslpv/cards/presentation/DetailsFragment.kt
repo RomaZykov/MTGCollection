@@ -7,13 +7,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreikslpv.cards.R
 import com.andreikslpv.cards.databinding.FragmentDetailsBinding
-import com.andreikslpv.cards.domain.entities.AvailableCardFeatureModel
+import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
 import com.andreikslpv.cards.domain.entities.CardCondition
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
-import com.andreikslpv.cards.domain.entities.CardLanguage
+import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.CardLanguage
 import com.andreikslpv.cards.presentation.recyclers.AvailableItemClickListener
 import com.andreikslpv.cards.presentation.recyclers.AvailableRecyclerAdapter
-import com.andreikslpv.cards.presentation.utils.LangUtils
+import com.andreikslpv.common_impl.utils.LangUtils
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
 import com.andreikslpv.presentation.makeToast
@@ -126,7 +126,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
                 observeCardInCollection(card.id)
 
-                viewModel.setHistory(card.id)
+                viewModel.setHistory(card)
             }
         }
     }

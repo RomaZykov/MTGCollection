@@ -2,7 +2,7 @@ package com.andreikslpv.mtgcollection.glue.cards.repositories
 
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.repositories.CardsRepository
 import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import com.andreikslpv.data.auth.AuthDataRepository
@@ -10,7 +10,10 @@ import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.glue.cards.CardDataToFeatureModelMapper
 import com.andreikslpv.mtgcollection.glue.cards.CardFeatureToDataModelMapper
+import com.andreikslpv.mtgcollection.glue.cards.CardListFeatureToDataModelMapper
+import com.andreikslpv.mtgcollection.glue.cards.CardsListDataToFeatureModelMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -66,9 +69,11 @@ class AdapterCardsRepository @Inject constructor(
             CardDataToFeatureModelMapper.map(response)
         }
 
-    override fun getHistory() = usersDataRepository.getHistory()
+    override fun getHistory() = MutableStateFlow(
+        CardsListDataToFeatureModelMapper.map(usersDataRepository.getHistory().value)
+    )
 
-    override fun setHistory(uid: String, newHistory: List<String>) {
-        usersDataRepository.setHistory(uid, newHistory)
+    override fun setHistory(uid: String, newHistory: List<CardFeatureModel>) {
+        usersDataRepository.setHistory(uid, CardListFeatureToDataModelMapper.map(newHistory))
     }
 }

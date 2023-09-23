@@ -34,8 +34,6 @@ buildscript {
                         CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
                 ],
                 Other: [
-                        Coil: "io.coil-kt:coil:2.2.0",
-                        CoilSvg: "io.coil-kt:coil-svg:1.2.2",
                         Glide: "com.github.bumptech.glide:glide:$glideVersion",
                         GlideAP: "com.github.bumptech.glide:compiler:$glideVersion",
                 ],
@@ -65,7 +63,7 @@ buildscript {
         ]
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'com.google.gms:google-services:4.4.0'
     }
 }
 
