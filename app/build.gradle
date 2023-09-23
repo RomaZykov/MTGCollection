@@ -10,8 +10,6 @@ android {
     signingConfigs {
         release {
             storeFile file('d:\\Android\\MTGCollection\\keystore.jks')
-            storePassword 'ACDsee565'
-            keyPassword 'ACDsee565'
             keyAlias 'key0'
         }
     }
