@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.andreikslpv.cards.R
 import com.andreikslpv.cards.databinding.MergeAvailableDialogBinding
 import com.andreikslpv.cards.domain.entities.CardCondition
-import com.andreikslpv.cards.domain.entities.CardLanguage
+import com.andreikslpv.common_impl.entities.CardLanguage
 import com.andreikslpv.presentation.views.visible
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 

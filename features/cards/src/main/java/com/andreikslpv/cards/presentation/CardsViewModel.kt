@@ -6,7 +6,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.usecase.ChangeApiAvailabilityUseCase
 import com.andreikslpv.cards.domain.usecase.GetCardsUseCase
 import com.andreikslpv.cards.domain.usecase.TryToChangeCollectionStatusUseCase

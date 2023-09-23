@@ -81,7 +81,8 @@
                     android:inputType="text"
                     android:maxLength="15"
                     android:maxLines="1"
-                    tools:text="Name" />
+                    tools:text="Name"
+                    tools:ignore="Autofill,LabelFor" />
 
                 <ImageView
                     android:id="@+id/profilePencil"
@@ -124,7 +125,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/profileRecyclerRecipe"
+                    android:id="@+id/profileRecyclerHistory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
@@ -137,7 +138,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/profileTitleHistory"
-                     />
+                    tools:listitem="@layout/item_card_preview" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/historyEmptyView"
@@ -162,11 +163,11 @@
                     <ImageView
                         android:id="@+id/historyEmptyImage"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/item_card_preview_height"
                         android:layout_marginTop="@dimen/margin_basic"
                         android:background="@android:color/transparent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/empty_history_3"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/cover_small"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/historyUps"

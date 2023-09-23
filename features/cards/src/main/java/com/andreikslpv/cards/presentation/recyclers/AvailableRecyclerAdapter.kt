@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.cards.databinding.ItemAvailableBinding
-import com.andreikslpv.cards.domain.entities.AvailableCardFeatureModel
+import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
 import com.andreikslpv.presentation.recyclers.ItemDiff
 import kotlinx.coroutines.flow.MutableStateFlow
 

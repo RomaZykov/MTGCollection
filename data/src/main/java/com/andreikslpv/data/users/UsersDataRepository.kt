@@ -1,6 +1,7 @@
 package com.andreikslpv.data.users
 
 import com.andreikslpv.common.Response
+import com.andreikslpv.data.cards.entities.CardDataModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -20,8 +21,8 @@ interface UsersDataRepository {
 
     fun removeAllFromCollection(uid: String)
 
-    fun getHistory(): MutableStateFlow<List<String>>
+    fun getHistory(): MutableStateFlow<List<CardDataModel>>
 
-    fun setHistory(uid: String, newHistory: List<String>)
+    fun setHistory(uid: String, newHistory: List<CardDataModel>)
 
 }

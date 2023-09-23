@@ -47,7 +47,7 @@ dependencies {
     kapt Libs.Google.HiltCompiler
 
     implementation Libs.Other.Glide
-    annotationProcessor Libs.Other.GlideAP
+    kapt Libs.Other.GlideAP
 
     implementation project(Modules.Core.Presentation)
     implementation project(Modules.Core.CommonImpl)

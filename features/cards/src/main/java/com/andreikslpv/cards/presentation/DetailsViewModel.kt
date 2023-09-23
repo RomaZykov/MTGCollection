@@ -3,8 +3,8 @@ package com.andreikslpv.cards.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.andreikslpv.cards.domain.entities.AvailableCardFeatureModel
-import com.andreikslpv.cards.domain.entities.CardFeatureModel
+import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
+import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.usecase.AddCardToCollectionUseCase
 import com.andreikslpv.cards.domain.usecase.GetCardFromCollectionUseCase
 import com.andreikslpv.cards.domain.usecase.GetCollectionUseCase
@@ -108,9 +108,9 @@ class DetailsViewModel @AssistedInject constructor(
         addCardToCollectionUseCase.execute(currentCard)
     }
 
-    fun setHistory(cardId: String) {
+    fun setHistory(card: CardFeatureModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            setHistoryUseCase.execute(cardId)
+            setHistoryUseCase.execute(card)
         }
     }
 

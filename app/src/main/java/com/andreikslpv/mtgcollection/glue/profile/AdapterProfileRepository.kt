@@ -9,13 +9,17 @@ import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.ActivityRequired
 import com.andreikslpv.common_impl.entities.AccountFeatureEntity
+import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.data.auth.AuthDataRepository
 import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
 import com.andreikslpv.mtgcollection.extensions.GoogleSignInContract
+import com.andreikslpv.mtgcollection.glue.cards.CardFeatureToDataModelMapper
+import com.andreikslpv.mtgcollection.glue.cards.CardsListDataToFeatureModelMapper
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -67,6 +71,24 @@ class AdapterProfileRepository @Inject constructor(
             photoUrl = currentUser.photoUrl
         )
     }
+
+    override fun getCollection() = usersDataRepository.getCollection()
+
+    override fun getHistory() = MutableStateFlow(
+        CardsListDataToFeatureModelMapper.map(usersDataRepository.getHistory().value)
+    )
+
+    override fun addToUsersCollection(uid: String, cardId: String) =
+        usersDataRepository.addToCollection(uid, cardId)
+
+    override fun removeFromUsersCollection(uid: String, cardId: String) =
+        usersDataRepository.removeFromCollection(uid, cardId)
+
+    override fun addToCardsCollection(uid: String, card: CardFeatureModel) =
+        cardsDataRepository.addToCollection(uid, CardFeatureToDataModelMapper.map(card))
+
+    override fun removeFromCardsCollection(uid: String, card: CardFeatureModel) =
+        cardsDataRepository.removeFromCollection(uid, CardFeatureToDataModelMapper.map(card))
 
     override suspend fun editUserName(newName: String) = authDataRepository.editUserName(newName)
 

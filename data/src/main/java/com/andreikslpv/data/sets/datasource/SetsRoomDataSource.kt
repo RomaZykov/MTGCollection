@@ -25,8 +25,7 @@ class SetsRoomDataSource @Inject constructor(
         scope.launch {
             try{
                 setsDao.insertSets(SetsListDataToRoomModelMapper.map(sets))
-            } catch (e: Exception) {
-                println("AAA saveSetsToDb error ${e.message}")
+            } catch (_: Exception) {
             }
 
         }
@@ -40,8 +39,7 @@ class SetsRoomDataSource @Inject constructor(
         scope.launch {
             try{
                 setsDao.deleteAllSets()
-            } catch (e: Exception) {
-                println("AAA deleteAllSets error ${e.message}")
+            } catch (_: Exception) {
             }
         }
     }
