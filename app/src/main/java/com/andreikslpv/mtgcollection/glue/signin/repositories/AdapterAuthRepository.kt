@@ -76,6 +76,8 @@ class AdapterAuthRepository @Inject constructor(
         }
     }
 
+    override suspend fun getPrivacyPolicy() = authDataRepository.getPrivacyPolicy()
+
     // ----- ActivityRequired impl
 
     override fun onActivityCreated(activity: FragmentActivity) {

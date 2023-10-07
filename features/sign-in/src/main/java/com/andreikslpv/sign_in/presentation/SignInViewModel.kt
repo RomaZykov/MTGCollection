@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.common.Response
 import com.andreikslpv.sign_in.domain.usecase.CreateUserUseCase
+import com.andreikslpv.sign_in.domain.usecase.GetPrivacyPolicyUseCase
 import com.andreikslpv.sign_in.domain.usecase.SignInAnonymouslyUseCase
 import com.andreikslpv.sign_in.domain.usecase.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,7 @@ class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val signInAnonymouslyUseCase: SignInAnonymouslyUseCase,
     private val createUserUseCase: CreateUserUseCase,
+    private val getPrivacyPolicyUseCase: GetPrivacyPolicyUseCase,
     private val router: SignInRouter,
 ) : ViewModel() {
 
@@ -55,6 +57,10 @@ class SignInViewModel @Inject constructor(
             }
 
         } else router.launchMain()
+    }
+
+    fun getPrivacyPolicy() = liveData(Dispatchers.Main) {
+        getPrivacyPolicyUseCase.execute().collect{ emit(it) }
     }
 
 }
