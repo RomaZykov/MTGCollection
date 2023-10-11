@@ -1,4 +1,4 @@
 <resources>
-    <string name="description_image">Лого сета</string>
-    <string name="set_type_hint">Тип сетов</string>
+    <string name="description_image">Set\'s logo</string>
+    <string name="set_type_hint">Type of sets</string>
 </resources>

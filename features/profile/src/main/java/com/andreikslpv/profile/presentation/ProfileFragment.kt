@@ -92,7 +92,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun initToolbar() {
-        binding.profileToolbar.title = getString(R.string.profile_title)
+        binding.profileToolbar.title = getString(R.string.title_profile)
         binding.profileToolbar.menu.findItem(R.id.settingsButton).setOnMenuItemClickListener {
             viewModel.launchSettings()
             true
@@ -199,11 +199,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private fun initCurrentUserCollect() {
         viewModel.currentUser.observe(viewLifecycleOwner) {
             it?.let { user ->
-                Glide.with(binding.profileAvatar)
-                    .load(user.photoUrl)
-                    .centerCrop()
-                    .into(binding.profileAvatar)
-                binding.profileName.setText(user.displayName)
+                if (user.photoUrl != null)
+                    Glide.with(binding.profileAvatar)
+                        .load(user.photoUrl)
+                        .centerCrop()
+                        .into(binding.profileAvatar)
+                if (!user.displayName.isNullOrBlank())
+                    binding.profileName.setText(user.displayName)
                 binding.profileEmail.text = user.email
             }
             binding.progressBar.hide()

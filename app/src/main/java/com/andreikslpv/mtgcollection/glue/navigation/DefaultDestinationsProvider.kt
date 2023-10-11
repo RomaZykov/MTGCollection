@@ -43,7 +43,4 @@ class DefaultDestinationsProvider @Inject constructor(
         return R.id.tabsFragment
     }
 
-//    override fun provideCartDestinationId(): Int {
-//        return R.id.cartListFragment
-//    }
 }
