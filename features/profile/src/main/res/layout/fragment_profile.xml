@@ -41,6 +41,7 @@
                 android:layout_height="@dimen/profile_avatar_dimen"
                 android:layout_marginTop="@dimen/margin_big_24"
                 android:scaleType="centerCrop"
+                android:src="@drawable/anonim"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -81,7 +82,7 @@
                     android:inputType="text"
                     android:maxLength="15"
                     android:maxLines="1"
-                    tools:text="Name"
+                    android:text="@string/profile_name_anonymous"
                     tools:ignore="Autofill,LabelFor" />
 
                 <ImageView

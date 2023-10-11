@@ -25,7 +25,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun initToolbar() {
-        binding.toolbar.title = getString(R.string.settings_title)
+        binding.toolbar.title = getString(R.string.title_settings)
         binding.toolbar.setNavigationIcon(com.andreikslpv.presentation.R.drawable.ic_arrow_back)
         binding.toolbar.setNavigationOnClickListener { viewModel.goBack() }
     }

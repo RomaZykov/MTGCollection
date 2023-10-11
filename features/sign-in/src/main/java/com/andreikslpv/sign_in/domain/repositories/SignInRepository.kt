@@ -14,4 +14,6 @@ interface SignInRepository {
 
     suspend fun createUser(uid: String): Flow<Response<Boolean>>
 
+    suspend fun getPrivacyPolicy(): Flow<Response<String>>
+
 }

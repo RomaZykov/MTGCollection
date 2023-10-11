@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_presentation_general_error_title">Ошибка</string>
+    <string name="core_presentation_general_error_ok">ОК</string>
+    <string name="core_presentation_try_again">Попробовать снова</string>
+    <string name="retry_button">Нажмите для перезагрузки</string>
+</resources>

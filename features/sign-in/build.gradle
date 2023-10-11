@@ -40,6 +40,7 @@ dependencies {
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.AppCompat
     implementation Libs.Android.FragmentKtx
+    implementation Libs.Android.Livedata
 
     implementation Libs.Google.Material
 
@@ -49,9 +50,6 @@ dependencies {
     implementation project(Modules.Core.Presentation)
     implementation project(Modules.Core.Common)
     implementation project(Modules.Core.CommonImpl)
-
-    // livedata
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation

@@ -144,7 +144,7 @@ class NavComponentRouter @AssistedInject constructor(
     }
 
     internal fun hasDestinationId(id: Int): Boolean {
-        return getRootNavController().backQueue.any { it.destination.id == id }
+        return getRootNavController().currentBackStack.value.any { it.destination.id == id }
     }
 
     internal fun isDialog(): Boolean {

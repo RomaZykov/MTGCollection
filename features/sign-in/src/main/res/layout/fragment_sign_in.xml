@@ -57,6 +57,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/authLogo"
+        android:layout_width="@dimen/sign_in_logo_dimen"
+        android:layout_height="@dimen/sign_in_logo_dimen"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/sign_in_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
+
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
