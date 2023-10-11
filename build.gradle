@@ -3,27 +3,27 @@
 buildscript {
     ext {
 
-        targetAndroidSdk = 33
+        targetAndroidSdk = 34
         minAndroidSdk = 24
 
         javaVersion = JavaVersion.VERSION_17
         kotlinVersion = '17'
 
-        hiltVersion = "2.44"
+        hiltVersion = "2.48.1"
         glideVersion = "4.15.1"
-        navVersion = "2.4.0"
+        navVersion = "2.7.2"
 
         Libs = [
                 Android: [
-                        CoreKtx: "androidx.core:core-ktx:1.10.1",
+                        CoreKtx: "androidx.core:core-ktx:1.12.0",
                         FragmentKtx: "androidx.fragment:fragment-ktx:1.6.0",
                         ActivityKtx: "androidx.activity:activity-ktx:1.7.2",
                         AppCompat: "androidx.appcompat:appcompat:1.6.1",
-                        NavigationFragments: "androidx.navigation:navigation-fragment-ktx:2.4.0",
-                        NavigationUI: "androidx.navigation:navigation-ui-ktx:2.4.0",
-                        Paging: "androidx.paging:paging-runtime:3.2.0-rc01",
+                        NavigationFragments: "androidx.navigation:navigation-fragment-ktx:$navVersion",
+                        NavigationUI: "androidx.navigation:navigation-ui-ktx:$navVersion",
+                        Paging: "androidx.paging:paging-runtime:3.2.1",
                         Coordinator: "androidx.coordinatorlayout:coordinatorlayout:1.2.0",
-                        Livedata: "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+                        Livedata: "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
                 ],
                 Google: [
                         Material: "com.google.android.material:material:1.9.0",

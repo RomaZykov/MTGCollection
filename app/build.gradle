@@ -60,10 +60,12 @@ dependencies {
 
     implementation Libs.Google.Material
     implementation Libs.Google.Hilt
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.4.3'
-    implementation 'com.google.firebase:firebase-analytics-ktx:21.3.0'
     kapt Libs.Google.HiltCompiler
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation project(Modules.Wiring)
     implementation project(Modules.Core.CommonImpl)
