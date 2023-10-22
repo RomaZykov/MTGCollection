@@ -50,7 +50,9 @@ class UsersDataRepositoryImpl @Inject constructor(
         try {
             emit(Response.Loading)
             database.collection(FirestoreConstants.PATH_USERS).document(uid).delete().await()
-                .also { emit(Response.Success(true)) }
+                .also {
+                    println("AAA deleteUserInDb Success")
+                    emit(Response.Success(true)) }
         } catch (e: Exception) {
             emit(Response.Failure(e.message ?: ApiConstants.ERROR_MESSAGE))
         }

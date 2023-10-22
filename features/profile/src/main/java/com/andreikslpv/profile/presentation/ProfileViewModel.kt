@@ -4,13 +4,17 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.andreikslpv.common.Core
+import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
 import com.andreikslpv.profile.domain.usecase.TryToChangeCollectionStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +26,7 @@ class ProfileViewModel @Inject constructor(
 
     val currentUser = MutableLiveData<AccountFeatureEntity?>(profileRepository.getCurrentUser())
 
-    fun refreshUser() {
+    private fun refreshUser() {
         currentUser.postValue(profileRepository.getCurrentUser())
     }
 
@@ -36,37 +40,46 @@ class ProfileViewModel @Inject constructor(
         return tryToChangeCollectionStatusUseCase.execute(card)
     }
 
-    fun signOut() = liveData(Dispatchers.IO) {
-        profileRepository.signOut().collect { response ->
-            emit(response)
+    fun signOut() {
+        CoroutineScope(Dispatchers.IO).launch {
+            profileRepository.signOut().collect { response ->
+                withContext(Dispatchers.Main) {
+                    Core.loadStateHandler.setLoadState(response)
+                }
+            }
         }
     }
 
-    @ExperimentalCoroutinesApi
-    fun getAuthState() = liveData(Dispatchers.Main) {
-        profileRepository.getAuthState().collect { isUserSignedOut ->
-            if (isUserSignedOut) router.restartApp()
-            emit(isUserSignedOut)
-        }
-    }
-
-    fun deleteUser() = liveData(Dispatchers.IO) {
-        profileRepository.deleteUser().collect { response ->
-            emit(response)
+    fun deleteUser() {
+        CoroutineScope(Dispatchers.IO).launch {
+            profileRepository.deleteUser().collect { response ->
+                withContext(Dispatchers.Main) {
+                    Core.loadStateHandler.setLoadState(response)
+                }
+            }
         }
     }
 
     // --------------- all for users photo & name
 
-    fun editUserName(newName: String) = liveData(Dispatchers.IO) {
-        profileRepository.editUserName(newName).collect { response ->
-            emit(response)
+    fun editUserName(newName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            profileRepository.editUserName(newName).collect { response ->
+                withContext(Dispatchers.Main) {
+                    Core.loadStateHandler.setLoadState(response)
+                }
+            }
         }
     }
 
-    fun changeUserPhoto(localUri: Uri) = liveData(Dispatchers.IO) {
-        profileRepository.changeUserPhoto(localUri).collect { response ->
-            emit(response)
+    fun changeUserPhoto(localUri: Uri) {
+        CoroutineScope(Dispatchers.IO).launch {
+            profileRepository.changeUserPhoto(localUri).collect { response ->
+                withContext(Dispatchers.Main) {
+                    if (response is Response.Success) refreshUser()
+                    Core.loadStateHandler.setLoadState(response)
+                }
+            }
         }
     }
 
@@ -74,8 +87,6 @@ class ProfileViewModel @Inject constructor(
 
     fun launchSettings() = router.launchSettings()
 
-    fun launchDetails(card: CardFeatureModel) {
-        router.launchDetails(card)
-    }
+    fun launchDetails(card: CardFeatureModel) = router.launchDetails(card)
 
 }

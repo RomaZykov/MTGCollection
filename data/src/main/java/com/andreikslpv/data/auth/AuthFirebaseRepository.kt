@@ -2,6 +2,7 @@ package com.andreikslpv.data.auth
 
 import android.net.Uri
 import com.andreikslpv.common.Constants.ERROR_AUTH
+import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.data.auth.entities.AccountDataEntity
 import com.andreikslpv.data.constants.ApiConstants.ERROR_MESSAGE
@@ -14,6 +15,9 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.onClosed
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -54,7 +58,6 @@ class AuthFirebaseRepository @Inject constructor(
         try {
             emit(Response.Loading)
             auth.signOut()
-            //emit(Response.Success())
         } catch (e: Exception) {
             emit(Response.Failure(e.message ?: ERROR_AUTH))
         }
@@ -63,6 +66,13 @@ class AuthFirebaseRepository @Inject constructor(
     override fun getAuthState() = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(auth.currentUser == null)
+                .onClosed { Core.loadStateHandler.setLoadState(Response.Success(true)) }
+                .onSuccess { Core.loadStateHandler.setLoadState(Response.Success(true)) }
+                .onFailure { error ->
+                    Core.loadStateHandler.setLoadState(
+                        Response.Failure(error?.message ?: ERROR_AUTH)
+                    )
+                }
         }
         auth.addAuthStateListener(authStateListener)
         awaitClose {

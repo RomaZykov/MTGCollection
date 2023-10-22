@@ -10,11 +10,6 @@ interface ProfileRouter {
     fun goBack()
 
     /**
-     * Close all screens and launch the initial screen.
-     */
-    fun restartApp()
-
-    /**
      * Launch Settings screen.
      */
     fun launchSettings()

@@ -10,8 +10,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.ElementsIntoSet
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import javax.inject.Singleton
 
 
 @Module
@@ -69,6 +67,11 @@ class CoreProviderModule {
     @Provides
     fun provideErrorHandler(): ErrorHandler {
         return Core.errorHandler
+    }
+
+    @Provides
+    fun provideLoadStateHandler(): LoadStateHandler {
+        return Core.loadStateHandler
     }
 
 //    @Provides

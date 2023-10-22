@@ -11,7 +11,7 @@ import com.andreikslpv.data.constants.RoomConstants
 interface CardsDao {
 
     @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_CARDS} WHERE [${RoomConstants.COLUMN_CARD_SET}] = :codeOfSet")
-    suspend fun getCardsInSet(codeOfSet: String): List<CardRoomModel>
+    fun getCardsInSet(codeOfSet: String): List<CardRoomModel>
 
     @Query("DELETE FROM ${RoomConstants.TABLE_CACHED_CARDS}")
     fun deleteAllCards(): Int

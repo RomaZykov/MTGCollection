@@ -7,4 +7,9 @@ interface MainRouter {
      */
     fun launchMain()
 
+    /**
+     * Close all screens and launch the initial screen.
+     */
+    fun restartApp()
+
 }

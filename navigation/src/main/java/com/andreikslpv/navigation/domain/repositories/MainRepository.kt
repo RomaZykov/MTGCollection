@@ -8,6 +8,5 @@ interface MainRepository {
 
     fun startObserveUser()
 
-
     fun isUserAuthenticatedInFirebase(): Boolean
 }
