@@ -50,9 +50,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun deleteUser() {
+    fun deleteUser(idToken: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            profileRepository.deleteUser().collect { response ->
+            profileRepository.deleteUser(idToken).collect { response ->
                 withContext(Dispatchers.Main) {
                     Core.loadStateHandler.setLoadState(response)
                 }

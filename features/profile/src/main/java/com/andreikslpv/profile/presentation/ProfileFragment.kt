@@ -2,6 +2,7 @@ package com.andreikslpv.profile.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,8 @@ import com.andreikslpv.profile.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.profile.presentation.recyclers.CardHistoryRecyclerAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,6 +52,26 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     @Inject
     lateinit var glide: RequestManager
+
+    @Inject
+    lateinit var signInIntent: Intent
+
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                try {
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    val googleSignInAccount = task.getResult(ApiException::class.java)
+                    googleSignInAccount?.apply {
+                        idToken?.let { idToken ->
+                            viewModel.deleteUser(idToken)
+                        }
+                    }
+                } catch (e: ApiException) {
+                    //crashlytics.recordException(e)
+                }
+            }
+        }
 
     // Registers a photo picker activity launcher in single-select mode.
     private val pickMedia =
@@ -133,7 +157,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 .setDuration(dialogAnimDuration)
                 .alpha(dialogAnimAlfa)
                 .start()
-            actionButton.setOnClickListener { viewModel.deleteUser() }
+            actionButton.setOnClickListener { resultLauncher.launch(signInIntent) }
         }
     }
 

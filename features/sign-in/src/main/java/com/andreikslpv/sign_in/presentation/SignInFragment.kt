@@ -4,13 +4,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.andreikslpv.common.Response
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.sign_in.R
 import com.andreikslpv.sign_in.databinding.FragmentSignInBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
@@ -19,55 +23,41 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     private val viewModel by viewModels<SignInViewModel>()
 
+    @Inject
+    lateinit var signInIntent: Intent
+
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                try {
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    val googleSignInAccount = task.getResult(ApiException::class.java)
+                    googleSignInAccount?.apply {
+                        idToken?.let { idToken ->
+                            viewModel.signInWithGoogle(idToken)
+                        }
+                    }
+                } catch (e: ApiException) {
+                    //crashlytics.recordException(e)
+                }
+            }
+        }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.googleSignInButton.setOnClickListener {
-            signInWithGoogle()
-        }
-
-        binding.anonymousButton.setOnClickListener {
-            signInAnonymously()
-        }
-
-        collectPrivacyPolicy()
+        viewModel.startCollectPrivacyPolicy()
+        initButtons()
     }
 
-    private fun signInWithGoogle() {
-        viewModel.signInWithGoogle().observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Response.Loading -> binding.progressBar.show()
-                is Response.Success<*> -> binding.progressBar.hide()
-                is Response.Failure -> binding.progressBar.hide()
-            }
-        }
-    }
-
-    private fun signInAnonymously() {
-        viewModel.signInAnonymously().observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Response.Loading -> binding.progressBar.show()
-                is Response.Success<*> -> binding.progressBar.hide()
-                is Response.Failure -> binding.progressBar.hide()
-
-            }
-        }
-    }
-
-    private fun collectPrivacyPolicy() {
-        viewModel.getPrivacyPolicy().observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Response.Loading -> binding.progressBar.show()
-                is Response.Success -> {
-                    if (response.data.isNotBlank()) {
-                        binding.authCopyrightText.setOnClickListener {
-                            val i = Intent(Intent.ACTION_VIEW, Uri.parse(response.data))
-                            startActivity(i)
-                        }
-                    }
-                    binding.progressBar.hide()
-                }
-                is Response.Failure -> binding.progressBar.hide()
+    private fun initButtons() {
+        binding.googleSignInButton.setOnClickListener { resultLauncher.launch(signInIntent) }
+        binding.anonymousButton.setOnClickListener { viewModel.signInAnonymously() }
+        binding.authCopyrightText.setOnClickListener {
+            if (viewModel.privacyPolicyUrl.isNotBlank()) {
+                val i = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.privacyPolicyUrl))
+                startActivity(i)
             }
         }
     }

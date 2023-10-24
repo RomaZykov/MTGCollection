@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthDataRepository {
 
-    suspend fun signIn(idToken: String?): Flow<Response<Boolean>>
+    suspend fun signIn(idToken: String): Flow<Response<Boolean>>
 
     suspend fun signInAnonymously(): Flow<Response<Boolean>>
 
@@ -17,7 +17,7 @@ interface AuthDataRepository {
 
     fun getCurrentUser(): AccountDataEntity?
 
-    suspend fun deleteUserInAuth(idToken: String?): Flow<Response<Boolean>>
+    suspend fun deleteUserInAuth(idToken: String): Flow<Response<Boolean>>
 
     suspend fun deleteUsersPhotoInDb(uid: String): Flow<Response<Boolean>>
 

@@ -29,7 +29,7 @@ class AuthFirebaseRepository @Inject constructor(
     private val remoteConfig: FirebaseRemoteConfig,
 ) : AuthDataRepository {
 
-    override suspend fun signIn(idToken: String?) = flow {
+    override suspend fun signIn(idToken: String) = flow {
         try {
             emit(Response.Loading)
             val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -82,7 +82,7 @@ class AuthFirebaseRepository @Inject constructor(
 
     override fun getCurrentUser() = auth.currentUser.toAccount()
 
-    override suspend fun deleteUserInAuth(idToken: String?) = flow {
+    override suspend fun deleteUserInAuth(idToken: String) = flow {
         try {
             emit(Response.Loading)
             val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -136,16 +136,10 @@ class AuthFirebaseRepository @Inject constructor(
                 // загружаем локальный файл в storage по сформированной ссылке
                 ref.putFile(localUri).await().also { taskSnapshot ->
                     // получаем внешнюю ссылку на загруженный файл
-                    taskSnapshot.metadata?.reference?.downloadUrl?.await().also {
-                        it?.let {
+                    taskSnapshot.metadata?.reference?.downloadUrl?.await().also {uri ->
+                        if (uri != null) {
                             // если ссылка не null меняем аватарку в Firebase Auth
-                            changeUserPhotoInAuth(it).collect { response ->
-                                when (response) {
-                                    is Response.Success -> emit(Response.Success(true))
-                                    is Response.Failure -> emit(Response.Failure(response.errorMessage))
-                                    is Response.Loading -> {}
-                                }
-                            }
+                            changeUserPhotoInAuth(uri).collect { emit(it) }
                         }
                     }
 

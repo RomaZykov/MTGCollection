@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SignInRepository {
 
-    suspend fun signIn(): Flow<Response<Boolean>>
+    suspend fun signIn(idToken: String): Flow<Response<Boolean>>
 
     suspend fun signInAnonymously(): Flow<Response<Boolean>>
 

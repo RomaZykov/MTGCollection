@@ -1,15 +1,17 @@
 package com.andreikslpv.sign_in.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.sign_in.domain.usecase.CreateUserUseCase
 import com.andreikslpv.sign_in.domain.usecase.GetPrivacyPolicyUseCase
 import com.andreikslpv.sign_in.domain.usecase.SignInAnonymouslyUseCase
 import com.andreikslpv.sign_in.domain.usecase.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,46 +23,49 @@ class SignInViewModel @Inject constructor(
     private val router: SignInRouter,
 ) : ViewModel() {
 
-    fun signInWithGoogle() = liveData(Dispatchers.Main) {
-        signInUseCase.execute().collect { response ->
-            when (response) {
-                is Response.Loading -> emit(Response.Loading)
-                is Response.Failure -> emit(Response.Failure(response.errorMessage))
-                is Response.Success -> createUser(response.data).collect {
-                    emit(it)
+    var privacyPolicyUrl = ""
+
+    fun signInWithGoogle(idToken: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            signInUseCase.execute(idToken).collect { response ->
+                withContext(Dispatchers.Main) {
+                    if (response is Response.Success) createUser(response.data)
+                    Core.loadStateHandler.setLoadState(response)
                 }
             }
         }
     }
 
-    fun signInAnonymously() = liveData(Dispatchers.Main) {
-        signInAnonymouslyUseCase.execute().collect { response ->
-            when (response) {
-                is Response.Loading -> emit(Response.Loading)
-                is Response.Failure -> emit(Response.Failure(response.errorMessage))
-                is Response.Success -> createUser(response.data).collect {
-                    emit(it)
+    fun signInAnonymously() {
+        CoroutineScope(Dispatchers.IO).launch {
+            signInAnonymouslyUseCase.execute().collect { response ->
+                withContext(Dispatchers.Main) {
+                    if (response is Response.Success) createUser(response.data)
+                    Core.loadStateHandler.setLoadState(response)
                 }
             }
         }
     }
 
-    private fun createUser(isNewUser: Boolean) = flow {
+    private fun createUser(isNewUser: Boolean) {
         if (isNewUser) {
-            createUserUseCase.execute().collect { response2 ->
-                when (response2) {
-                    is Response.Loading -> emit(Response.Loading)
-                    is Response.Failure -> emit(Response.Failure(response2.errorMessage))
-                    is Response.Success -> router.launchMain()
-                    else -> {}
+            CoroutineScope(Dispatchers.IO).launch {
+                createUserUseCase.execute().collect { response ->
+                    withContext(Dispatchers.Main) {
+                        if (response is Response.Success) router.launchMain()
+                        Core.loadStateHandler.setLoadState(response)
+                    }
                 }
             }
-
         } else router.launchMain()
     }
 
-    fun getPrivacyPolicy() = liveData(Dispatchers.Main) {
-        getPrivacyPolicyUseCase.execute().collect{ emit(it) }
+    fun startCollectPrivacyPolicy() {
+        CoroutineScope(Dispatchers.IO).launch {
+            getPrivacyPolicyUseCase.execute().collect { response ->
+                if (response is Response.Success) privacyPolicyUrl = response.data
+            }
+        }
     }
 
 }
