@@ -14,6 +14,8 @@ import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.cards.presentation.recyclers.CardPagingAdapter
+import com.andreikslpv.common.Core
+import com.andreikslpv.common.Response
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
@@ -122,7 +124,7 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     cardAdapter.loadStateFlow.collect {
                         if (it.source.prepend is LoadState.NotLoading) {
-                            binding.progressBar.show()
+                            Core.loadStateHandler.setLoadState(Response.Loading)
                         }
                         if (it.source.prepend is LoadState.Error) {
                             catchError((it.source.prepend as LoadState.Error).error.message ?: "")
@@ -131,11 +133,12 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
                             catchError((it.source.append as LoadState.Error).error.message ?: "")
                         }
                         if (it.source.refresh is LoadState.NotLoading) {
-                            binding.progressBar.hide()
+                            Core.loadStateHandler.setLoadState(Response.Success(true))
                         }
                         if (it.source.refresh is LoadState.Error) {
-                            binding.progressBar.hide()
-                            catchError((it.source.refresh as LoadState.Error).error.message ?: "")
+                            val error = (it.source.refresh as LoadState.Error).error.message ?: ""
+                            Core.loadStateHandler.setLoadState(Response.Failure(error))
+                            catchError(error)
                         }
                     }
                 }

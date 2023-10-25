@@ -13,7 +13,13 @@ interface ProfileRepository {
 
     fun getAuthState(): Flow<Boolean>
 
-    suspend fun deleteUser(idToken: String): Flow<Response<Boolean>>
+    suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
+
+    fun removeAllFromCollection(uid: String): Flow<Response<Boolean>>
+
+    suspend fun deleteUsersPhotoInDb(uid: String): Flow<Response<Boolean>>
+
+    suspend fun deleteUserInAuth(idToken: String): Flow<Response<Boolean>>
 
     fun getCurrentUser(): AccountFeatureEntity?
 

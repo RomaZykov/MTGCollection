@@ -51,6 +51,7 @@ dependencies {
     implementation 'io.coil-kt:coil-svg:2.4.0'
 
     implementation project(Modules.Core.Presentation)
+    implementation project(Modules.Core.CommonImpl)
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation

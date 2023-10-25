@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
         if (savedInstanceState == null) {
             navComponentRouter.switchToStack(destinationsProvider.provideStartDestinationId())
-            if (viewModel.isUserAuthenticated) viewModel.launchMain()
+            viewModel.launchMainIfUserAuthenticated()
         }
         getAuthState()
         observeLoadState()
@@ -136,12 +136,10 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
     @ExperimentalCoroutinesApi
     private fun getAuthState() {
-        viewModel.getAuthState().observe(this) {
-            viewModel.startObserveUser()
-        }
+        viewModel.getAuthState().observe(this) {}
     }
 
-    // глобальный слушатель состояния загрузки
+    // глобальный слушатель состояния загрузки данных
     private fun observeLoadState() {
         viewModel.loadState.observe(this) { response ->
             when (response) {

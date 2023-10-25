@@ -4,6 +4,7 @@ import android.net.Uri
 import com.andreikslpv.common.Response
 import com.andreikslpv.data.auth.entities.AccountDataEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface AuthDataRepository {
 
@@ -15,7 +16,7 @@ interface AuthDataRepository {
 
     fun getAuthState(): Flow<Boolean>
 
-    fun getCurrentUser(): AccountDataEntity?
+    fun getCurrentUser(): MutableStateFlow<AccountDataEntity?>
 
     suspend fun deleteUserInAuth(idToken: String): Flow<Response<Boolean>>
 

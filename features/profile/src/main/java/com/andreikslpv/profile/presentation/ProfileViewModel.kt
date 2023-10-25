@@ -9,6 +9,7 @@ import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
+import com.andreikslpv.profile.domain.usecase.DeleteUserUseCase
 import com.andreikslpv.profile.domain.usecase.TryToChangeCollectionStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val tryToChangeCollectionStatusUseCase: TryToChangeCollectionStatusUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase,
     private val router: ProfileRouter,
 ) : ViewModel() {
 
@@ -36,9 +38,8 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun tryToChangeCollectionStatus(card: CardFeatureModel): Boolean {
-        return tryToChangeCollectionStatusUseCase.execute(card)
-    }
+    fun tryToChangeCollectionStatus(card: CardFeatureModel) =
+        tryToChangeCollectionStatusUseCase.execute(card)
 
     fun signOut() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -52,7 +53,7 @@ class ProfileViewModel @Inject constructor(
 
     fun deleteUser(idToken: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            profileRepository.deleteUser(idToken).collect { response ->
+            deleteUserUseCase.execute(idToken).collect { response ->
                 withContext(Dispatchers.Main) {
                     Core.loadStateHandler.setLoadState(response)
                 }

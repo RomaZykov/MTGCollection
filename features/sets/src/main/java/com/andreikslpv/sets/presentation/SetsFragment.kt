@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.andreikslpv.common.Core
+import com.andreikslpv.common.Response
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.makeToast
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
@@ -95,7 +97,7 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
                 viewLifecycleOwner.lifecycleScope.launch {
                     setAdapter.loadStateFlow.collect {
                         if (it.source.prepend is LoadState.NotLoading) {
-                            binding.progressBar.show()
+                            Core.loadStateHandler.setLoadState(Response.Loading)
                         }
                         if (it.source.prepend is LoadState.Error) {
                             catchError((it.source.prepend as LoadState.Error).error.message ?: "")
@@ -104,11 +106,12 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
                             catchError((it.source.append as LoadState.Error).error.message ?: "")
                         }
                         if (it.source.refresh is LoadState.NotLoading) {
-                            binding.progressBar.hide()
+                            Core.loadStateHandler.setLoadState(Response.Success(true))
                         }
                         if (it.source.refresh is LoadState.Error) {
-                            binding.progressBar.hide()
-                            catchError((it.source.refresh as LoadState.Error).error.message ?: "")
+                            val error = (it.source.refresh as LoadState.Error).error.message ?: ""
+                            Core.loadStateHandler.setLoadState(Response.Failure(error))
+                            catchError(error)
                         }
                     }
                 }

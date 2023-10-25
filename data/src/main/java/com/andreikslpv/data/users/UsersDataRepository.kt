@@ -9,7 +9,7 @@ interface UsersDataRepository {
 
     suspend fun createUserInDb(uid: String): Flow<Response<Boolean>>
 
-    fun startObserveUser(uid: String)
+    fun startObserveUserInDb(uid: String)
 
     suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
 

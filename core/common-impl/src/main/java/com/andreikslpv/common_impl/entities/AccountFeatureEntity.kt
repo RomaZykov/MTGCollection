@@ -7,4 +7,5 @@ data class AccountFeatureEntity(
     val email: String?,
     val displayName: String?,
     val photoUrl: Uri?,
+    val isAnonymous: Boolean,
 )

@@ -186,15 +186,6 @@
         app:tint="@color/icon_toolbar"
         tools:ignore="ContentDescription" />
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
     <com.andreikslpv.cards.presentation.views.AvailableDialog
         android:id="@+id/availableDialog"
         android:layout_width="match_parent"

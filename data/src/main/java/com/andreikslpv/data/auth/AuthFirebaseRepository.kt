@@ -18,6 +18,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -28,6 +29,8 @@ class AuthFirebaseRepository @Inject constructor(
     private val storage: FirebaseStorage,
     private val remoteConfig: FirebaseRemoteConfig,
 ) : AuthDataRepository {
+
+    private val currentUser: MutableStateFlow<AccountDataEntity?> = MutableStateFlow(null)
 
     override suspend fun signIn(idToken: String) = flow {
         try {
@@ -65,8 +68,12 @@ class AuthFirebaseRepository @Inject constructor(
 
     override fun getAuthState() = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
+            currentUser.tryEmit(auth.currentUser.toAccount())
             trySend(auth.currentUser == null)
-                .onClosed { Core.loadStateHandler.setLoadState(Response.Success(true)) }
+                .onClosed { error ->
+                    Core.loadStateHandler.setLoadState(
+                        Response.Failure(error?.message ?: ERROR_AUTH)
+                    ) }
                 .onSuccess { Core.loadStateHandler.setLoadState(Response.Success(true)) }
                 .onFailure { error ->
                     Core.loadStateHandler.setLoadState(
@@ -80,7 +87,7 @@ class AuthFirebaseRepository @Inject constructor(
         }
     }
 
-    override fun getCurrentUser() = auth.currentUser.toAccount()
+    override fun getCurrentUser() = currentUser
 
     override suspend fun deleteUserInAuth(idToken: String) = flow {
         try {
@@ -129,7 +136,7 @@ class AuthFirebaseRepository @Inject constructor(
     override suspend fun changeUserPhoto(localUri: Uri) = flow {
         try {
             emit(Response.Loading)
-            val user = getCurrentUser()
+            val user = auth.currentUser
             if (user != null) {
                 // формируем ссылку в storage по которой будет находиться аватарка
                 val ref = storage.reference.child("$PATH_USERS/${user.uid}")
@@ -182,7 +189,8 @@ class AuthFirebaseRepository @Inject constructor(
                 uid = this.uid,
                 email = this.email,
                 displayName = this.displayName,
-                photoUrl = this.photoUrl
+                photoUrl = this.photoUrl,
+                this.isAnonymous
             )
         }
     }
