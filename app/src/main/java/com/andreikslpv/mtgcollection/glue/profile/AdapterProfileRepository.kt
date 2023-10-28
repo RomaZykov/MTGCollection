@@ -1,6 +1,7 @@
 package com.andreikslpv.mtgcollection.glue.profile
 
 import android.net.Uri
+import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.data.auth.AuthDataRepository
 import com.andreikslpv.data.cards.CardsDataRepository
@@ -10,6 +11,7 @@ import com.andreikslpv.mtgcollection.glue.cards.CardFeatureToDataModelMapper
 import com.andreikslpv.mtgcollection.glue.cards.CardsListDataToFeatureModelMapper
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AdapterProfileRepository @Inject constructor(
@@ -19,8 +21,6 @@ class AdapterProfileRepository @Inject constructor(
 ) : ProfileRepository {
 
     override fun signOut() = authDataRepository.signOut()
-
-    override fun getAuthState() = authDataRepository.getAuthState()
 
     override suspend fun deleteUserInDb(uid: String) = usersDataRepository.deleteUserInDb(uid)
 
@@ -33,8 +33,19 @@ class AdapterProfileRepository @Inject constructor(
     override suspend fun deleteUserInAuth(idToken: String) =
         authDataRepository.deleteUserInAuth(idToken)
 
+    override suspend fun linkAnonymousWithCredential(idToken: String) = flow {
+        authDataRepository.linkAnonymousWithCredential(idToken).collect {
+            when (it) {
+                Response.Loading -> emit(Response.Loading)
+                is Response.Failure -> emit(Response.Failure(it.errorMessage))
+                is Response.Success -> emit(Response.Success(AccountDataToFeatureModelMapper.map(it.data)))
+            }
+        }
+    }
+
+
     override fun getCurrentUser() =
-        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser().value)
+        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser())
 
     override fun getCollection() = usersDataRepository.getCollection()
 

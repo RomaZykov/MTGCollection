@@ -12,7 +12,7 @@ class AdapterMainRepository @Inject constructor(
 ) : MainRepository {
 
     override fun getCurrentUser() =
-        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser().value)
+        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser())
 
     override fun getAuthState() = authDataRepository.getAuthState()
 

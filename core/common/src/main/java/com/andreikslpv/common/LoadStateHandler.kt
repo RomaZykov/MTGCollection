@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface LoadStateHandler {
 
-    fun setLoadState(response: Response<Any>)
+    fun setLoadState(response: Response<Any?>)
 
-    fun getLoadState(): MutableStateFlow<Response<Any>>
+    fun getLoadState(): MutableStateFlow<Response<Any?>>
 
 }

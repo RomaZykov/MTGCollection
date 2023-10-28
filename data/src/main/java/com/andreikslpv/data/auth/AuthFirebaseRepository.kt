@@ -18,7 +18,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -29,8 +28,6 @@ class AuthFirebaseRepository @Inject constructor(
     private val storage: FirebaseStorage,
     private val remoteConfig: FirebaseRemoteConfig,
 ) : AuthDataRepository {
-
-    private val currentUser: MutableStateFlow<AccountDataEntity?> = MutableStateFlow(null)
 
     override suspend fun signIn(idToken: String) = flow {
         try {
@@ -57,6 +54,18 @@ class AuthFirebaseRepository @Inject constructor(
         }
     }
 
+    override suspend fun linkAnonymousWithCredential(idToken: String) = flow {
+        try {
+            emit(Response.Loading)
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            val authResult = auth.currentUser?.linkWithCredential(credential)?.await()
+            if (authResult != null) emit(Response.Success(authResult.user.toAccount()))
+            else emit(Response.Success(null))
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_AUTH))
+        }
+    }
+
     override fun signOut() = flow {
         try {
             emit(Response.Loading)
@@ -68,12 +77,12 @@ class AuthFirebaseRepository @Inject constructor(
 
     override fun getAuthState() = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
-            currentUser.tryEmit(auth.currentUser.toAccount())
             trySend(auth.currentUser == null)
                 .onClosed { error ->
                     Core.loadStateHandler.setLoadState(
                         Response.Failure(error?.message ?: ERROR_AUTH)
-                    ) }
+                    )
+                }
                 .onSuccess { Core.loadStateHandler.setLoadState(Response.Success(true)) }
                 .onFailure { error ->
                     Core.loadStateHandler.setLoadState(
@@ -87,7 +96,7 @@ class AuthFirebaseRepository @Inject constructor(
         }
     }
 
-    override fun getCurrentUser() = currentUser
+    override fun getCurrentUser() = auth.currentUser.toAccount()
 
     override suspend fun deleteUserInAuth(idToken: String) = flow {
         try {
@@ -143,7 +152,7 @@ class AuthFirebaseRepository @Inject constructor(
                 // загружаем локальный файл в storage по сформированной ссылке
                 ref.putFile(localUri).await().also { taskSnapshot ->
                     // получаем внешнюю ссылку на загруженный файл
-                    taskSnapshot.metadata?.reference?.downloadUrl?.await().also {uri ->
+                    taskSnapshot.metadata?.reference?.downloadUrl?.await().also { uri ->
                         if (uri != null) {
                             // если ссылка не null меняем аватарку в Firebase Auth
                             changeUserPhotoInAuth(uri).collect { emit(it) }

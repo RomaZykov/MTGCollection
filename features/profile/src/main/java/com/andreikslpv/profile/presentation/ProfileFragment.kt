@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
@@ -23,6 +24,7 @@ import com.andreikslpv.profile.R
 import com.andreikslpv.profile.databinding.FragmentProfileBinding
 import com.andreikslpv.profile.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.profile.presentation.recyclers.CardHistoryRecyclerAdapter
+import com.andreikslpv.profile.presentation.utils.StringToIconConverter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -56,7 +58,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     @Inject
     lateinit var signInIntent: Intent
 
-    private val resultLauncher =
+    private val signInResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 try {
@@ -64,7 +66,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     val googleSignInAccount = task.getResult(ApiException::class.java)
                     googleSignInAccount?.apply {
                         idToken?.let { idToken ->
-                            viewModel.deleteUser(idToken)
+                            when (viewModel.currentUser.value?.isAnonymous) {
+                                true, null -> linkAnonymousWithCredential(idToken)
+                                false -> viewModel.deleteUser(idToken)
+                            }
                         }
                     }
                 } catch (e: ApiException) {
@@ -74,7 +79,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
     // Registers a photo picker activity launcher in single-select mode.
-    private val pickMedia =
+    private val pickMediaResultLauncher =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { localUri ->
             // Callback is invoked after the user selects a media item or closes the photo picker.
             if (localUri != null) viewModel.changeUserPhoto(localUri)
@@ -143,7 +148,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun initButtons() {
         binding.signOutButton.setOnClickListener { viewModel.signOut() }
-        binding.deleteUserButton.setOnClickListener { showDialog() }
     }
 
     private fun showDialog() {
@@ -157,23 +161,39 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 .setDuration(dialogAnimDuration)
                 .alpha(dialogAnimAlfa)
                 .start()
-            actionButton.setOnClickListener { resultLauncher.launch(signInIntent) }
+            actionButton.setOnClickListener { signInResultLauncher.launch(signInIntent) }
         }
     }
 
     // --------------- all for users photo & name
 
     private fun initCurrentUserCollect() {
-        viewModel.currentUser.observe(viewLifecycleOwner) {
-            it?.let { user ->
-                if (user.photoUrl != null)
+        viewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            when (user?.isAnonymous) {
+                true, null -> {
+                    Glide.with(binding.profileAvatar)
+                        .load(R.drawable.anonim)
+                        .centerCrop()
+                        .into(binding.profileAvatar)
+                    binding.profileName.setText(R.string.profile_name_anonymous)
+                    binding.deleteUserButton.text = getString(R.string.sign_in_with_google_button)
+                    binding.deleteUserButton.setOnClickListener {
+                        signInResultLauncher.launch(
+                            signInIntent
+                        )
+                    }
+                }
+
+                false -> {
                     Glide.with(binding.profileAvatar)
                         .load(user.photoUrl)
                         .centerCrop()
                         .into(binding.profileAvatar)
-                if (!user.displayName.isNullOrBlank())
                     binding.profileName.setText(user.displayName)
-                binding.profileEmail.text = user.email
+                    binding.profileEmail.text = user.email
+                    binding.deleteUserButton.text = getString(R.string.profile_delete_user)
+                    binding.deleteUserButton.setOnClickListener { showDialog() }
+                }
             }
         }
     }
@@ -208,8 +228,23 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private fun initChangeAvatarFunction() {
         binding.profileCamera.setOnClickListener {
             // Launch the photo picker and let the user choose only images.
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMediaResultLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
+
+    private fun linkAnonymousWithCredential(idToken: String) {
+        viewModel.linkAnonymousWithCredential(idToken).observe(viewLifecycleOwner) { response ->
+            if (response is Response.Success) {
+                response.data?.let { user ->
+                    user.email?.let { email ->
+                        viewModel.editUserName(email.substringBefore("@"))
+                        val uri = StringToIconConverter.convert(requireContext(), user.uid, email)
+                        viewModel.changeUserPhoto(uri)
+                    }
+                }
+            }
+        }
+    }
+
 
 }

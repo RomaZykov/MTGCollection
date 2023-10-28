@@ -16,6 +16,8 @@
     <string name="profile_ups">Your browsing history is empty</string>
     <string name="profile_name_anonymous">Anonymous</string>
 
+    <string name="sign_in_with_google_button">Continue with Google</string>
+
     <string name="settings_start_set_type_title">The type of sets shown by default</string>
     <string name="set_type_hint">Type of sets</string>
 

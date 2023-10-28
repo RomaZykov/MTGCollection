@@ -16,7 +16,7 @@ class AdapterAuthRepository @Inject constructor(
     override suspend fun signInAnonymously() = authDataRepository.signInAnonymously()
 
     override fun getCurrentUser() =
-        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser().value)
+        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser())
 
     override suspend fun createUser(uid: String) = usersDataRepository.createUserInDb(uid)
 

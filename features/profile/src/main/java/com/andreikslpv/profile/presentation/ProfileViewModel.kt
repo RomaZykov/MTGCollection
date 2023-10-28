@@ -1,6 +1,7 @@
 package com.andreikslpv.profile.presentation
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -26,10 +27,12 @@ class ProfileViewModel @Inject constructor(
     private val router: ProfileRouter,
 ) : ViewModel() {
 
-    val currentUser = MutableLiveData<AccountFeatureEntity?>(profileRepository.getCurrentUser())
+    private val _currentUser =
+        MutableLiveData<AccountFeatureEntity?>(profileRepository.getCurrentUser())
+    val currentUser: LiveData<AccountFeatureEntity?> = _currentUser
 
-    private fun refreshUser() {
-        currentUser.postValue(profileRepository.getCurrentUser())
+    private fun refreshCurrentUser() {
+        _currentUser.postValue(profileRepository.getCurrentUser())
     }
 
     fun getCardHistory() = liveData(Dispatchers.IO) {
@@ -61,12 +64,20 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun linkAnonymousWithCredential(idToken: String) = liveData(Dispatchers.IO) {
+        profileRepository.linkAnonymousWithCredential(idToken).collect { response ->
+            Core.loadStateHandler.setLoadState(response)
+            emit(response)
+        }
+    }
+
     // --------------- all for users photo & name
 
     fun editUserName(newName: String) {
         CoroutineScope(Dispatchers.IO).launch {
             profileRepository.editUserName(newName).collect { response ->
                 withContext(Dispatchers.Main) {
+                    refreshCurrentUser()
                     Core.loadStateHandler.setLoadState(response)
                 }
             }
@@ -77,7 +88,7 @@ class ProfileViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             profileRepository.changeUserPhoto(localUri).collect { response ->
                 withContext(Dispatchers.Main) {
-                    if (response is Response.Success) refreshUser()
+                    if (response is Response.Success) refreshCurrentUser()
                     Core.loadStateHandler.setLoadState(response)
                 }
             }

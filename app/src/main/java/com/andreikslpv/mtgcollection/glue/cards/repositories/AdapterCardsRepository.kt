@@ -40,7 +40,7 @@ class AdapterCardsRepository @Inject constructor(
     }
 
     override fun getCurrentUser() =
-        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser().value)
+        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser())
 
     override fun getCollection() = usersDataRepository.getCollection()
 

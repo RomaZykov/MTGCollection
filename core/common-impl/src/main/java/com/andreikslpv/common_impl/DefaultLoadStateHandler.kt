@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class DefaultLoadStateHandler: LoadStateHandler {
 
-    private val loadState = MutableStateFlow<Response<Any>>(Response.Success(true))
+    private val loadState = MutableStateFlow<Response<Any?>>(Response.Success(true))
 
-    override fun setLoadState(response: Response<Any>) {
+    override fun setLoadState(response: Response<Any?>) {
         loadState.tryEmit(response)
     }
 
-    override fun getLoadState(): MutableStateFlow<Response<Any>> {
+    override fun getLoadState(): MutableStateFlow<Response<Any?>> {
         return loadState
     }
 

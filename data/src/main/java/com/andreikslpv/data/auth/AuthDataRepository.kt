@@ -4,7 +4,6 @@ import android.net.Uri
 import com.andreikslpv.common.Response
 import com.andreikslpv.data.auth.entities.AccountDataEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 
 interface AuthDataRepository {
 
@@ -12,11 +11,13 @@ interface AuthDataRepository {
 
     suspend fun signInAnonymously(): Flow<Response<Boolean>>
 
+    suspend fun linkAnonymousWithCredential(idToken: String): Flow<Response<AccountDataEntity?>>
+
     fun signOut(): Flow<Response<Void>>
 
     fun getAuthState(): Flow<Boolean>
 
-    fun getCurrentUser(): MutableStateFlow<AccountDataEntity?>
+    fun getCurrentUser(): AccountDataEntity?
 
     suspend fun deleteUserInAuth(idToken: String): Flow<Response<Boolean>>
 
