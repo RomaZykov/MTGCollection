@@ -65,6 +65,16 @@ object Core {
      */
     val debouncePeriodMillis: Long get() = coreProvider.debouncePeriodMillis
 
+    // -----
+
+    /**
+     * Default global load state handler for the whole app. Usually it is used
+     * in a viewModelScope to handle load states (loading, success, failure).
+     * @see LoadStateHandler
+     */
+    val loadStateHandler: LoadStateHandler get() = coreProvider.loadStateHandler
+
+
     /**
      * Init this core.
      */

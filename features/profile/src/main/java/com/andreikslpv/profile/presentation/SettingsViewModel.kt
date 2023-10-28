@@ -22,8 +22,6 @@ class SettingsViewModel @Inject constructor(
 
     fun setStartedTypeOfSet(type: String) = settingsRepository.setStartedTypeOfSet(type)
 
-    fun goBack() {
-        router.goBack()
-    }
+    fun goBack() = router.goBack()
 
 }

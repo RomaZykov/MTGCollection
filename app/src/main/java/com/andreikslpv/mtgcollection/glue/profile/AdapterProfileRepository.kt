@@ -1,24 +1,15 @@
 package com.andreikslpv.mtgcollection.glue.profile
 
 import android.net.Uri
-import androidx.activity.result.ActivityResultLauncher
-import androidx.fragment.app.FragmentActivity
-import com.andreikslpv.common.AlreadyInProgressException
-import com.andreikslpv.common.CalledNotFromUiException
-import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Response
-import com.andreikslpv.common_impl.ActivityRequired
-import com.andreikslpv.common_impl.entities.AccountFeatureEntity
 import com.andreikslpv.common_impl.entities.CardFeatureModel
 import com.andreikslpv.data.auth.AuthDataRepository
 import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
-import com.andreikslpv.mtgcollection.extensions.GoogleSignInContract
+import com.andreikslpv.mtgcollection.glue.cards.AccountDataToFeatureModelMapper
 import com.andreikslpv.mtgcollection.glue.cards.CardFeatureToDataModelMapper
 import com.andreikslpv.mtgcollection.glue.cards.CardsListDataToFeatureModelMapper
 import com.andreikslpv.profile.domain.repositories.ProfileRepository
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -27,50 +18,34 @@ class AdapterProfileRepository @Inject constructor(
     private val authDataRepository: AuthDataRepository,
     private val usersDataRepository: UsersDataRepository,
     private val cardsDataRepository: CardsDataRepository,
-    private val googleSignInClient: GoogleSignInClient,
-) : ProfileRepository, ActivityRequired {
-
-    private var isActivityStarted = false
-    private var signInLauncher: ActivityResultLauncher<Unit>? = null
-    private var completableDeferred: CompletableDeferred<String>? = null
+) : ProfileRepository {
 
     override fun signOut() = authDataRepository.signOut()
 
-    override fun getAuthState() = authDataRepository.getAuthState()
+    override suspend fun deleteUserInDb(uid: String) = usersDataRepository.deleteUserInDb(uid)
 
-    override suspend fun deleteUser() = flow {
-        try {
-            emit(Response.Loading)
-            if (!isActivityStarted) throw CalledNotFromUiException()
-            val signInLauncher = signInLauncher ?: throw CalledNotFromUiException()
-            if (completableDeferred != null) throw AlreadyInProgressException()
-            signInLauncher.launch(Unit)
-            CompletableDeferred<String>().let {
-                completableDeferred = it
-                it.await()
-            }.also { token ->
-                val uid = authDataRepository.getCurrentUser()?.uid ?: ""
-                usersDataRepository.deleteUserInDb(uid).collect { emit(it) }
-                cardsDataRepository.removeAllFromCollection(uid).collect { emit(it) }
-                authDataRepository.deleteUsersPhotoInDb(uid).collect { emit(it) }
-                authDataRepository.deleteUserInAuth(token).collect { emit(it) }
+    override fun removeAllFromCollection(uid: String) =
+        cardsDataRepository.removeAllFromCollection(uid)
+
+    override suspend fun deleteUsersPhotoInDb(uid: String) =
+        authDataRepository.deleteUsersPhotoInDb(uid)
+
+    override suspend fun deleteUserInAuth(idToken: String) =
+        authDataRepository.deleteUserInAuth(idToken)
+
+    override suspend fun linkAnonymousWithCredential(idToken: String) = flow {
+        authDataRepository.linkAnonymousWithCredential(idToken).collect {
+            when (it) {
+                Response.Loading -> emit(Response.Loading)
+                is Response.Failure -> emit(Response.Failure(it.errorMessage))
+                is Response.Success -> emit(Response.Success(AccountDataToFeatureModelMapper.map(it.data)))
             }
-        } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: Constants.ERROR_AUTH))
         }
-
     }
 
-    override fun getCurrentUser(): AccountFeatureEntity? {
-        val currentUser = authDataRepository.getCurrentUser()
-        return if (currentUser == null) null
-        else AccountFeatureEntity(
-            uid = currentUser.uid,
-            email = currentUser.email,
-            displayName = currentUser.displayName,
-            photoUrl = currentUser.photoUrl
-        )
-    }
+
+    override fun getCurrentUser() =
+        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser())
 
     override fun getCollection() = usersDataRepository.getCollection()
 
@@ -94,41 +69,5 @@ class AdapterProfileRepository @Inject constructor(
 
     override suspend fun changeUserPhoto(localUri: Uri) =
         authDataRepository.changeUserPhoto(localUri)
-
-    // ----- ActivityRequired impl
-
-    override fun onActivityCreated(activity: FragmentActivity) {
-        signInLauncher =
-            activity.registerForActivityResult(GoogleSignInContract(googleSignInClient)) {
-                if (it is Response.Success) {
-                    completableDeferred?.complete(it.data)
-                } else if (it is Response.Failure) {
-                    completableDeferred?.completeExceptionally(Throwable(it.errorMessage))
-                }
-                completableDeferred = null
-            }
-    }
-
-    override fun onActivityStarted() {
-        isActivityStarted = true
-    }
-
-    override fun onActivityStopped() {
-        isActivityStarted = false
-    }
-
-    override fun onActivityDestroyed() {
-        this.signInLauncher = null
-    }
-
-    // --- equals/hash-code for correct working of Activity Result API
-
-    override fun equals(other: Any?): Boolean {
-        return other?.javaClass?.name?.equals(javaClass.name) ?: false
-    }
-
-    override fun hashCode(): Int {
-        return javaClass.name.hashCode()
-    }
 
 }

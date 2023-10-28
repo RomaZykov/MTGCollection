@@ -27,15 +27,13 @@ class UsersDataRepositoryImpl @Inject constructor(
             emit(Response.Loading)
             val user = UserDataModel(uid = uid)
             database.collection(FirestoreConstants.PATH_USERS).document(user.uid).set(user).await()
-                .also {
-                    emit(Response.Success(true))
-                }
+                .also { emit(Response.Success(true)) }
         } catch (e: Exception) {
             emit(Response.Failure(e.message ?: ApiConstants.ERROR_MESSAGE))
         }
     }
 
-    override fun startObserveUser(uid: String) {
+    override fun startObserveUserInDb(uid: String) {
         database.collection(FirestoreConstants.PATH_USERS).document(uid)
             .addSnapshotListener { value, error ->
                 if (error == null && value != null) {

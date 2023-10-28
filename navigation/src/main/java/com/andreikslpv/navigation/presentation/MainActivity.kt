@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.ActivityRequired
 import com.andreikslpv.navigation.DestinationsProvider
 import com.andreikslpv.navigation.R
@@ -65,7 +66,6 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         setContentView(binding.root)
 
         getPermissionAndSetNotification()
-        //setSupportActionBar(binding.toolbar)
         if (savedInstanceState != null) {
             navComponentRouter.onRestoreInstanceState(savedInstanceState)
         }
@@ -76,10 +76,10 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
         if (savedInstanceState == null) {
             navComponentRouter.switchToStack(destinationsProvider.provideStartDestinationId())
-            if (viewModel.isUserAuthenticated)
-                navComponentRouter.switchToTabs(destinationsProvider.provideMainTabs(), null)
+            viewModel.launchMainIfUserAuthenticated()
         }
         getAuthState()
+        observeLoadState()
     }
 
 
@@ -136,8 +136,19 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
     @ExperimentalCoroutinesApi
     private fun getAuthState() {
-        viewModel.getAuthState().observe(this) {
-            viewModel.startObserveUser()
+        viewModel.getAuthState().observe(this) {}
+    }
+
+    // глобальный слушатель состояния загрузки данных
+    private fun observeLoadState() {
+        viewModel.loadState.observe(this) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> binding.progressBar.hide()
+                is Response.Failure -> {
+                    binding.progressBar.hide()
+                }
+            }
         }
     }
 

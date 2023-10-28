@@ -45,7 +45,6 @@ dependencies {
     implementation Libs.Android.Livedata
 
     implementation Libs.Google.Material
-
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 

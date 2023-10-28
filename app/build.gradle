@@ -61,6 +61,7 @@ dependencies {
     implementation Libs.Google.Material
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
+
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:32.3.1')

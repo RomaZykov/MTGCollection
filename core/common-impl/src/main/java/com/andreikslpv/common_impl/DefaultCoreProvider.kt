@@ -14,5 +14,6 @@ class DefaultCoreProvider(
     override val logger: Logger = AndroidLogger(),
     override val errorHandler: ErrorHandler = DefaultErrorHandler(
         logger, commonUi, resources, appRestarter, globalScope
-    )
+    ),
+    override val loadStateHandler: LoadStateHandler = DefaultLoadStateHandler(),
 ) : CoreProvider

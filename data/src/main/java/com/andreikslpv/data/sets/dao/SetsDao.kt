@@ -11,7 +11,7 @@ import com.andreikslpv.data.sets.entities.SetRoomModel
 interface SetsDao {
 
     @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_SETS} WHERE ${RoomConstants.COLUMN_SET_TYPE} = :type")
-    suspend fun getSetsByType(type: String): List<SetRoomModel>
+    fun getSetsByType(type: String): List<SetRoomModel>
 
     @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_SETS} WHERE ${RoomConstants.COLUMN_SET_CODE} = :code")
     fun getSetByCode(code: String): List<SetRoomModel>

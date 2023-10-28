@@ -12,11 +12,11 @@ import com.andreikslpv.data.constants.RoomConstants
 )
 data class CardRoomModel(
     @PrimaryKey
-    @ColumnInfo(name = RoomConstants.COLUMN_CARD_ID) val id: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CARD_IMAGE_URL) val imageUrl: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CARD_NAME) val name: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CARD_NUMBER) val number: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CARD_SET) val set: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CARD_SET_NAME) val setName: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CARD_FOREIGN_NAMES) val foreignNames: String = "",
+    @ColumnInfo(name = RoomConstants.COLUMN_CARD_ID) val id: String,
+    @ColumnInfo(name = RoomConstants.COLUMN_CARD_IMAGE_URL) val imageUrl: String,
+    @ColumnInfo(name = RoomConstants.COLUMN_CARD_NAME) val name: String,
+    @ColumnInfo(name = RoomConstants.COLUMN_CARD_NUMBER) val number: String,
+    @ColumnInfo(name = RoomConstants.COLUMN_CARD_SET) val set: String,
+    @ColumnInfo(name = RoomConstants.COLUMN_CARD_SET_NAME) val setName: String,
+    @ColumnInfo(name = RoomConstants.COLUMN_CARD_FOREIGN_NAMES) val foreignNames: String,
 )

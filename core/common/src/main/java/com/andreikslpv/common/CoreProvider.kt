@@ -27,4 +27,6 @@ interface CoreProvider {
 
     val debouncePeriodMillis: Long get() = 200L
 
+    val loadStateHandler: LoadStateHandler
+
 }
