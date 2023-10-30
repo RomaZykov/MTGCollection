@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_details"/>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.andreikslpv.profile.presentation.SettingsFragment"
+        android:name="com.andreikslpv.presentation_settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings"/>
     <fragment

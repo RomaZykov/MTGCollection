@@ -58,13 +58,12 @@ dependencies {
     implementation Libs.Android.NavigationFragments
     implementation Libs.Android.Paging
 
-    implementation Libs.Google.Material
-    implementation Libs.Google.Hilt
-    kapt Libs.Google.HiltCompiler
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation platform("com.google.firebase:firebase-bom:$firebaseBomVersion")
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
@@ -72,7 +71,6 @@ dependencies {
     implementation project(Modules.Core.Presentation)
     implementation project(Modules.Data)
     implementation project(Modules.Navigation)
-    implementation project(Modules.Features.Profile)
     implementation project(Modules.Features.Cards)
     implementation project(Modules.Features.Sets)
 
@@ -81,8 +79,11 @@ dependencies {
     implementation project(":features:auth:presentation-auth")
     implementation project(":features:auth:domain-auth")
     implementation project(":features:auth:data-auth")
+    implementation project(":features:settings:presentation-settings")
+    implementation project(":features:settings:domain-settings")
 
-    implementation Libs.Testing.JUnit
-    implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$junitImplVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }

@@ -42,7 +42,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
 
     implementation "com.google.dagger:hilt-android:$hiltVersion"
-    implementation "com.google.dagger:hilt-compiler:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
     // Firebase
     implementation platform("com.google.firebase:firebase-bom:$firebaseBomVersion")

@@ -3,20 +3,18 @@ package com.andreikslpv.data.sets
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.andreikslpv.common.SettingsDataSource
 import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
 import com.andreikslpv.data.sets.datasource.SetsApiDataSource
 import com.andreikslpv.data.sets.datasource.SetsCacheDataSource
 import com.andreikslpv.data.sets.datasource.TypesDataSource
 import com.andreikslpv.data.sets.entities.SetDataModel
-import com.andreikslpv.data.settings.ProjectSettings
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SetsDataRepositoryImpl @Inject constructor(
     private val apiDataSource: SetsApiDataSource,
     private val cacheDataSource: SetsCacheDataSource,
-    private val settingsDataSource: SettingsDataSource,
+
     private val typesDataSource: TypesDataSource,
 ) : SetsDataRepository {
 
@@ -25,16 +23,13 @@ class SetsDataRepositoryImpl @Inject constructor(
     override suspend fun getTypesOfSet() = typesDataSource.getTypeNames()
 
     override fun getStartedTypeOfSet(): String {
-        return try {
-            (settingsDataSource.getSettingsValue(ProjectSettings.START_SETS_TYPE.value) as String)
-        } catch (e: Exception) {
-            (ProjectSettings.START_SETS_TYPE.value.defaultValue as String)
-        }
+        TODO("Not yet implemented")
     }
 
     override fun setStartedTypeOfSet(type: String) {
-        settingsDataSource.putSettingsValue(ProjectSettings.START_SETS_TYPE.value, type)
+        TODO("Not yet implemented")
     }
+
 
     override fun getSetsByType(nameOfType: String): Flow<PagingData<SetDataModel>> {
         val codeOfType = typesDataSource.getTypeCodeByName(nameOfType)

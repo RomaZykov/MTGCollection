@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'com.andreikslpv.presentation_auth'
+    namespace 'com.andreikslpv.presentation_settings'
     compileSdk targetAndroidSdk
 
     defaultConfig {
@@ -41,20 +41,13 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedataVersion"
-    implementation "androidx.coordinatorlayout:coordinatorlayout:$coordinatorVersion"
 
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-    implementation "com.github.bumptech.glide:compiler:$glideVersion"
-
-    implementation project(":core:common")
-    implementation project(":core:domain")
     implementation project(":core:presentation")
-    implementation project(":features:auth:domain-auth")
+    implementation project(":features:settings:domain-settings")
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$junitImplVersion"

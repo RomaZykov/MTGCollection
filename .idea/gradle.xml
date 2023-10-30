@@ -26,8 +26,11 @@
             <option value="$PROJECT_DIR$/features/auth/domain-auth" />
             <option value="$PROJECT_DIR$/features/auth/presentation-auth" />
             <option value="$PROJECT_DIR$/features/cards" />
-            <option value="$PROJECT_DIR$/features/profile" />
             <option value="$PROJECT_DIR$/features/sets" />
+            <option value="$PROJECT_DIR$/features/settings" />
+            <option value="$PROJECT_DIR$/features/settings/data-settings" />
+            <option value="$PROJECT_DIR$/features/settings/domain-settings" />
+            <option value="$PROJECT_DIR$/features/settings/presentation-settings" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/wiring" />
           </set>
