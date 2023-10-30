@@ -69,14 +69,18 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation project(Modules.Wiring)
-    implementation project(Modules.Core.CommonImpl)
     implementation project(Modules.Core.Presentation)
     implementation project(Modules.Data)
     implementation project(Modules.Navigation)
-    implementation project(Modules.Features.SignIn)
     implementation project(Modules.Features.Profile)
     implementation project(Modules.Features.Cards)
     implementation project(Modules.Features.Sets)
+
+    implementation project(":core:common-impl")
+    implementation project(":core:domain")
+    implementation project(":features:auth:presentation-auth")
+    implementation project(":features:auth:domain-auth")
+    implementation project(":features:auth:data-auth")
 
     implementation Libs.Testing.JUnit
     implementation Libs.Testing.JUnitImplementation

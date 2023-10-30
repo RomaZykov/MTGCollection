@@ -9,56 +9,72 @@ buildscript {
         javaVersion = JavaVersion.VERSION_17
         kotlinVersion = '17'
 
-        hiltVersion = "2.48.1"
-        glideVersion = "4.15.1"
+        coreVersion = '1.12.0'
+        fragmentVersion = '1.6.0'
+        activityVersion = '1.8.0'
+        appcompatVersion = '1.6.1'
         navVersion = '2.7.4'
+        pagingVersion = '3.2.1'
+        coordinatorVersion = '1.2.0'
+        livedataVersion = '2.6.2'
+
+        materialVersion = '1.10.0'
+        hiltVersion = "2.48.1"
+        firebaseBomVersion = "32.3.1"
+
+        coroutinesVersion = '1.6.4'
+        glideVersion = "4.15.1"
+
+        junitVersion = "4.13.2"
+        junitImplVersion = "1.1.5"
+        espressoVersion = "3.5.1"
 
         Libs = [
-                Android: [
-                        CoreKtx: "androidx.core:core-ktx:1.12.0",
-                        FragmentKtx: "androidx.fragment:fragment-ktx:1.6.0",
-                        ActivityKtx: "androidx.activity:activity-ktx:1.8.0",
-                        AppCompat: "androidx.appcompat:appcompat:1.6.1",
+                Android  : [
+                        CoreKtx            : "androidx.core:core-ktx:1.12.0",
+                        FragmentKtx        : "androidx.fragment:fragment-ktx:1.6.0",
+                        ActivityKtx        : "androidx.activity:activity-ktx:1.8.0",
+                        AppCompat          : "androidx.appcompat:appcompat:1.6.1",
                         NavigationFragments: "androidx.navigation:navigation-fragment-ktx:$navVersion",
-                        NavigationUI: "androidx.navigation:navigation-ui-ktx:$navVersion",
-                        Paging: "androidx.paging:paging-runtime:3.2.1",
-                        Coordinator: "androidx.coordinatorlayout:coordinatorlayout:1.2.0",
-                        Livedata: "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
+                        NavigationUI       : "androidx.navigation:navigation-ui-ktx:$navVersion",
+                        Paging             : "androidx.paging:paging-runtime:3.2.1",
+                        Coordinator        : "androidx.coordinatorlayout:coordinatorlayout:1.2.0",
+                        Livedata           : "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
                 ],
-                Google: [
-                        Material: "com.google.android.material:material:1.10.0",
-                        Hilt: "com.google.dagger:hilt-android:$hiltVersion",
+                Google   : [
+                        Material    : "com.google.android.material:material:1.10.0",
+                        Hilt        : "com.google.dagger:hilt-android:$hiltVersion",
                         HiltCompiler: "com.google.dagger:hilt-compiler:$hiltVersion",
                 ],
                 JetBrains: [
                         CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
                 ],
-                Other: [
-                        Glide: "com.github.bumptech.glide:glide:$glideVersion",
+                Other    : [
+                        Glide  : "com.github.bumptech.glide:glide:$glideVersion",
                         GlideAP: "com.github.bumptech.glide:compiler:$glideVersion",
                 ],
-                Testing: [
-                        JUnit: "junit:junit:4.13.2",
+                Testing  : [
+                        JUnit              : "junit:junit:4.13.2",
                         JUnitImplementation: "androidx.test.ext:junit:1.1.5",
-                        Espresso: "androidx.test.espresso:espresso-core:3.5.1"
+                        Espresso           : "androidx.test.espresso:espresso-core:3.5.1"
                 ],
         ]
 
         Modules = [
-                Wiring: ":wiring",
+                Wiring    : ":wiring",
                 Navigation: ":navigation",
-                Data: ":data",
-                Core: [
-                        Common: ":core:common",
-                        CommonImpl: ":core:common-impl",
+                Data      : ":data",
+                Core      : [
+                        Common      : ":core:common",
+                        CommonImpl  : ":core:common-impl",
                         Presentation: ":core:presentation",
-                        Theme: ":core:theme",
+                        Theme       : ":core:theme",
                 ],
-                Features: [
-                        Cards: ":features:cards",
+                Features  : [
+                        Cards  : ":features:cards",
                         Profile: ":features:profile",
-                        Sets: ":features:sets",
-                        SignIn: ":features:sign-in",
+                        Sets   : ":features:sets",
+                        SignIn : ":features:sign-in",
                 ],
         ]
     }

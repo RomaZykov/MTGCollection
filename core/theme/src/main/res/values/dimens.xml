@@ -10,7 +10,7 @@
 
     <!-- button dimens -->
     <dimen name="button_border">1dp</dimen>
-    <dimen name="button_width">328dp</dimen>
+    <dimen name="button_width">320dp</dimen>
     <dimen name="button_height">48dp</dimen>
     <dimen name="button_radius">30dp</dimen>
 

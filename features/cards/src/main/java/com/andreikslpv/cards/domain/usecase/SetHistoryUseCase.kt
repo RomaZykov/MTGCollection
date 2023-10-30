@@ -1,6 +1,6 @@
 package com.andreikslpv.cards.domain.usecase
 
-import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.repositories.CardsRepository
 import javax.inject.Inject
 
@@ -9,7 +9,7 @@ class SetHistoryUseCase @Inject constructor(
 ) {
     private val historyMaxCount = 10
 
-    fun execute(card: CardFeatureModel) {
+    fun execute(card: com.andreikslpv.domain.entities.CardFeatureModel) {
         val user = cardsRepository.getCurrentUser()
         if (user != null) {
             // получаем текущую историю

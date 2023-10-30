@@ -3,8 +3,8 @@ package com.andreikslpv.cards.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
-import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.AvailableCardFeatureModel
+import com.andreikslpv.domain.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.usecase.AddCardToCollectionUseCase
 import com.andreikslpv.cards.domain.usecase.GetCardFromCollectionUseCase
 import com.andreikslpv.cards.domain.usecase.GetCollectionUseCase
@@ -28,7 +28,7 @@ class DetailsViewModel @AssistedInject constructor(
     private val router: CardsRouter,
 ) : ViewModel() {
 
-    val card = MutableLiveData<CardFeatureModel?>()
+    val card = MutableLiveData<com.andreikslpv.domain.entities.CardFeatureModel?>()
 
     val collection = liveData(Dispatchers.IO) {
         getCollectionUseCase.execute().collect { response ->
@@ -36,9 +36,9 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private var currentCard = CardFeatureModel()
+    private var currentCard = com.andreikslpv.domain.entities.CardFeatureModel()
 
-    val selectedAvailableItem = MutableStateFlow(mutableListOf<AvailableCardFeatureModel>())
+    val selectedAvailableItem = MutableStateFlow(mutableListOf<com.andreikslpv.domain.entities.AvailableCardFeatureModel>())
 
     init {
         card.postValue(screen?.card)
@@ -51,11 +51,11 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun tryToChangeCollectionStatus(card: CardFeatureModel): Boolean {
+    fun tryToChangeCollectionStatus(card: com.andreikslpv.domain.entities.CardFeatureModel): Boolean {
         return tryToChangeCollectionStatusUseCase.execute(card)
     }
 
-    fun tryToAddAvailableItem(newAvailableItem: AvailableCardFeatureModel, rewrite: Boolean): Boolean {
+    fun tryToAddAvailableItem(newAvailableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel, rewrite: Boolean): Boolean {
         currentCard.availableCards.forEach {item->
             if (item.language == newAvailableItem.language
                 && item.condition == newAvailableItem.condition
@@ -72,12 +72,12 @@ class DetailsViewModel @AssistedInject constructor(
         return true
     }
 
-    fun removeAvailableItem(availableItem: AvailableCardFeatureModel) {
+    fun removeAvailableItem(availableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel) {
         currentCard.availableCards.remove(availableItem)
         addCardToCollectionUseCase.execute(currentCard)
     }
 
-    fun changeSelectedStatus(availableItem: AvailableCardFeatureModel) {
+    fun changeSelectedStatus(availableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel) {
         if (selectedAvailableItem.value.contains(availableItem))
             selectedAvailableItem.value.remove(availableItem)
         else
@@ -92,7 +92,7 @@ class DetailsViewModel @AssistedInject constructor(
         refreshAvailableList(mutableListOf())
     }
 
-    private fun refreshAvailableList(newList: MutableList<AvailableCardFeatureModel>) {
+    private fun refreshAvailableList(newList: MutableList<com.andreikslpv.domain.entities.AvailableCardFeatureModel>) {
         CoroutineScope(Dispatchers.Main).launch {
             selectedAvailableItem.emit(newList)
         }
@@ -108,7 +108,7 @@ class DetailsViewModel @AssistedInject constructor(
         addCardToCollectionUseCase.execute(currentCard)
     }
 
-    fun setHistory(card: CardFeatureModel) {
+    fun setHistory(card: com.andreikslpv.domain.entities.CardFeatureModel) {
         CoroutineScope(Dispatchers.IO).launch {
             setHistoryUseCase.execute(card)
         }

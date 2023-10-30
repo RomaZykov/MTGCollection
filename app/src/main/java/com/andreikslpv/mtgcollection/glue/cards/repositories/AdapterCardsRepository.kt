@@ -3,10 +3,10 @@ package com.andreikslpv.mtgcollection.glue.cards.repositories
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.andreikslpv.cards.domain.repositories.CardsRepository
-import com.andreikslpv.common_impl.entities.CardFeatureModel
-import com.andreikslpv.data.auth.AuthDataRepository
 import com.andreikslpv.data.cards.CardsDataRepository
 import com.andreikslpv.data.users.UsersDataRepository
+import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain_auth.repositories.AuthRepository
 import com.andreikslpv.mtgcollection.glue.cards.AccountDataToFeatureModelMapper
 import com.andreikslpv.mtgcollection.glue.cards.CardDataToFeatureModelMapper
 import com.andreikslpv.mtgcollection.glue.cards.CardFeatureToDataModelMapper
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class AdapterCardsRepository @Inject constructor(
     private val cardsDataRepository: CardsDataRepository,
     private val usersDataRepository: UsersDataRepository,
-    private val authDataRepository: AuthDataRepository,
+    private val authRepository: AuthRepository,
 ) : CardsRepository {
 
     override fun getCardsInSet(codeOfSet: String): Flow<PagingData<CardFeatureModel>> {
@@ -40,7 +40,7 @@ class AdapterCardsRepository @Inject constructor(
     }
 
     override fun getCurrentUser() =
-        AccountDataToFeatureModelMapper.map(authDataRepository.getCurrentUser())
+        AccountDataToFeatureModelMapper.map(authRepository.getCurrentUser())
 
     override fun getCollection() = usersDataRepository.getCollection()
 

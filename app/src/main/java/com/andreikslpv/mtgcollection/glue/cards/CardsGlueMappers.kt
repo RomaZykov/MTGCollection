@@ -1,12 +1,12 @@
 package com.andreikslpv.mtgcollection.glue.cards
 
-import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
-import com.andreikslpv.common_impl.entities.CardFeatureModel
-import com.andreikslpv.common_impl.entities.ForeignNameFeatureModel
 import com.andreikslpv.common.BaseMapper
 import com.andreikslpv.data.cards.entities.AvailableCardDataModel
 import com.andreikslpv.data.cards.entities.CardDataModel
 import com.andreikslpv.data.cards.entities.ForeignNameDataModel
+import com.andreikslpv.domain.entities.AvailableCardFeatureModel
+import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.ForeignNameFeatureModel
 
 object CardsListDataToFeatureModelMapper : BaseMapper<List<CardDataModel>, List<CardFeatureModel>> {
     override fun map(type: List<CardDataModel>?): List<CardFeatureModel> {

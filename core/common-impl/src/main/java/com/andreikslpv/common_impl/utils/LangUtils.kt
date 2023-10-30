@@ -1,12 +1,12 @@
 package com.andreikslpv.common_impl.utils
 
 import android.content.Context
-import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardFeatureModel
 import com.andreikslpv.common_impl.entities.CardLanguage
 
 object LangUtils {
 
-    fun getCardNameByLanguage(card: CardFeatureModel, systemLang: CardLanguage): String {
+    fun getCardNameByLanguage(card: com.andreikslpv.domain.entities.CardFeatureModel, systemLang: CardLanguage): String {
         var result = card.name
         card.foreignNames.forEach {
             if (it.language == systemLang.cardLang) result = it.name
@@ -14,7 +14,7 @@ object LangUtils {
         return result
     }
 
-    fun getCardImageByLanguage(card: CardFeatureModel, systemLang: CardLanguage): String {
+    fun getCardImageByLanguage(card: com.andreikslpv.domain.entities.CardFeatureModel, systemLang: CardLanguage): String {
         var result = card.imageUrl
         card.foreignNames.forEach {
             if (it.language == systemLang.cardLang) result = it.imageUrl

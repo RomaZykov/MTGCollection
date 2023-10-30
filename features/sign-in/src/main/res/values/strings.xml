@@ -1,7 +1,0 @@
-<resources>
-
-    <string name="auth_copyright">By registering, you agree to the Terms of Service and Privacy Policy</string>
-    <string name="sign_in_with_google_button">Continue with Google</string>
-    <string name="anonymous_button">Continue without authorization</string>
-
-</resources>

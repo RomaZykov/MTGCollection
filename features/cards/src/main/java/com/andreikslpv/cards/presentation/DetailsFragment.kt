@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreikslpv.cards.R
 import com.andreikslpv.cards.databinding.FragmentDetailsBinding
-import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
+import com.andreikslpv.domain.entities.AvailableCardFeatureModel
 import com.andreikslpv.cards.domain.entities.CardCondition
-import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardFeatureModel
 import com.andreikslpv.common_impl.entities.CardLanguage
 import com.andreikslpv.cards.presentation.recyclers.AvailableItemClickListener
 import com.andreikslpv.cards.presentation.recyclers.AvailableRecyclerAdapter
@@ -30,7 +30,7 @@ import javax.inject.Inject
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     class Screen(
-        val card: CardFeatureModel,
+        val card: com.andreikslpv.domain.entities.CardFeatureModel,
     ) : BaseScreen
 
     @Inject
@@ -72,12 +72,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.availableRecycler.apply {
             recyclerAdapter = AvailableRecyclerAdapter(
                 object : AvailableItemClickListener {
-                    override fun click(availableItem: AvailableCardFeatureModel) {
+                    override fun click(availableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel) {
                         showDialogEdit(availableItem)
                     }
                 },
                 object : AvailableItemClickListener {
-                    override fun click(availableItem: AvailableCardFeatureModel) {
+                    override fun click(availableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel) {
                         viewModel.changeSelectedStatus(availableItem)
                     }
                 },
@@ -159,7 +159,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun showDialogEdit(availableItem: AvailableCardFeatureModel) {
+    private fun showDialogEdit(availableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel) {
         binding.availableDialog.apply {
             //Делаем видимой
             this.visible(true)
@@ -245,7 +245,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun availableIsExist(newAvailableItem: AvailableCardFeatureModel) {
+    private fun availableIsExist(newAvailableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel) {
         getString(R.string.snackbar_text).makeToast(requireContext())
         binding.availableDialog.actionButton.text = getString(R.string.snackbar_action)
         binding.availableDialog.actionButton.setOnClickListener {
@@ -255,7 +255,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
 
-    private fun getAvailableItemFromDialog(): AvailableCardFeatureModel? {
+    private fun getAvailableItemFromDialog(): com.andreikslpv.domain.entities.AvailableCardFeatureModel? {
         binding.availableDialog.apply {
             return if (languageText.text.isNullOrBlank() || conditionText.text.isNullOrBlank()) {
                 if (languageText.text.isNullOrBlank()) languageText.error =
@@ -264,7 +264,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     getString(R.string.available_dialog_field_error)
                 null
             } else {
-                AvailableCardFeatureModel(
+                com.andreikslpv.domain.entities.AvailableCardFeatureModel(
                     language = languageText.text.toString(),
                     count = getCount(countText.text.toString()),
                     foiled = getFoiledStatus(foilText.text.toString()),

@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.cards.R
 import com.andreikslpv.cards.databinding.ItemAvailableBinding
-import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
+import com.andreikslpv.domain.entities.AvailableCardFeatureModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +16,9 @@ class AvailableViewHolder(val binding: ItemAvailableBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
-        availableItem: AvailableCardFeatureModel,
+        availableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel,
         isLastItem: Boolean,
-        selectedItem: MutableStateFlow<MutableList<AvailableCardFeatureModel>>
+        selectedItem: MutableStateFlow<MutableList<com.andreikslpv.domain.entities.AvailableCardFeatureModel>>
     ) {
         binding.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

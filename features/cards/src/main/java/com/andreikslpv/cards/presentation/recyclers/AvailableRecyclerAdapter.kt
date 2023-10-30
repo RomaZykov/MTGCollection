@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.cards.databinding.ItemAvailableBinding
-import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
+import com.andreikslpv.domain.entities.AvailableCardFeatureModel
 import com.andreikslpv.presentation.recyclers.ItemDiff
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class AvailableRecyclerAdapter(
     private val editItemClickListener: AvailableItemClickListener,
     private val selectItemClickListener: AvailableItemClickListener,
-    private val selectedItem: MutableStateFlow<MutableList<AvailableCardFeatureModel>>,
+    private val selectedItem: MutableStateFlow<MutableList<com.andreikslpv.domain.entities.AvailableCardFeatureModel>>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
-    private val items = mutableListOf<AvailableCardFeatureModel>()
+    private val items = mutableListOf<com.andreikslpv.domain.entities.AvailableCardFeatureModel>()
 
     override fun getItemCount() = items.size
 
@@ -40,7 +40,7 @@ class AvailableRecyclerAdapter(
         }
     }
 
-    fun changeItems(list: List<AvailableCardFeatureModel>) {
+    fun changeItems(list: List<com.andreikslpv.domain.entities.AvailableCardFeatureModel>) {
         val diff = ItemDiff(items, list)
         val diffResult = DiffUtil.calculateDiff(diff)
         items.clear()

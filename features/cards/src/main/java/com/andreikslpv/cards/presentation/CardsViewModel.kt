@@ -6,7 +6,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.andreikslpv.common_impl.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardFeatureModel
 import com.andreikslpv.cards.domain.usecase.ChangeApiAvailabilityUseCase
 import com.andreikslpv.cards.domain.usecase.GetCardsUseCase
 import com.andreikslpv.cards.domain.usecase.TryToChangeCollectionStatusUseCase
@@ -27,7 +27,7 @@ class CardsViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
     private val set = MutableLiveData<String?>()
-    val cards: Flow<PagingData<CardFeatureModel>>
+    val cards: Flow<PagingData<com.andreikslpv.domain.entities.CardFeatureModel>>
 
     init {
         if (screen != null) set.postValue(screen.setCode)
@@ -46,7 +46,7 @@ class CardsViewModel @AssistedInject constructor(
         router.goBack()
     }
 
-    fun launchDetails(card: CardFeatureModel) {
+    fun launchDetails(card: com.andreikslpv.domain.entities.CardFeatureModel) {
         router.launchDetails(card)
     }
 
@@ -58,7 +58,7 @@ class CardsViewModel @AssistedInject constructor(
         changeApiAvailabilityUseCase.execute(false)
     }
 
-    fun tryToChangeCollectionStatus(card: CardFeatureModel): Boolean {
+    fun tryToChangeCollectionStatus(card: com.andreikslpv.domain.entities.CardFeatureModel): Boolean {
         return tryToChangeCollectionStatusUseCase.execute(card)
     }
 

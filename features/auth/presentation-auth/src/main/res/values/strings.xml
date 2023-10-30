@@ -1,0 +1,19 @@
+<resources>
+    <string name="auth_copyright">By registering, you agree to the Terms of Service and Privacy Policy</string>
+    <string name="sign_in_with_google_button">Continue with Google</string>
+    <string name="anonymous_button">Continue without authorization</string>
+
+    <string name="title_profile">Profile</string>
+    <string name="profile_dialog_title">Delete Profile</string>
+    <string name="profile_dialog_text">Are you sure you want to delete your profile?</string>
+    <string name="profile_dialog_action_cancel">Cancel</string>
+    <string name="profile_dialog_action_auth">Delete</string>
+    <string name="profile_title_history">Browsing history</string>
+    <string name="profile_sign_out">Exit</string>
+    <string name="profile_edit_name_failure">Failed to change user name</string>
+    <string name="profile_edit_photo_failure">Failed to change user\'s photo</string>
+    <string name="profile_delete_user">Delete profile</string>
+    <string name="profile_ups">Your browsing history is empty</string>
+    <string name="profile_name_anonymous">Anonymous</string>
+
+</resources>

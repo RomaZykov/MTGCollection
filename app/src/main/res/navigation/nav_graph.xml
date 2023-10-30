@@ -6,18 +6,13 @@
     app:startDestination="@id/signInFragment">
 
     <fragment
-        android:id="@+id/signInFragment"
-        android:name="com.andreikslpv.sign_in.presentation.SignInFragment"
-        android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" />
-    <fragment
         android:id="@+id/tabsFragment"
         android:name="com.andreikslpv.navigation.presentation.TabsFragment"
         android:label=""
         tools:layout="@layout/fragment_tabs"/>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.andreikslpv.profile.presentation.ProfileFragment"
+        android:name="com.andreikslpv.presentation_auth.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile"/>
     <fragment
@@ -40,4 +35,9 @@
         android:name="com.andreikslpv.profile.presentation.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings"/>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.andreikslpv.presentation_auth.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in"/>
 </navigation>

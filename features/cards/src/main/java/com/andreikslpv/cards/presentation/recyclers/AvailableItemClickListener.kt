@@ -1,8 +1,8 @@
 package com.andreikslpv.cards.presentation.recyclers
 
-import com.andreikslpv.common_impl.entities.AvailableCardFeatureModel
+import com.andreikslpv.domain.entities.AvailableCardFeatureModel
 
 
 interface AvailableItemClickListener {
-    fun click(availableItem: AvailableCardFeatureModel)
+    fun click(availableItem: com.andreikslpv.domain.entities.AvailableCardFeatureModel)
 }
