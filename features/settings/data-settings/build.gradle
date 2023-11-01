@@ -37,20 +37,14 @@ android {
 
 dependencies {
 
-    implementation "androidx.core:core-ktx:$coreVersion"
+    implementation Libs.Android.CoreKtx
 
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
-
-    // Firebase
-    implementation platform("com.google.firebase:firebase-bom:$firebaseBomVersion")
-    implementation 'com.google.firebase:firebase-config-ktx'
+    implementation Libs.Google.Hilt
+    kapt Libs.Google.HiltCompiler
 
     implementation project(":features:settings:domain-settings")
     implementation project(":core:common-impl")
 
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$junitImplVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    testImplementation Libs.Testing.JUnit
 
 }

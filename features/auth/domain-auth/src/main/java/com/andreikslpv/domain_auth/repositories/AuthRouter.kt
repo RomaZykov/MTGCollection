@@ -1,6 +1,6 @@
 package com.andreikslpv.domain_auth.repositories
 
-import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardModel
 
 interface AuthRouter {
 
@@ -17,6 +17,6 @@ interface AuthRouter {
     /**
      * Launch card details screen.
      */
-    fun launchDetails(card: CardFeatureModel)
+    fun launchDetails(card: CardModel)
 
 }

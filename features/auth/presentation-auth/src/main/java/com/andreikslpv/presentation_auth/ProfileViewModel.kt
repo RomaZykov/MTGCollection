@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardModel
 import com.andreikslpv.domain_auth.entities.AccountDataEntity
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
@@ -44,7 +44,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun tryToChangeCollectionStatus(card: CardFeatureModel) =
+    fun tryToChangeCollectionStatus(card: CardModel) =
         tryToChangeCollectionStatusUseCase.execute(card)
 
     fun signOut() {
@@ -102,6 +102,6 @@ class ProfileViewModel @Inject constructor(
 
     fun launchSettings() = router.launchSettings()
 
-    fun launchDetails(card: CardFeatureModel) = router.launchDetails(card)
+    fun launchDetails(card: CardModel) = router.launchDetails(card)
 
 }

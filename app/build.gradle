@@ -58,32 +58,31 @@ dependencies {
     implementation Libs.Android.NavigationFragments
     implementation Libs.Android.Paging
 
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
-
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation Libs.Google.Hilt
+    kapt Libs.Google.HiltCompiler
+    implementation Libs.Google.Gms
     // Firebase
-    implementation platform("com.google.firebase:firebase-bom:$firebaseBomVersion")
+    implementation platform(Libs.Google.FirebaseBom)
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
-    implementation project(Modules.Wiring)
-    implementation project(Modules.Core.Presentation)
-    implementation project(Modules.Data)
-    implementation project(Modules.Navigation)
-    implementation project(Modules.Features.Cards)
-    implementation project(Modules.Features.Sets)
+    implementation project(":wiring")
+    implementation project(":navigation")
+    implementation project(":core:presentation")
+    implementation project(":features:sets")
 
     implementation project(":core:common-impl")
     implementation project(":core:domain")
     implementation project(":features:auth:presentation-auth")
     implementation project(":features:auth:domain-auth")
-    implementation project(":features:auth:data-auth")
     implementation project(":features:settings:presentation-settings")
     implementation project(":features:settings:domain-settings")
+    implementation project(":features:cards:presentation-cards")
+    implementation project(":features:cards:domain-cards")
+    implementation project(":features:users:domain-users")
 
 
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$junitImplVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    testImplementation Libs.Testing.JUnit
+    androidTestImplementation Libs.Testing.JUnitImplementation
+    androidTestImplementation Libs.Testing.Espresso
 }

@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_profile"/>
     <fragment
         android:id="@+id/cardsFragment"
-        android:name="com.andreikslpv.cards.presentation.CardsFragment"
+        android:name="com.andreikslpv.presentation_cards.CardsFragment"
         android:label="CardsFragment"
         tools:layout="@layout/fragment_cards"/>
     <fragment
@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_sets"/>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.andreikslpv.cards.presentation.DetailsFragment"
+        android:name="com.andreikslpv.presentation_cards.DetailsFragment"
         android:label="DetailsFragment"
         tools:layout="@layout/fragment_details"/>
     <fragment

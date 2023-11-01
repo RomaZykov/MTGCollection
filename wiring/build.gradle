@@ -36,9 +36,8 @@ dependencies {
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
-    implementation project(Modules.Core.CommonImpl)
-    implementation project(Modules.Core.Presentation)
+    implementation project(":core:common-impl")
+    implementation project(":core:presentation")
 
-    implementation Libs.Testing.JUnit
-    implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso}
+    testImplementation Libs.Testing.JUnit
+}

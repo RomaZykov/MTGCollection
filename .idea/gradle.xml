@@ -15,10 +15,10 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/common-impl" />
+            <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/presentation" />
             <option value="$PROJECT_DIR$/core/theme" />
-            <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/auth/auth-presentation" />
@@ -26,11 +26,17 @@
             <option value="$PROJECT_DIR$/features/auth/domain-auth" />
             <option value="$PROJECT_DIR$/features/auth/presentation-auth" />
             <option value="$PROJECT_DIR$/features/cards" />
+            <option value="$PROJECT_DIR$/features/cards/data-cards" />
+            <option value="$PROJECT_DIR$/features/cards/domain-cards" />
+            <option value="$PROJECT_DIR$/features/cards/presentation-cards" />
             <option value="$PROJECT_DIR$/features/sets" />
             <option value="$PROJECT_DIR$/features/settings" />
             <option value="$PROJECT_DIR$/features/settings/data-settings" />
             <option value="$PROJECT_DIR$/features/settings/domain-settings" />
             <option value="$PROJECT_DIR$/features/settings/presentation-settings" />
+            <option value="$PROJECT_DIR$/features/users" />
+            <option value="$PROJECT_DIR$/features/users/data-users" />
+            <option value="$PROJECT_DIR$/features/users/domain-users" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/wiring" />
           </set>

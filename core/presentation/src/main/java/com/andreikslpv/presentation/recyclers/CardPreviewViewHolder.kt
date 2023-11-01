@@ -1,8 +1,6 @@
 package com.andreikslpv.presentation.recyclers
 
 import androidx.recyclerview.widget.RecyclerView
-import com.andreikslpv.domain.entities.CardFeatureModel
-import com.andreikslpv.common_impl.utils.LangUtils
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
 import com.bumptech.glide.RequestManager
 
@@ -11,7 +9,7 @@ class CardPreviewViewHolder(
     private val glide: RequestManager
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(card: com.andreikslpv.domain.entities.CardFeatureModel) {
+    fun bind(card: CardModel) {
         val systemLang = LangUtils.chooseLanguage(binding.root.context)
         binding.itemTitle.text = LangUtils.getCardNameByLanguage(card, systemLang)
         glide.load(LangUtils.getCardImageByLanguage(card, systemLang))

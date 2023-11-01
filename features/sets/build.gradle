@@ -37,23 +37,23 @@ android {
 
 dependencies {
 
-    implementation Libs.Android.CoreKtx
+    implementation "androidx.core:core-ktx:$coreVersion"
     implementation Libs.Android.AppCompat
     implementation Libs.Android.FragmentKtx
     implementation Libs.Android.Paging
     implementation Libs.Android.Coordinator
 
-    implementation Libs.Google.Material
+    implementation "com.google.android.material:material:$materialVersion"
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
     implementation 'io.coil-kt:coil:2.4.0'
     implementation 'io.coil-kt:coil-svg:2.4.0'
 
-    implementation project(Modules.Core.Presentation)
-    implementation project(Modules.Core.CommonImpl)
+    implementation project(":core:presentation")
+    implementation project(":core:common-impl")
 
-    implementation Libs.Testing.JUnit
-    implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$junitImplVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }

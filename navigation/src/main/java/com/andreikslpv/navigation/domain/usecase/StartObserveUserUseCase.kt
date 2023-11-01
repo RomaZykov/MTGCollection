@@ -14,8 +14,8 @@ class StartObserveUserUseCase @Inject constructor(
 
     fun execute() = flow {
         mainRepository.getAuthState().collect { isUserSignedOut ->
-            mainRepository.getCurrentUser()?.let {
-                if (it.uid.isNotBlank()) mainRepository.startObserveUserInDb(it.uid)
+            mainRepository.getCurrentUserUid()?.let { uid ->
+                if (uid.isNotBlank()) mainRepository.startObserveUserInDb(uid)
             }
             if (isUserSignedOut)
                 withContext(Dispatchers.Main) {

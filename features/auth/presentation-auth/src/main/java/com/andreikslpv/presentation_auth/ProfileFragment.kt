@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardModel
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.viewBinding
@@ -109,12 +109,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.profileRecyclerHistory.apply {
             cardHistoryAdapter = CardHistoryRecyclerAdapter(
                 object : CardItemClickListener {
-                    override fun click(card: CardFeatureModel) {
+                    override fun click(card: CardModel) {
                         viewModel.launchDetails(card)
                     }
                 },
                 object : CardItemClickListener {
-                    override fun click(card: CardFeatureModel) {
+                    override fun click(card: CardModel) {
                         viewModel.tryToChangeCollectionStatus(card)
                     }
                 },

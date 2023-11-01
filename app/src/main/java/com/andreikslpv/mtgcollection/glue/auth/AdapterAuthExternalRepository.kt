@@ -1,42 +1,37 @@
 package com.andreikslpv.mtgcollection.glue.auth
 
-import com.andreikslpv.data.cards.CardsDataRepository
-import com.andreikslpv.data.users.UsersDataRepository
-import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardModel
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
-import com.andreikslpv.mtgcollection.glue.cards.CardFeatureToDataModelMapper
-import com.andreikslpv.mtgcollection.glue.cards.CardsListDataToFeatureModelMapper
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.andreikslpv.domain_cards.repositories.CardsRepository
+import com.andreikslpv.domain_users.UsersRepository
 import javax.inject.Inject
 
 class AdapterAuthExternalRepository @Inject constructor(
-    private val usersDataRepository: UsersDataRepository,
-    private val cardsDataRepository: CardsDataRepository,
+    private val usersRepository: UsersRepository,
+    private val cardsRepository: CardsRepository,
 ) : AuthExternalRepository {
 
-    override suspend fun createUser(uid: String) = usersDataRepository.createUserInDb(uid)
+    override suspend fun createUser(uid: String) = usersRepository.createUserInDb(uid)
 
-    override suspend fun deleteUserInDb(uid: String) = usersDataRepository.deleteUserInDb(uid)
+    override suspend fun deleteUserInDb(uid: String) = usersRepository.deleteUserInDb(uid)
 
     override fun removeAllFromCollection(uid: String) =
-        cardsDataRepository.removeAllFromCollection(uid)
+        cardsRepository.removeAllFromCollection(uid)
 
-    override fun getCollection() = usersDataRepository.getCollection()
+    override fun getCollection() = usersRepository.getCollection()
 
-    override fun getHistory() = MutableStateFlow(
-        CardsListDataToFeatureModelMapper.map(usersDataRepository.getHistory().value)
-    )
+    override fun getHistory() = usersRepository.getHistory()
 
     override fun addToUsersCollection(uid: String, cardId: String) =
-        usersDataRepository.addToCollection(uid, cardId)
+        usersRepository.addToCollection(uid, cardId)
 
     override fun removeFromUsersCollection(uid: String, cardId: String) =
-        usersDataRepository.removeFromCollection(uid, cardId)
+        usersRepository.removeFromCollection(uid, cardId)
 
-    override fun addToCardsCollection(uid: String, card: CardFeatureModel) =
-        cardsDataRepository.addToCollection(uid, CardFeatureToDataModelMapper.map(card))
+    override fun addToCardsCollection(uid: String, card: CardModel) =
+        cardsRepository.addToCardsCollection(uid, card)
 
-    override fun removeFromCardsCollection(uid: String, card: CardFeatureModel) =
-        cardsDataRepository.removeFromCollection(uid, CardFeatureToDataModelMapper.map(card))
+    override fun removeFromCardsCollection(uid: String, card: CardModel) =
+        cardsRepository.removeFromCardsCollection(uid, card)
 
 }

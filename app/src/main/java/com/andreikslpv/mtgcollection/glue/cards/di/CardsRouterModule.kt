@@ -1,6 +1,6 @@
 package com.andreikslpv.mtgcollection.glue.cards.di
 
-import com.andreikslpv.cards.presentation.CardsRouter
+import com.andreikslpv.domain_cards.repositories.CardsRouter
 import com.andreikslpv.mtgcollection.glue.cards.AdapterCardsRouter
 import dagger.Binds
 import dagger.Module
@@ -12,7 +12,5 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 interface CardsRouterModule {
 
     @Binds
-    fun bindCardsRouter(
-        cardsRouter: AdapterCardsRouter,
-    ): CardsRouter
+    fun bindCardsRouter(cardsRouter: AdapterCardsRouter): CardsRouter
 }

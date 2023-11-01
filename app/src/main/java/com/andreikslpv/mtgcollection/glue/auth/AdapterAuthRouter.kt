@@ -1,10 +1,10 @@
 package com.andreikslpv.mtgcollection.glue.auth
 
-import com.andreikslpv.cards.presentation.DetailsFragment
-import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardModel
 import com.andreikslpv.domain_auth.repositories.AuthRouter
 import com.andreikslpv.mtgcollection.R
 import com.andreikslpv.navigation.GlobalNavComponentRouter
+import com.andreikslpv.presentation_cards.DetailsFragment
 import javax.inject.Inject
 
 class AdapterAuthRouter @Inject constructor(
@@ -19,7 +19,7 @@ class AdapterAuthRouter @Inject constructor(
         globalNavComponentRouter.launch(R.id.settingsFragment)
     }
 
-    override fun launchDetails(card: CardFeatureModel) {
+    override fun launchDetails(card: CardModel) {
         val screen = DetailsFragment.Screen(card)
         globalNavComponentRouter.launch(R.id.detailsFragment, screen)
     }
