@@ -1,7 +1,7 @@
 package com.andreikslpv.mtgcollection.glue.sets.di
 
-import com.andreikslpv.mtgcollection.glue.sets.repositories.AdapterSetsRepository
-import com.andreikslpv.sets.domain.repositories.SetsRepository
+import com.andreikslpv.domain_sets.SetsExternalRepository
+import com.andreikslpv.mtgcollection.glue.sets.SetsExternalRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +14,5 @@ interface SetsRepositoriesModule {
 
     @Binds
     @Singleton
-    fun bindSetsRepository(
-        setsRepository: AdapterSetsRepository
-    ): SetsRepository
+    fun bindSetsExternalRepository(setsExternalRepository: SetsExternalRepositoryImpl): SetsExternalRepository
 }

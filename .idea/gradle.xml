@@ -30,6 +30,9 @@
             <option value="$PROJECT_DIR$/features/cards/domain-cards" />
             <option value="$PROJECT_DIR$/features/cards/presentation-cards" />
             <option value="$PROJECT_DIR$/features/sets" />
+            <option value="$PROJECT_DIR$/features/sets/data-sets" />
+            <option value="$PROJECT_DIR$/features/sets/domain-sets" />
+            <option value="$PROJECT_DIR$/features/sets/presentation-sets" />
             <option value="$PROJECT_DIR$/features/settings" />
             <option value="$PROJECT_DIR$/features/settings/data-settings" />
             <option value="$PROJECT_DIR$/features/settings/domain-settings" />

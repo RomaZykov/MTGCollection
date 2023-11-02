@@ -55,6 +55,7 @@ dependencies {
     }
 
     api project(":core:theme")
+    implementation project(":core:domain")
     implementation project(":core:common-impl")
 
     testImplementation Libs.Testing.JUnit

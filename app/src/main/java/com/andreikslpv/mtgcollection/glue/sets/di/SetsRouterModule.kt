@@ -1,7 +1,7 @@
 package com.andreikslpv.mtgcollection.glue.sets.di
 
+import com.andreikslpv.domain_sets.SetsRouter
 import com.andreikslpv.mtgcollection.glue.sets.AdapterSetsRouter
-import com.andreikslpv.sets.presentation.SetsRouter
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_cards"/>
     <fragment
         android:id="@+id/setsFragment"
-        android:name="com.andreikslpv.sets.presentation.SetsFragment"
+        android:name="com.andreikslpv.presentation_sets.SetsFragment"
         android:label="SetsFragment"
         tools:layout="@layout/fragment_sets"/>
     <fragment

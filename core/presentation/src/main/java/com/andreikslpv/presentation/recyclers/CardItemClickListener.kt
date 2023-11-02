@@ -1,8 +1,8 @@
 package com.andreikslpv.presentation.recyclers
 
-import com.andreikslpv.domain.entities.CardFeatureModel
+import com.andreikslpv.domain.entities.CardModel
 
 
 interface CardItemClickListener {
-    fun click(card: com.andreikslpv.domain.entities.CardFeatureModel)
+    fun click(card: CardModel)
 }

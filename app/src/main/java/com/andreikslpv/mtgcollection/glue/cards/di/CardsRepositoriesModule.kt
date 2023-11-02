@@ -1,7 +1,7 @@
 package com.andreikslpv.mtgcollection.glue.cards.di
 
 import com.andreikslpv.domain_cards.repositories.CardsExternalRepository
-import com.andreikslpv.mtgcollection.glue.cards.AdapterCardsExternalRepository
+import com.andreikslpv.mtgcollection.glue.cards.CardsExternalRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ interface CardsRepositoriesModule {
 
     @Binds
     @Singleton
-    fun bindCardsRepository(cardsExternalRepository: AdapterCardsExternalRepository): CardsExternalRepository
+    fun bindCardsExternalRepository(cardsExternalRepository: CardsExternalRepositoryImpl): CardsExternalRepository
 }

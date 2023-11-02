@@ -74,12 +74,4 @@ class CoreProviderModule {
         return Core.loadStateHandler
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideLazyFlowSubjectFactory(): LazyFlowSubjectFactory {
-//        return DefaultLazyFlowSubjectFactory(
-//            dispatcher = Dispatchers.IO
-//        )
-//    }
-
 }

@@ -1,7 +1,9 @@
 package com.andreikslpv.presentation.recyclers
 
 import androidx.recyclerview.widget.RecyclerView
+import com.andreikslpv.domain.entities.CardModel
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
+import com.andreikslpv.presentation.utils.LangUtils
 import com.bumptech.glide.RequestManager
 
 class CardPreviewViewHolder(
