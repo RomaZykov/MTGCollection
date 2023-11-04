@@ -3,7 +3,6 @@ package com.andreikslpv.data_cards
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.andreikslpv.common.Constants.UNKNOWN_ERROR
 import com.andreikslpv.common.Response
 import com.andreikslpv.data.constants.ApiConstants
 import com.andreikslpv.data_cards.datasource.CardsApiPagingSource
@@ -126,10 +125,10 @@ class CardsRepositoryImpl @Inject constructor(
     override fun removeAllFromCollection(uid: String) = flow {
         try {
             emit(Response.Loading)
-            database.collection(FirestoreConstants.PATH_CARDS).document(uid).set("deleted").await()
+            database.collection(FirestoreConstants.PATH_CARDS).document(uid).delete().await()
                 .also { emit(Response.Success(true)) }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: UNKNOWN_ERROR))
+            emit(Response.Failure(e))
         }
     }
 }

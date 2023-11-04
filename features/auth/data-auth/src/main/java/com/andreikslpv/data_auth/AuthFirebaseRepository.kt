@@ -5,7 +5,6 @@ import androidx.core.net.toUri
 import com.andreikslpv.common.Constants.UNKNOWN_ERROR
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.data_auth.constants.ErrorConstants.ERROR_AUTH
 import com.andreikslpv.data_auth.constants.RemoteConfigConstants.SETTING_PRIVACY_POLICY
 import com.andreikslpv.data_auth.constants.StorageConstants.PATH_USERS
 import com.andreikslpv.domain_auth.entities.AccountDataEntity
@@ -40,7 +39,7 @@ class AuthFirebaseRepository @Inject constructor(
                 emit(Response.Success(isNewUser))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 
@@ -52,7 +51,7 @@ class AuthFirebaseRepository @Inject constructor(
                 emit(Response.Success(isNewUser))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 
@@ -64,7 +63,7 @@ class AuthFirebaseRepository @Inject constructor(
             if (authResult != null) emit(Response.Success(authResult.user.toAccount()))
             else emit(Response.Success(null))
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 
@@ -73,7 +72,7 @@ class AuthFirebaseRepository @Inject constructor(
             emit(Response.Loading)
             auth.signOut()
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 
@@ -82,13 +81,17 @@ class AuthFirebaseRepository @Inject constructor(
             trySend(auth.currentUser == null)
                 .onClosed { error ->
                     Core.loadStateHandler.setLoadState(
-                        Response.Failure(error?.message ?: ERROR_AUTH)
+                        Response.Failure(
+                            error ?: Throwable(UNKNOWN_ERROR)
+                        )
                     )
                 }
                 .onSuccess { Core.loadStateHandler.setLoadState(Response.Success(true)) }
                 .onFailure { error ->
                     Core.loadStateHandler.setLoadState(
-                        Response.Failure(error?.message ?: ERROR_AUTH)
+                        Response.Failure(
+                            error ?: Throwable(UNKNOWN_ERROR)
+                        )
                     )
                 }
         }
@@ -110,7 +113,7 @@ class AuthFirebaseRepository @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 
@@ -125,10 +128,10 @@ class AuthFirebaseRepository @Inject constructor(
                     emit(Response.Success(true))
                 }
             } else {
-                emit(Response.Failure("Require auth"))
+                emit(Response.Failure(Throwable("Require auth")))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: UNKNOWN_ERROR))
+            emit(Response.Failure(e))
         }
     }
 
@@ -140,7 +143,7 @@ class AuthFirebaseRepository @Inject constructor(
                 emit(Response.Success(true))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 
@@ -163,10 +166,10 @@ class AuthFirebaseRepository @Inject constructor(
 
                 }
             } else {
-                emit(Response.Failure("Require auth"))
+                emit(Response.Failure(Throwable("Require auth")))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: UNKNOWN_ERROR))
+            emit(Response.Failure(e))
         }
     }
 
@@ -177,7 +180,7 @@ class AuthFirebaseRepository @Inject constructor(
                 emit(Response.Success(remoteConfig.getString(SETTING_PRIVACY_POLICY)))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 
@@ -189,7 +192,7 @@ class AuthFirebaseRepository @Inject constructor(
                 emit(Response.Success(true))
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ERROR_AUTH))
+            emit(Response.Failure(e))
         }
     }
 

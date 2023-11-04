@@ -1,6 +1,5 @@
 package com.andreikslpv.domain_auth.usecase.signin
 
-import com.andreikslpv.common.Constants.UNKNOWN_ERROR
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
@@ -21,7 +20,7 @@ class CreateUserUseCase @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: UNKNOWN_ERROR))
+            emit(Response.Failure(e))
         }
     }
 

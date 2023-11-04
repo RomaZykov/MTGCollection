@@ -14,12 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andreikslpv.common.AlertDialogConfig
+import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.viewBinding
-import com.andreikslpv.presentation.views.visible
+import com.andreikslpv.presentation.visible
 import com.andreikslpv.presentation_auth.databinding.FragmentProfileBinding
 import com.andreikslpv.presentation_auth.recyclers.CardHistoryRecyclerAdapter
 import com.andreikslpv.presentation_auth.utils.StringToIconConverter
@@ -28,27 +31,22 @@ import com.bumptech.glide.RequestManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
-
-    private val dialogAnimDuration = 500L
-    private val dialogAnimAlfa = 1f
 
     private val viewModel by viewModels<ProfileViewModel>()
 
     private val binding by viewBinding<FragmentProfileBinding>()
 
     private lateinit var cardHistoryAdapter: CardHistoryRecyclerAdapter
-    private val decorator = SpaceItemDecoration(
-        paddingBottomInDp = 16,
-        paddingRightInDp = 4,
-        paddingLeftInDp = 4,
-    )
 
     @Inject
-    lateinit var getCollectionUseCase: com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
+    lateinit var getCollectionUseCase: GetCollectionUseCase
 
     @Inject
     lateinit var glide: RequestManager
@@ -106,6 +104,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun initRecyclers() {
+        val decorator = SpaceItemDecoration(
+            paddingBottomInDp = 16,
+            paddingRightInDp = 4,
+            paddingLeftInDp = 4,
+        )
+
         binding.profileRecyclerHistory.apply {
             cardHistoryAdapter = CardHistoryRecyclerAdapter(
                 object : CardItemClickListener {
@@ -149,17 +153,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun showDialog() {
-        binding.profileDialog.apply {
-            dialogTitle.text = getString(R.string.profile_dialog_title)
-            dialogText.text = getString(R.string.profile_dialog_text)
-            actionButton.text = getString(R.string.profile_dialog_action_auth)
-            cancelButton.text = getString(R.string.profile_dialog_action_cancel)
-            this.visible(true)
-            animate()
-                .setDuration(dialogAnimDuration)
-                .alpha(dialogAnimAlfa)
-                .start()
-            actionButton.setOnClickListener { signInResultLauncher.launch(signInIntent) }
+        CoroutineScope(Dispatchers.Main).launch {
+            val confirmed = Core.commonUi.alertDialog(
+                AlertDialogConfig(
+                    title = getString(R.string.profile_dialog_title),
+                    message = getString(R.string.profile_dialog_text),
+                    positiveButton = getString(R.string.profile_dialog_action_auth),
+                    negativeButton = getString(R.string.profile_dialog_action_cancel)
+                )
+            )
+            if (confirmed) signInResultLauncher.launch(signInIntent)
         }
     }
 
@@ -176,9 +179,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     binding.profileName.setText(R.string.profile_name_anonymous)
                     binding.deleteUserButton.text = getString(R.string.sign_in_with_google_button)
                     binding.deleteUserButton.setOnClickListener {
-                        signInResultLauncher.launch(
-                            signInIntent
-                        )
+                        signInResultLauncher.launch(signInIntent)
                     }
                 }
 

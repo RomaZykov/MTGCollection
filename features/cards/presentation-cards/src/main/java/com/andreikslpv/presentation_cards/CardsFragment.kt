@@ -8,26 +8,25 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.andreikslpv.domain_cards.usecase.GetCollectionUseCase
-import com.andreikslpv.presentation_cards.recyclers.CardPagingAdapter
+import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain_cards.usecase.GetCollectionUseCase
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
 import com.andreikslpv.presentation.makeToast
+import com.andreikslpv.presentation.observeStateOn
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
-import com.andreikslpv.presentation.simpleScan
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation.viewModelCreator
 import com.andreikslpv.presentation_cards.databinding.FragmentCardsBinding
+import com.andreikslpv.presentation_cards.recyclers.CardPagingAdapter
 import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -109,38 +108,26 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
             addItemDecoration(decorator)
         }
         initLoadStateListening()
-        //handleScrollingToTopWhenSearching()
     }
 
     private fun initLoadStateListening() {
-        this.lifecycleScope.launch {
-            // Suspend the coroutine until the lifecycle is DESTROYED.
-            // repeatOnLifecycle launches the block in a new coroutine every time the
-            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                // Safely collect from source when the lifecycle is STARTED
-                // and stop collecting when the lifecycle is STOPPED
-                viewLifecycleOwner.lifecycleScope.launch {
-                    cardAdapter.loadStateFlow.collect {
-                        if (it.source.prepend is LoadState.NotLoading) {
-                            Core.loadStateHandler.setLoadState(Response.Loading)
-                        }
-                        if (it.source.prepend is LoadState.Error) {
-                            catchError((it.source.prepend as LoadState.Error).error.message ?: "")
-                        }
-                        if (it.source.append is LoadState.Error) {
-                            catchError((it.source.append as LoadState.Error).error.message ?: "")
-                        }
-                        if (it.source.refresh is LoadState.NotLoading) {
-                            Core.loadStateHandler.setLoadState(Response.Success(true))
-                        }
-                        if (it.source.refresh is LoadState.Error) {
-                            val error = (it.source.refresh as LoadState.Error).error.message ?: ""
-                            Core.loadStateHandler.setLoadState(Response.Failure(error))
-                            catchError(error)
-                        }
-                    }
-                }
+        cardAdapter.loadStateFlow.observeStateOn(viewLifecycleOwner) {
+            if (it.source.prepend is LoadState.NotLoading) {
+                Core.loadStateHandler.setLoadState(Response.Loading)
+            }
+            if (it.source.prepend is LoadState.Error) {
+                catchError((it.source.prepend as LoadState.Error).error.message ?: "")
+            }
+            if (it.source.append is LoadState.Error) {
+                catchError((it.source.append as LoadState.Error).error.message ?: "")
+            }
+            if (it.source.refresh is LoadState.NotLoading) {
+                Core.loadStateHandler.setLoadState(Response.Success(true))
+            }
+            if (it.source.refresh is LoadState.Error) {
+                val error = (it.source.refresh as LoadState.Error).error
+                Core.loadStateHandler.setLoadState(Response.Failure(error))
+                catchError(error.message ?: Constants.UNKNOWN_ERROR)
             }
         }
     }
@@ -149,20 +136,6 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
         message.makeToast(requireContext())
         viewModel.changeApiAvailability()
         cardAdapter.refresh()
-    }
-
-    // Когда пользователь меняет поисковой запрос, то отслеживаем этот момент и прокручиваем в начало списка
-    private fun handleScrollingToTopWhenSearching() = this.lifecycleScope.launch {
-        getRefreshLoadStateFlow().simpleScan(count = 2)
-            .collectLatest { (previousState, currentState) ->
-                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
-                    binding.cardsRecycler.scrollToPosition(0)
-                }
-            }
-    }
-
-    private fun getRefreshLoadStateFlow(): Flow<LoadState> {
-        return cardAdapter.loadStateFlow.map { it.refresh }
     }
 
     private fun initCollectCards() {

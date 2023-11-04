@@ -1,6 +1,5 @@
 package com.andreikslpv.domain_auth.usecase.profile
 
-import com.andreikslpv.common.Constants.UNKNOWN_ERROR
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
@@ -23,7 +22,7 @@ class DeleteUserUseCase @Inject constructor(
             }
             authRepository.deleteUserInAuth(idToken).collect { emit(it) }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: UNKNOWN_ERROR))
+            emit(Response.Failure(e))
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.andreikslpv.presentation.views
+package com.andreikslpv.presentation
 
 import android.view.View
 

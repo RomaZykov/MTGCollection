@@ -63,8 +63,9 @@ dependencies {
     implementation Libs.Google.Gms
     // Firebase
     implementation platform(Libs.Google.FirebaseBom)
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
 
     implementation project(":wiring")
     implementation project(":navigation")

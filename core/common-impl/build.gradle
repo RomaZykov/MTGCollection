@@ -33,6 +33,7 @@ android {
 dependencies {
 
     implementation Libs.Android.FragmentKtx
+    implementation Libs.Google.Material
     api project(":core:common")
 
     testImplementation Libs.Testing.JUnit

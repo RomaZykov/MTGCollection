@@ -26,9 +26,7 @@
     <dimen name="main_radius_card">12dp</dimen>
 
     <!-- for profile dialog-->
-    <dimen name="profile_dialog_height">200dp</dimen>
     <dimen name="dialog_width">312dp</dimen>
-    <dimen name="profile_dialog_text_width">264dp</dimen>
     <dimen name="dialog_elevation">4dp</dimen>
 
     <!-- for SearchView and Spinner -->

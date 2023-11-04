@@ -1,7 +1,6 @@
 package com.andreikslpv.data_users
 
 import com.andreikslpv.common.Response
-import com.andreikslpv.data.constants.ApiConstants
 import com.andreikslpv.domain.entities.CardModel
 import com.andreikslpv.domain_users.UserModel
 import com.andreikslpv.domain_users.UsersRepository
@@ -29,7 +28,7 @@ class UsersRepositoryImpl @Inject constructor(
             database.collection(FirestoreConstants.PATH_USERS).document(user.uid).set(user).await()
                 .also { emit(Response.Success(true)) }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ApiConstants.ERROR_MESSAGE))
+            emit(Response.Failure(e))
         }
     }
 
@@ -50,7 +49,7 @@ class UsersRepositoryImpl @Inject constructor(
             database.collection(FirestoreConstants.PATH_USERS).document(uid).delete().await()
                 .also { emit(Response.Success(true)) }
         } catch (e: Exception) {
-            emit(Response.Failure(e.message ?: ApiConstants.ERROR_MESSAGE))
+            emit(Response.Failure(e))
         }
     }
 

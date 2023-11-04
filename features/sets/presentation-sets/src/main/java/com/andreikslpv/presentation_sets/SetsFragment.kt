@@ -9,15 +9,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
+import com.andreikslpv.domain_sets.entities.SetModel
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.makeToast
+import com.andreikslpv.presentation.observeStateOn
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.simpleScan
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation_sets.databinding.FragmentSetsBinding
-import com.andreikslpv.domain_sets.entities.SetModel
 import com.andreikslpv.presentation_sets.recyclers.SetItemClickListener
 import com.andreikslpv.presentation_sets.recyclers.SetPagingAdapter
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -86,36 +88,24 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
     }
 
     private fun initLoadStateListening() {
-        this.lifecycleScope.launch {
-            // Suspend the coroutine until the lifecycle is DESTROYED.
-            // repeatOnLifecycle launches the block in a new coroutine every time the
-            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                // Safely collect from source when the lifecycle is STARTED
-                // and stop collecting when the lifecycle is STOPPED
-                viewLifecycleOwner.lifecycleScope.launch {
-                    setAdapter.loadStateFlow.collect {
-                        if (it.source.prepend is LoadState.NotLoading) {
-                            Core.loadStateHandler.setLoadState(Response.Loading)
-                        }
-                        if (it.source.prepend is LoadState.Error) {
-                            catchError((it.source.prepend as LoadState.Error).error.message ?: "")
-                        }
-                        if (it.source.append is LoadState.Error) {
-                            catchError((it.source.append as LoadState.Error).error.message ?: "")
-                        }
-                        if (it.source.refresh is LoadState.NotLoading) {
-                            Core.loadStateHandler.setLoadState(Response.Success(true))
-                        }
-                        if (it.source.refresh is LoadState.Error) {
-                            val error = (it.source.refresh as LoadState.Error).error.message ?: ""
-                            Core.loadStateHandler.setLoadState(Response.Failure(error))
-                            catchError(error)
-                        }
-                    }
-                }
+        setAdapter.loadStateFlow.observeStateOn(viewLifecycleOwner) {
+            if (it.source.prepend is LoadState.NotLoading) {
+                Core.loadStateHandler.setLoadState(Response.Loading)
             }
-            // Note: at this point, the lifecycle is DESTROYED!
+            if (it.source.prepend is LoadState.Error) {
+                catchError((it.source.prepend as LoadState.Error).error.message ?: "")
+            }
+            if (it.source.append is LoadState.Error) {
+                catchError((it.source.append as LoadState.Error).error.message ?: "")
+            }
+            if (it.source.refresh is LoadState.NotLoading) {
+                Core.loadStateHandler.setLoadState(Response.Success(true))
+            }
+            if (it.source.refresh is LoadState.Error) {
+                val error = (it.source.refresh as LoadState.Error).error
+                Core.loadStateHandler.setLoadState(Response.Failure(error))
+                catchError(error.message ?: Constants.UNKNOWN_ERROR)
+            }
         }
     }
 

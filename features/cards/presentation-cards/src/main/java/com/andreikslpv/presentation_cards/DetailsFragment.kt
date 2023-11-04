@@ -16,7 +16,7 @@ import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.utils.LangUtils
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation.viewModelCreator
-import com.andreikslpv.presentation.views.visible
+import com.andreikslpv.presentation.visible
 import com.andreikslpv.presentation_cards.databinding.FragmentDetailsBinding
 import com.andreikslpv.presentation_cards.recyclers.AvailableItemClickListener
 import com.andreikslpv.presentation_cards.recyclers.AvailableRecyclerAdapter

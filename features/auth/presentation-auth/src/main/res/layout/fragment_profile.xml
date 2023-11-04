@@ -227,16 +227,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.andreikslpv.presentation.views.ProfileDialog
-        android:id="@+id/profileDialog"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0"
-        android:translationZ="@dimen/progress_bar_elevation"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
