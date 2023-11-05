@@ -10,7 +10,7 @@
 
     <!-- button dimens -->
     <dimen name="button_border">1dp</dimen>
-    <dimen name="button_width">328dp</dimen>
+    <dimen name="button_width">320dp</dimen>
     <dimen name="button_height">48dp</dimen>
     <dimen name="button_radius">30dp</dimen>
 
@@ -26,9 +26,7 @@
     <dimen name="main_radius_card">12dp</dimen>
 
     <!-- for profile dialog-->
-    <dimen name="profile_dialog_height">200dp</dimen>
     <dimen name="dialog_width">312dp</dimen>
-    <dimen name="profile_dialog_text_width">264dp</dimen>
     <dimen name="dialog_elevation">4dp</dimen>
 
     <!-- for SearchView and Spinner -->

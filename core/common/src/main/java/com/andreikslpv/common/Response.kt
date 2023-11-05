@@ -1,13 +1,13 @@
 package com.andreikslpv.common
 
 sealed class Response<out T> {
-    object Loading: Response<Nothing>()
+    data object Loading: Response<Nothing>()
 
     data class Success<out T>(
         val data: T
     ): Response<T>()
 
     data class Failure(
-        val errorMessage: String
+        val error: Throwable
     ): Response<Nothing>()
 }

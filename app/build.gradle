@@ -58,27 +58,40 @@ dependencies {
     implementation Libs.Android.NavigationFragments
     implementation Libs.Android.Paging
 
-    implementation Libs.Google.Material
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
-
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation Libs.Google.Gms
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.3.1')
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform(Libs.Google.FirebaseBom)
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
 
-    implementation project(Modules.Wiring)
-    implementation project(Modules.Core.CommonImpl)
-    implementation project(Modules.Core.Presentation)
-    implementation project(Modules.Data)
-    implementation project(Modules.Navigation)
-    implementation project(Modules.Features.SignIn)
-    implementation project(Modules.Features.Profile)
-    implementation project(Modules.Features.Cards)
-    implementation project(Modules.Features.Sets)
+    implementation project(":wiring")
+    implementation project(":navigation")
+    implementation project(":core:presentation")
+    implementation project(":core:common-impl")
+    implementation project(":core:domain")
 
-    implementation Libs.Testing.JUnit
-    implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso
+    implementation project(":features:auth:presentation-auth")
+    implementation project(":features:auth:domain-auth")
+    implementation project(":features:auth:data-auth")
+
+    implementation project(":features:cards:presentation-cards")
+    implementation project(":features:cards:domain-cards")
+    implementation project(":features:cards:data-cards")
+
+    implementation project(":features:settings:presentation-settings")
+    implementation project(":features:settings:domain-settings")
+    implementation project(":features:settings:data-settings")
+
+    implementation project(":features:sets:presentation-sets")
+    implementation project(":features:sets:domain-sets")
+    implementation project(":features:sets:data-sets")
+    
+    implementation project(":features:users:domain-users")
+    implementation project(":features:users:data-users")
+
+
+    testImplementation Libs.Testing.JUnit
 }

@@ -6,7 +6,6 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.presentation.databinding.ItemLoadingStateBinding
-import com.andreikslpv.presentation.views.visible
 
 class BaseLoadStateAdapter(
     private val retry: () -> Unit

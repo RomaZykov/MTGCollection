@@ -147,6 +147,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
                 is Response.Success -> binding.progressBar.hide()
                 is Response.Failure -> {
                     binding.progressBar.hide()
+                    viewModel.sendErrorToCrashlytics(response.error)
                 }
             }
         }

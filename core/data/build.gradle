@@ -1,0 +1,60 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace 'com.andreikslpv.data'
+    compileSdk targetAndroidSdk
+
+    defaultConfig {
+        minSdk minAndroidSdk
+        targetSdk targetAndroidSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = kotlinVersion
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+dependencies {
+
+    implementation Libs.Android.CoreKtx
+
+    implementation Libs.Google.Hilt
+    kapt Libs.Google.HiltCompiler
+
+    //Retrofit
+    implementation Libs.Other.Retrofit
+    implementation Libs.Other.RetrofitConverter
+    implementation Libs.Other.Okhttp
+    //Room
+    implementation "androidx.room:room-runtime:2.6.0"
+    implementation "androidx.room:room-ktx:2.6.0"
+    kapt "androidx.room:room-compiler:2.6.0"
+
+    // Firebase
+    implementation platform(Libs.Google.FirebaseBom)
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-messaging'
+
+    testImplementation Libs.Testing.JUnit
+}

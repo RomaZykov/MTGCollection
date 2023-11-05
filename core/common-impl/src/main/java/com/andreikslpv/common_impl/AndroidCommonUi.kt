@@ -1,12 +1,12 @@
 package com.andreikslpv.common_impl
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.andreikslpv.common.AlertDialogConfig
 import com.andreikslpv.common.CommonUi
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -63,7 +63,7 @@ class AndroidCommonUi(
 
     private fun startDialog(record: DialogRecord) {
         val activity = this.currentActivity ?: return
-        val builder = AlertDialog.Builder(activity)
+        val builder = MaterialAlertDialogBuilder(activity)
             .setTitle(record.config.title)
             .setMessage(record.config.message)
             .setCancelable(true)

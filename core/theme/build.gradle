@@ -37,6 +37,4 @@ dependencies {
 
     implementation Libs.Google.Material
 
-    implementation Libs.Testing.JUnit
-    implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso}
+}

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- for profile -->
-    <dimen name="profile_avatar_dimen">124dp</dimen>
-    <dimen name="profile_camera_dimen">40dp</dimen>
-    <dimen name="profile_pencil_dimen">24dp</dimen>
-</resources>

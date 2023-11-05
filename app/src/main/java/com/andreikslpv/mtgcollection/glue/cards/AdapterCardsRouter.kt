@@ -1,19 +1,17 @@
 package com.andreikslpv.mtgcollection.glue.cards
 
-import com.andreikslpv.common_impl.entities.CardFeatureModel
-import com.andreikslpv.cards.presentation.CardsRouter
-import com.andreikslpv.cards.presentation.DetailsFragment
-import com.andreikslpv.common.AppRestarter
+import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain_cards.repositories.CardsRouter
 import com.andreikslpv.mtgcollection.R
 import com.andreikslpv.navigation.GlobalNavComponentRouter
+import com.andreikslpv.presentation_cards.DetailsFragment
 import javax.inject.Inject
 
 class AdapterCardsRouter @Inject constructor(
-    private val appRestarter: AppRestarter,
     private val globalNavComponentRouter: GlobalNavComponentRouter,
 ) : CardsRouter {
 
-    override fun launchDetails(card: CardFeatureModel) {
+    override fun launchDetails(card: CardModel) {
         val screen = DetailsFragment.Screen(card)
         globalNavComponentRouter.launch(R.id.detailsFragment, screen)
     }

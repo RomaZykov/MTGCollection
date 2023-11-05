@@ -9,58 +9,71 @@ buildscript {
         javaVersion = JavaVersion.VERSION_17
         kotlinVersion = '17'
 
-        hiltVersion = "2.48.1"
-        glideVersion = "4.15.1"
+        coreVersion = '1.12.0'
+        fragmentVersion = '1.6.1'
+        activityVersion = '1.8.0'
+        appcompatVersion = '1.6.1'
         navVersion = '2.7.4'
+        pagingVersion = '3.2.1'
+        coordinatorVersion = '1.2.0'
+        livedataVersion = '2.6.2'
+
+        materialVersion = '1.10.0'
+        hiltVersion = "2.48.1"
+        firebaseBomVersion = '32.4.1'
+        gmsVersion = '20.7.0'
+
+        coroutinesVersion = '1.6.4'
+        glideVersion = "4.15.1"
+        javaxVersion = '1'
+        koilVersion = "2.5.0"
+        retrofitVersion = "2.9.0"
+        okhttpVersion = "4.9.0"
+
+        junitVersion = "4.13.2"
+        junitImplVersion = "1.1.5"
+        espressoVersion = "3.5.1"
 
         Libs = [
-                Android: [
-                        CoreKtx: "androidx.core:core-ktx:1.12.0",
-                        FragmentKtx: "androidx.fragment:fragment-ktx:1.6.0",
-                        ActivityKtx: "androidx.activity:activity-ktx:1.8.0",
-                        AppCompat: "androidx.appcompat:appcompat:1.6.1",
+                Android  : [
+                        CoreKtx            : "androidx.core:core-ktx:$coreVersion",
+                        FragmentKtx        : "androidx.fragment:fragment-ktx:$fragmentVersion",
+                        ActivityKtx        : "androidx.activity:activity-ktx:$activityVersion",
+                        AppCompat          : "androidx.appcompat:appcompat:$appcompatVersion",
                         NavigationFragments: "androidx.navigation:navigation-fragment-ktx:$navVersion",
-                        NavigationUI: "androidx.navigation:navigation-ui-ktx:$navVersion",
-                        Paging: "androidx.paging:paging-runtime:3.2.1",
-                        Coordinator: "androidx.coordinatorlayout:coordinatorlayout:1.2.0",
-                        Livedata: "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
+                        NavigationUI       : "androidx.navigation:navigation-ui-ktx:$navVersion",
+                        Paging             : "androidx.paging:paging-runtime:$pagingVersion",
+                        PagingCommon       : "androidx.paging:paging-common-ktx:$pagingVersion",
+                        Coordinator        : "androidx.coordinatorlayout:coordinatorlayout:$coordinatorVersion",
+                        Livedata           : "androidx.lifecycle:lifecycle-livedata-ktx:$livedataVersion"
                 ],
-                Google: [
-                        Material: "com.google.android.material:material:1.10.0",
-                        Hilt: "com.google.dagger:hilt-android:$hiltVersion",
+                Google   : [
+                        Material    : "com.google.android.material:material:$materialVersion",
+                        Hilt        : "com.google.dagger:hilt-android:$hiltVersion",
                         HiltCompiler: "com.google.dagger:hilt-compiler:$hiltVersion",
+                        Gms         : "com.google.android.gms:play-services-auth:$gmsVersion",
+                        FirebaseBom : "com.google.firebase:firebase-bom:$firebaseBomVersion",
                 ],
                 JetBrains: [
-                        CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
+                        CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
                 ],
-                Other: [
-                        Glide: "com.github.bumptech.glide:glide:$glideVersion",
-                        GlideAP: "com.github.bumptech.glide:compiler:$glideVersion",
+                Other    : [
+                        Glide            : "com.github.bumptech.glide:glide:$glideVersion",
+                        GlideAP          : "com.github.bumptech.glide:compiler:$glideVersion",
+                        Javax            : "javax.inject:javax.inject:$javaxVersion",
+                        Koil             : "io.coil-kt:coil:$koilVersion",
+                        KoilSvg          : "io.coil-kt:coil-svg:$koilVersion",
+                        Retrofit         : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+                        RetrofitConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+                        Okhttp           : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
                 ],
-                Testing: [
-                        JUnit: "junit:junit:4.13.2",
-                        JUnitImplementation: "androidx.test.ext:junit:1.1.5",
-                        Espresso: "androidx.test.espresso:espresso-core:3.5.1"
+                Testing  : [
+                        JUnit              : "junit:junit:$junitVersion",
+                        JUnitImplementation: "androidx.test.ext:junit:$junitImplVersion",
+                        Espresso           : "androidx.test.espresso:espresso-core:$espressoVersion"
                 ],
         ]
 
-        Modules = [
-                Wiring: ":wiring",
-                Navigation: ":navigation",
-                Data: ":data",
-                Core: [
-                        Common: ":core:common",
-                        CommonImpl: ":core:common-impl",
-                        Presentation: ":core:presentation",
-                        Theme: ":core:theme",
-                ],
-                Features: [
-                        Cards: ":features:cards",
-                        Profile: ":features:profile",
-                        Sets: ":features:sets",
-                        SignIn: ":features:sign-in",
-                ],
-        ]
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.4.0'

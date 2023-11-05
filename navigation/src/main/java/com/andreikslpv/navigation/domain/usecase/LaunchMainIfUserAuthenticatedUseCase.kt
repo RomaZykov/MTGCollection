@@ -10,6 +10,6 @@ class LaunchMainIfUserAuthenticatedUseCase @Inject constructor(
 ) {
 
     fun execute() {
-        if (mainRepository.getCurrentUser() != null) router.launchMain()
+        if (mainRepository.getCurrentUserUid() != null) router.launchMain()
     }
 }

@@ -39,19 +39,20 @@ dependencies {
 
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.AppCompat
+    implementation Libs.Android.Livedata
     implementation Libs.Android.ActivityKtx
     implementation Libs.Android.NavigationFragments
     implementation Libs.Android.NavigationUI
-    implementation Libs.Android.Livedata
 
     implementation Libs.Google.Material
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
-    implementation project(Modules.Core.Presentation)
-    implementation project(Modules.Core.CommonImpl)
-    implementation project(Modules.Core.Theme)
+    implementation project(":core:presentation")
+    implementation project(":core:common-impl")
+    implementation project(":core:theme")
 
-    implementation Libs.Testing.JUnit
-    implementation Libs.Testing.JUnitImplementation
-    implementation Libs.Testing.Espresso}
+    testImplementation Libs.Testing.JUnit
+    androidTestImplementation Libs.Testing.JUnitImplementation
+    androidTestImplementation Libs.Testing.Espresso
+}

@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace 'com.andreikslpv.presentation_settings'
+    compileSdk targetAndroidSdk
+
+    defaultConfig {
+        minSdk minAndroidSdk
+        targetSdk targetAndroidSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = kotlinVersion
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation Libs.Android.CoreKtx
+    implementation Libs.Android.AppCompat
+    implementation Libs.Android.FragmentKtx
+    implementation Libs.Android.Livedata
+    implementation Libs.Android.Paging
+
+    implementation Libs.Google.Material
+    implementation Libs.Google.Hilt
+    kapt Libs.Google.HiltCompiler
+
+    implementation project(":core:presentation")
+    implementation project(":features:settings:domain-settings")
+
+    testImplementation Libs.Testing.JUnit
+    androidTestImplementation Libs.Testing.JUnitImplementation
+    androidTestImplementation Libs.Testing.Espresso
+}
