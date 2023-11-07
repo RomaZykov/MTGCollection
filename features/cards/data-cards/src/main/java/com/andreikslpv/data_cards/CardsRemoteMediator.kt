@@ -4,9 +4,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.andreikslpv.data.db.dao.CardsDao
-import com.andreikslpv.data.db.entities.CardRoomEntity
 import com.andreikslpv.data_cards.services.CardsApi
+import com.andreikslpv.datasource_room_cards.CardRoomEntity
+import com.andreikslpv.datasource_room_cards.CardsDao
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

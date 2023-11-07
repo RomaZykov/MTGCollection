@@ -1,9 +1,9 @@
-package com.andreikslpv.data.db.entities
+package com.andreikslpv.datasource_room_cards
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andreikslpv.data.db.RoomConstants.TABLE_CARDS
+import com.andreikslpv.datasource_room_cards.CardsRoomConstants.TABLE_CARDS
 import com.andreikslpv.domain.entities.AvailableCardEntity
 import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain.entities.ForeignNameEntity

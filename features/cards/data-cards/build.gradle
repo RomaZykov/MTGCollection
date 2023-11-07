@@ -53,6 +53,7 @@ dependencies {
     implementation project(":core:domain")
     implementation project(":core:data")
     implementation project(":features:cards:domain-cards")
+    implementation project(":features:cards:datasource-room-cards")
 
     testImplementation Libs.Testing.JUnit
 }

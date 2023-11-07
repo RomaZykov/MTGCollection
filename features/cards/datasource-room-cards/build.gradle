@@ -2,11 +2,10 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
 }
 
 android {
-    namespace 'com.andreikslpv.data'
+    namespace 'com.andreikslpv.datasource_room_cards'
     compileSdk targetAndroidSdk
 
     defaultConfig {
@@ -30,35 +29,19 @@ android {
     kotlinOptions {
         jvmTarget = kotlinVersion
     }
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 dependencies {
 
     implementation Libs.Android.CoreKtx
 
-    implementation Libs.Google.Hilt
-    kapt Libs.Google.HiltCompiler
-
-    //Retrofit
-    implementation Libs.Other.Retrofit
-    implementation Libs.Other.RetrofitConverter
-    implementation Libs.Other.Okhttp
     //Room
     implementation "androidx.room:room-runtime:2.6.0"
     implementation "androidx.room:room-ktx:2.6.0"
     implementation "androidx.room:room-paging:2.6.0"
     kapt "androidx.room:room-compiler:2.6.0"
 
-    // Firebase
-    implementation platform(Libs.Google.FirebaseBom)
-    implementation 'com.google.firebase:firebase-firestore'
-    implementation 'com.google.firebase:firebase-messaging'
-
     implementation project(":core:domain")
-    implementation project(":features:cards:datasource-room-cards")
 
     testImplementation Libs.Testing.JUnit
 }

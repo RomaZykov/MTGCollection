@@ -1,4 +1,4 @@
-package com.andreikslpv.data.db.dao
+package com.andreikslpv.datasource_room_cards
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -6,8 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.andreikslpv.data.db.RoomConstants.TABLE_CARDS
-import com.andreikslpv.data.db.entities.CardRoomEntity
+import com.andreikslpv.datasource_room_cards.CardsRoomConstants.TABLE_CARDS
 
 @Dao
 interface CardsDao {

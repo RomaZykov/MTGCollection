@@ -1,6 +1,6 @@
 package com.andreikslpv.data.db
 
-object RoomConstants {
+object DatabaseConstants {
 
     const val DATABASE_NAME = "room_db"
 
@@ -13,17 +13,5 @@ object RoomConstants {
     const val COLUMN_SET_TYPE = "type"
     const val COLUMN_SET_SYMBOL_URL = "symbolUrl"
     const val COLUMN_SET_CARD_COUNT = "cardCount"
-
-    const val TABLE_CACHED_CARDS = "cached_cards"
-    const val COLUMN_CARD_ID = "id"
-    const val COLUMN_CARD_IMAGE_URL = "imageUrl"
-    const val COLUMN_CARD_NAME = "name"
-    const val COLUMN_CARD_NUMBER = "number"
-    const val COLUMN_CARD_SET = "set"
-    const val COLUMN_CARD_SET_NAME = "setName"
-    const val COLUMN_CARD_FOREIGN_NAMES = "foreignNamesList"
-
-    // new
-    const val TABLE_CARDS = "cards"
 
 }

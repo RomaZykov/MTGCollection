@@ -6,9 +6,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.andreikslpv.common.Response
 import com.andreikslpv.data.ApiConstants
-import com.andreikslpv.data.db.dao.CardsDao
 import com.andreikslpv.data.db.entities.CardFirebaseEntity
 import com.andreikslpv.data_cards.datasource.CardsFirebasePagingSource
+import com.andreikslpv.datasource_room_cards.CardsDao
 import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_cards.repositories.CardsRepository
 import com.google.firebase.firestore.FirebaseFirestore
