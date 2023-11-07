@@ -3,7 +3,7 @@ package com.andreikslpv.data_sets
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
+import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE_SIZE
 import com.andreikslpv.data_sets.datasource.SetsApiDataSource
 import com.andreikslpv.data_sets.datasource.SetsCacheDataSource
 import com.andreikslpv.data_sets.datasource.TypesDataSource

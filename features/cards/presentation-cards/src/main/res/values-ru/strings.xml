@@ -3,6 +3,9 @@
 
     <string name="title_cards">Коллекция</string>
 
+    <string name="collection_ups">Ваша коллекция пуста</string>
+    <string name="cards_ups">Не удалось загрузить карты</string>
+
     //for available
     <string name="available_item_count">%d шт.</string>
     <string name="available_item_name_not_foil">%s, %s</string>

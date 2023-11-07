@@ -1,7 +1,7 @@
 package com.andreikslpv.data_sets.datasource
 
 import androidx.paging.PagingSource
-import com.andreikslpv.data.constants.ApiConstants
+import com.andreikslpv.data.ApiConstants
 import com.andreikslpv.data_sets.FirestoreConstants
 import com.andreikslpv.data_sets.SetsApiCallback
 import com.andreikslpv.domain_sets.entities.SetModel

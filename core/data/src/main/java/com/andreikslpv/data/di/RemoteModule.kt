@@ -1,8 +1,8 @@
 package com.andreikslpv.data.di
 
 import com.andreikslpv.data.BuildConfig
-import com.andreikslpv.data.constants.ApiConstants.BASE_URL
-import com.andreikslpv.data.constants.ApiConstants.TIMEOUT
+import com.andreikslpv.data.ApiConstants.BASE_URL
+import com.andreikslpv.data.ApiConstants.TIMEOUT
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

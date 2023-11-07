@@ -2,8 +2,8 @@ package com.andreikslpv.data_sets.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE
-import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
+import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE
+import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE_SIZE
 import com.andreikslpv.data_sets.services.SetsService
 import com.andreikslpv.data_sets.SetsApiCallback
 import com.andreikslpv.data_sets.mappers.SetsListDtoToDataModelMapper

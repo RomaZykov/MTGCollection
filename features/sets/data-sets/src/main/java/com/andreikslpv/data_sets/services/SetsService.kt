@@ -1,9 +1,9 @@
 package com.andreikslpv.data_sets.services
 
-import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE
-import com.andreikslpv.data.constants.ApiConstants.DEFAULT_PAGE_SIZE
-import com.andreikslpv.data.constants.ApiConstants.PATH_SETS
-import com.andreikslpv.data.constants.ApiConstants.VERSION_API
+import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE
+import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE_SIZE
+import com.andreikslpv.data.ApiConstants.PATH_SETS
+import com.andreikslpv.data.ApiConstants.VERSION_API
 import com.andreikslpv.data_sets.dto.ResultSets
 import retrofit2.Response
 import retrofit2.http.GET

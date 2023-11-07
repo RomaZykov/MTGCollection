@@ -1,6 +1,9 @@
 <resources>
     <string name="title_cards">Collection</string>
 
+    <string name="collection_ups">Your collection is empty</string>
+    <string name="cards_ups">Failed to load cards</string>
+
     //for available
     <string name="available_item_count">%d pcs</string>
     <string name="available_item_name_not_foil">%s, %s</string>

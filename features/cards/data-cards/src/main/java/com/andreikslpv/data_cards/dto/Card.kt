@@ -13,7 +13,7 @@ data class Card(
     val colors: List<String>?,
     @SerializedName("flavor")
     val flavor: String?,
-    @SerializedName("foreignNames")
+    @SerializedName("foreignNamesList")
     val foreignNames: List<ForeignName>?,
     @SerializedName("id")
     val id: String,

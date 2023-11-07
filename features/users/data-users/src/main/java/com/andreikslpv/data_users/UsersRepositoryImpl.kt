@@ -1,8 +1,8 @@
 package com.andreikslpv.data_users
 
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardModel
-import com.andreikslpv.domain_users.UserModel
+import com.andreikslpv.data_users.entities.UserModel
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_users.UsersRepository
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,7 +19,7 @@ class UsersRepositoryImpl @Inject constructor(
 ) : UsersRepository {
 
     private val collection = MutableStateFlow(emptyList<String>())
-    private val history = MutableStateFlow(emptyList<CardModel>())
+    private val history = MutableStateFlow(emptyList<CardEntity>())
 
     override suspend fun createUserInDb(uid: String) = flow {
         try {
@@ -78,11 +78,11 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getHistory(): MutableStateFlow<List<CardModel>> {
+    override fun getHistory(): MutableStateFlow<List<CardEntity>> {
         return history
     }
 
-    override fun setHistory(uid: String, newHistory: List<CardModel>) {
+    override fun setHistory(uid: String, newHistory: List<CardEntity>) {
         CoroutineScope(Dispatchers.IO).launch {
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             user.update(FirestoreConstants.FIELD_HISTORY, newHistory)

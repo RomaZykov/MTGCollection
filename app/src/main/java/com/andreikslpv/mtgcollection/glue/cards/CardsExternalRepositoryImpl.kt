@@ -1,6 +1,6 @@
 package com.andreikslpv.mtgcollection.glue.cards
 
-import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_auth.repositories.AuthRepository
 import com.andreikslpv.domain_cards.repositories.CardsExternalRepository
 import com.andreikslpv.domain_users.UsersRepository
@@ -23,6 +23,6 @@ class CardsExternalRepositoryImpl @Inject constructor(
 
     override fun getHistory() = usersRepository.getHistory()
 
-    override fun setHistory(uid: String, newHistory: List<CardModel>) =
+    override fun setHistory(uid: String, newHistory: List<CardEntity>) =
         usersRepository.setHistory(uid, newHistory)
 }

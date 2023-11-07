@@ -21,5 +21,9 @@ object RoomConstants {
     const val COLUMN_CARD_NUMBER = "number"
     const val COLUMN_CARD_SET = "set"
     const val COLUMN_CARD_SET_NAME = "setName"
-    const val COLUMN_CARD_FOREIGN_NAMES = "foreignNames"
+    const val COLUMN_CARD_FOREIGN_NAMES = "foreignNamesList"
+
+    // new
+    const val TABLE_CARDS = "cards"
+
 }

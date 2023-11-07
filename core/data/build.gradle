@@ -49,12 +49,15 @@ dependencies {
     //Room
     implementation "androidx.room:room-runtime:2.6.0"
     implementation "androidx.room:room-ktx:2.6.0"
+    implementation "androidx.room:room-paging:2.6.0"
     kapt "androidx.room:room-compiler:2.6.0"
 
     // Firebase
     implementation platform(Libs.Google.FirebaseBom)
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-messaging'
+
+    implementation project(":core:domain")
 
     testImplementation Libs.Testing.JUnit
 }

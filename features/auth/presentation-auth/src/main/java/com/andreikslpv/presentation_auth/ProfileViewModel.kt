@@ -7,16 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain.entities.CardEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain_auth.entities.AccountDataEntity
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
 import com.andreikslpv.domain_auth.repositories.AuthRouter
 import com.andreikslpv.domain_auth.usecase.profile.DeleteUserUseCase
+import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
 import com.andreikslpv.domain_auth.usecase.profile.TryToChangeCollectionStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,7 +29,8 @@ class ProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val tryToChangeCollectionStatusUseCase: TryToChangeCollectionStatusUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
-    private val authExternalRepository: AuthExternalRepository,
+    authExternalRepository: AuthExternalRepository,
+    getCollectionUseCase: GetCollectionUseCase,
     private val router: AuthRouter,
 ) : ViewModel() {
 
@@ -38,14 +42,26 @@ class ProfileViewModel @Inject constructor(
         _currentUser.postValue(authRepository.getCurrentUser())
     }
 
-    fun getCardHistory() = liveData(Dispatchers.IO) {
-        authExternalRepository.getHistory().collect { response ->
-            emit(response)
+    val history = combine(
+        authExternalRepository.getHistory(),
+        getCollectionUseCase.execute(),
+        ::merge
+    )
+
+    private fun merge(
+        history: List<CardEntity>,
+        collection: List<String>,
+    ): List<CardUiEntity> {
+        return history.map { card ->
+            CardUiEntity(
+                card = card,
+                isInCollection = collection.contains(card.id)
+            )
         }
     }
 
-    fun tryToChangeCollectionStatus(card: CardModel) =
-        tryToChangeCollectionStatusUseCase.execute(card)
+    fun tryToChangeCollectionStatus(card: CardUiEntity) =
+        tryToChangeCollectionStatusUseCase.execute(card as CardEntity)
 
     fun signOut() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -102,6 +118,6 @@ class ProfileViewModel @Inject constructor(
 
     fun launchSettings() = router.launchSettings()
 
-    fun launchDetails(card: CardModel) = router.launchDetails(card)
+    fun launchDetails(card: CardUiEntity) = router.launchDetails(card)
 
 }

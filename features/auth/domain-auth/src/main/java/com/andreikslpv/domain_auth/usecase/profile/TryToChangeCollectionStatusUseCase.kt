@@ -1,6 +1,6 @@
 package com.andreikslpv.domain_auth.usecase.profile
 
-import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
 import javax.inject.Inject
@@ -10,7 +10,7 @@ class TryToChangeCollectionStatusUseCase @Inject constructor(
     private val authExternalRepository: AuthExternalRepository,
 ) {
 
-    fun execute(card: CardModel): Boolean {
+    fun execute(card: CardEntity): Boolean {
         val user = authRepository.getCurrentUser()
         return if (user != null) {
             authExternalRepository.getCollection().value.let { collection ->

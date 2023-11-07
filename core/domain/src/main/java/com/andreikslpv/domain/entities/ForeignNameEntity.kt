@@ -1,11 +1,8 @@
 package com.andreikslpv.domain.entities
 
-data class ForeignNameModel(
-    val flavor: String? = "",
+data class ForeignNameEntity(
     val imageUrl: String = "",
     val language: String = "",
     val multiverseid: Int = 0,
     val name: String = "",
-    val text: String = "",
-    val type: String = "",
 )
