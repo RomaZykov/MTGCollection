@@ -1,5 +1,6 @@
 package com.andreikslpv.domain_cards.usecase
 
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_cards.repositories.CardsExternalRepository
 import com.andreikslpv.domain_cards.repositories.CardsRepository
 import javax.inject.Inject
@@ -9,7 +10,7 @@ class TryToChangeCollectionStatusUseCase @Inject constructor(
     private val cardsExternalRepository: CardsExternalRepository,
 ) {
 
-    fun execute(card: com.andreikslpv.domain.entities.CardModel): Boolean {
+    fun execute(card: CardEntity): Boolean {
         val uid = cardsExternalRepository.getCurrentUserUid()
         return if (uid != null) {
             cardsExternalRepository.getCollection().value.let { collection ->

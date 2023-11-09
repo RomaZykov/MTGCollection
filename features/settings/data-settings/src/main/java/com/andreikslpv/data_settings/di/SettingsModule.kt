@@ -6,6 +6,8 @@ import com.andreikslpv.common_impl.SettingsDataSourceImpl
 import com.andreikslpv.data_settings.AllSettings
 import com.andreikslpv.data_settings.repositories.SettingsRepositoryImpl
 import com.andreikslpv.domain_settings.repositories.SettingsRepository
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +31,16 @@ class SettingsModule {
     @Singleton
     fun providesSettingsRepository(settingsRepository: SettingsRepositoryImpl): SettingsRepository {
         return settingsRepository
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteConfigInstance(): FirebaseRemoteConfig {
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        val settings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 60
+        }
+        remoteConfig.setConfigSettingsAsync(settings)
+        return remoteConfig
     }
 }

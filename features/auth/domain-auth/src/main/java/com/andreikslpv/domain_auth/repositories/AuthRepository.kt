@@ -26,6 +26,4 @@ interface AuthRepository {
 
     suspend fun changeUserPhoto(localUri: String): Flow<Response<Boolean>>
 
-    suspend fun getPrivacyPolicy(): Flow<Response<String>>
-
 }

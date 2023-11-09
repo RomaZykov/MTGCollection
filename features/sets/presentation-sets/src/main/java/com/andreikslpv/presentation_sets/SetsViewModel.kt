@@ -8,49 +8,76 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.andreikslpv.domain_sets.SetsExternalRepository
-import com.andreikslpv.domain_sets.SetsRepository
 import com.andreikslpv.domain_sets.SetsRouter
-import com.andreikslpv.domain_sets.entities.SetModel
+import com.andreikslpv.domain_sets.entities.SetEntity
+import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
+import com.andreikslpv.domain_sets.usecase.GetNamesOfAllTypesOfSetUseCase
+import com.andreikslpv.domain_sets.usecase.GetSetsByCodeOfTypeUseCase
+import com.andreikslpv.domain_sets.usecase.GetStartedTypeOfSetUseCase
+import com.andreikslpv.domain_sets.usecase.GetTypeCodeByNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SetsViewModel @Inject constructor(
-    private val setsRepository: SetsRepository,
-    setsExternalRepository: SetsExternalRepository,
+    private val getNamesOfAllTypesOfSetUseCase: GetNamesOfAllTypesOfSetUseCase,
+    private val getSetsByCodeOfTypeUseCase: GetSetsByCodeOfTypeUseCase,
+    private val getTypeCodeByNameUseCase: GetTypeCodeByNameUseCase,
+    getStartedTypeOfSetUseCase: GetStartedTypeOfSetUseCase,
     private val router: SetsRouter,
 ) : ViewModel() {
 
-    val sets: Flow<PagingData<SetModel>>
+    var sets: Flow<PagingData<SetEntity>>
 
     val typesOfSet = liveData {
-        setsRepository.getTypesOfSet().collect { response ->
-            emit(response)
+        getNamesOfAllTypesOfSetUseCase().collect { response ->
+            emit(
+                response
+                    .map { convertTypeToUIModel(it) }
+                    .toTypedArray()
+            )
         }
     }
 
-    private val _type = MutableLiveData(setsExternalRepository.getStartedTypeOfSet())
-    val type: LiveData<String> = _type
+    private val _nameOfCurrentType = MutableLiveData("")
+    val nameOfCurrentType: LiveData<String> = _nameOfCurrentType
+
+    private val codeOfCurrentType: MutableLiveData<String> = MutableLiveData("")
 
     init {
-        sets = _type
+        setType(getStartedTypeOfSetUseCase())
+
+        sets = codeOfCurrentType
             .asFlow()
-            .flatMapLatest { setsRepository.getSetsByType(it) }
-            // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
+            .flatMapLatest { getSetsByCodeOfTypeUseCase(it) }
             .cachedIn(viewModelScope)
     }
 
-    fun refresh() = _type.postValue(_type.value)
+    fun setType(selectedType: String) {
+        val nameOfSelectedType = getNameOfTypeFromUIModel(selectedType)
+        _nameOfCurrentType.postValue(nameOfSelectedType)
+        CoroutineScope(Dispatchers.IO).launch {
+            getTypeCodeByNameUseCase(nameOfSelectedType).collectLatest { codeOfType ->
+                if (codeOfType != null) codeOfCurrentType.postValue(codeOfType)
+            }
+        }
+    }
 
-    fun setType(newType: String) = _type.postValue(newType)
+    fun launchCards(set: SetEntity) = router.launchCards(set)
 
-    fun changeApiAvailability() = setsRepository.changeApiAvailability(false)
+    private fun convertTypeToUIModel(type: TypeOfSetEntity) = "${type.name} (${type.countOfSet})"
 
-    fun launchCards(set: SetModel) = router.launchCards(set)
+    private fun getNameOfTypeFromUIModel(uiModel: String): String {
+        return if (uiModel.contains("(")) uiModel.take(uiModel.indexOf("(")).trim()
+            else uiModel
+    }
 
 }

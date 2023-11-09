@@ -6,5 +6,5 @@ import com.andreikslpv.common_impl.SettingsStringValue
 
 enum class ProjectSettings(val value: SettingsBaseValue) {
     START_SETS_TYPE(SettingsStringValue("start_sets_type", "Core")),
-    VERSION_SETS_TYPE(SettingsIntValue("version_sets_type", 0))
+    VERSION_SETS_TYPE(SettingsIntValue("version_types_of_set", 0))
 }

@@ -1,5 +1,6 @@
 package com.andreikslpv.domain_cards.usecase
 
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_cards.repositories.CardsExternalRepository
 import javax.inject.Inject
 
@@ -8,13 +9,13 @@ class SetHistoryUseCase @Inject constructor(
 ) {
     private val historyMaxCount = 10
 
-    fun execute(card: com.andreikslpv.domain.entities.CardModel) {
+    fun execute(card: CardEntity) {
         val uid = cardsExternalRepository.getCurrentUserUid()
         if (uid != null) {
             // получаем текущую историю
             var currentHistory = cardsExternalRepository.getHistory().value
             // удаляем из истории переданный рецепт, чтобы не было повторов в истории
-            currentHistory = currentHistory.filter { it != card }
+            currentHistory = currentHistory.filter { it.id != card.id }
             // добавляем в начало списка переданный рецепт
             var newHistory = listOf(card)
             // добавляем к списку sublist из истории без 0 элемента

@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.andreikslpv.domain.entities.AvailableCardModel
+import com.andreikslpv.domain.entities.AvailableCardEntity
 import com.andreikslpv.domain.entities.CardLanguage
-import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain_cards.entities.CardCondition
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     class Screen(
-        val card: CardModel,
+        val card: CardUiEntity,
     ) : BaseScreen
 
     @Inject
@@ -71,12 +71,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.availableRecycler.apply {
             recyclerAdapter = AvailableRecyclerAdapter(
                 object : AvailableItemClickListener {
-                    override fun click(availableItem: AvailableCardModel) {
+                    override fun click(availableItem: AvailableCardEntity) {
                         showDialogEdit(availableItem)
                     }
                 },
                 object : AvailableItemClickListener {
-                    override fun click(availableItem: AvailableCardModel) {
+                    override fun click(availableItem: AvailableCardEntity) {
                         viewModel.changeSelectedStatus(availableItem)
                     }
                 },
@@ -158,7 +158,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun showDialogEdit(availableItem: AvailableCardModel) {
+    private fun showDialogEdit(availableItem: AvailableCardEntity) {
         binding.availableDialog.apply {
             //Делаем видимой
             this.visible(true)
@@ -244,7 +244,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun availableIsExist(newAvailableItem: AvailableCardModel) {
+    private fun availableIsExist(newAvailableItem: AvailableCardEntity) {
         getString(R.string.snackbar_text).makeToast(requireContext())
         binding.availableDialog.actionButton.text = getString(R.string.snackbar_action)
         binding.availableDialog.actionButton.setOnClickListener {
@@ -254,7 +254,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
 
-    private fun getAvailableItemFromDialog(): AvailableCardModel? {
+    private fun getAvailableItemFromDialog(): AvailableCardEntity? {
         binding.availableDialog.apply {
             return if (languageText.text.isNullOrBlank() || conditionText.text.isNullOrBlank()) {
                 if (languageText.text.isNullOrBlank()) languageText.error =
@@ -263,7 +263,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     getString(R.string.available_dialog_field_error)
                 null
             } else {
-                AvailableCardModel(
+                AvailableCardEntity(
                     language = languageText.text.toString(),
                     count = getCount(countText.text.toString()),
                     foiled = getFoiledStatus(foilText.text.toString()),

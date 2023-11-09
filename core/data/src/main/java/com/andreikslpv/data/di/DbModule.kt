@@ -3,7 +3,7 @@ package com.andreikslpv.data.di
 import android.content.Context
 import androidx.room.Room
 import com.andreikslpv.data.db.AppDatabase
-import com.andreikslpv.data.db.RoomConstants
+import com.andreikslpv.data.db.DatabaseConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,14 +22,14 @@ class DbModule {
     ) = Room.databaseBuilder(
         applicationContext,
         AppDatabase::class.java,
-        RoomConstants.DATABASE_NAME
+        DatabaseConstants.DATABASE_NAME
     )
         .fallbackToDestructiveMigration()
         .build()
 
     @Singleton
     @Provides
-    fun provideSetsDao(appDatabase: AppDatabase) = appDatabase.setsDao()
+    fun provideTypeOfSetDao(appDatabase: AppDatabase) = appDatabase.typeOfSetDao()
 
     @Singleton
     @Provides

@@ -1,6 +1,5 @@
 package com.andreikslpv.presentation_auth
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,11 +12,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreikslpv.common.AlertDialogConfig
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
@@ -33,6 +35,7 @@ import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -87,7 +90,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         initToolbar()
         initRecyclers()
-        initRecipeHistoryCollect()
+        initCollectHistory()
         initButtons()
         // --------------- all for users photo & name
         initCurrentUserCollect()
@@ -113,16 +116,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding.profileRecyclerHistory.apply {
             cardHistoryAdapter = CardHistoryRecyclerAdapter(
                 object : CardItemClickListener {
-                    override fun click(card: CardModel) {
+                    override fun click(card: CardUiEntity) {
                         viewModel.launchDetails(card)
                     }
                 },
                 object : CardItemClickListener {
-                    override fun click(card: CardModel) {
+                    override fun click(card: CardUiEntity) {
                         viewModel.tryToChangeCollectionStatus(card)
                     }
                 },
-                getCollectionUseCase,
                 glide
             )
             adapter = cardHistoryAdapter
@@ -133,17 +135,21 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun initRecipeHistoryCollect() {
-        viewModel.getCardHistory().observe(viewLifecycleOwner) { cards ->
-            if (cards.isNullOrEmpty()) {
-                binding.profileRecyclerHistory.visible(false)
-                binding.historyEmptyView.visible(true)
-            } else {
-                cardHistoryAdapter.changeItems(cards)
-                cardHistoryAdapter.notifyDataSetChanged()
-                binding.profileRecyclerHistory.visible(true)
-                binding.historyEmptyView.visible(false)
+    private fun initCollectHistory() {
+        this.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.history.collectLatest { cards ->
+                        if (cards.isEmpty()) {
+                            binding.profileRecyclerHistory.visible(false)
+                            binding.historyEmptyView.visible(true)
+                        } else {
+                            cardHistoryAdapter.changeItems(cards)
+                            binding.profileRecyclerHistory.visible(true)
+                            binding.historyEmptyView.visible(false)
+                        }
+                    }
+                }
             }
         }
     }

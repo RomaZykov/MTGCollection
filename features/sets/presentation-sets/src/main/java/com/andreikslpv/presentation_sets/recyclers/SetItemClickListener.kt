@@ -1,7 +1,7 @@
 package com.andreikslpv.presentation_sets.recyclers
 
-import com.andreikslpv.domain_sets.entities.SetModel
+import com.andreikslpv.domain_sets.entities.SetEntity
 
 interface SetItemClickListener {
-    fun click(set: SetModel)
+    fun click(set: SetEntity)
 }

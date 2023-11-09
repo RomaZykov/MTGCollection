@@ -2,21 +2,21 @@ package com.andreikslpv.presentation.utils
 
 import android.content.Context
 import com.andreikslpv.domain.entities.CardLanguage
-import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain.entities.CardUiEntity
 
 object LangUtils {
 
-    fun getCardNameByLanguage(card: CardModel, systemLang: CardLanguage): String {
+    fun getCardNameByLanguage(card: CardUiEntity, systemLang: CardLanguage): String {
         var result = card.name
-        card.foreignNames.forEach {
+        card.foreignNamesList.forEach {
             if (it.language == systemLang.cardLang) result = it.name
         }
         return result
     }
 
-    fun getCardImageByLanguage(card: CardModel, systemLang: CardLanguage): String {
+    fun getCardImageByLanguage(card: CardUiEntity, systemLang: CardLanguage): String {
         var result = card.imageUrl
-        card.foreignNames.forEach {
+        card.foreignNamesList.forEach {
             if (it.language == systemLang.cardLang) result = it.imageUrl
         }
         return result

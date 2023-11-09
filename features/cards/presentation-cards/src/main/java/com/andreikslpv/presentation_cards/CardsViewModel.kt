@@ -6,61 +6,74 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.andreikslpv.domain_cards.usecase.ChangeApiAvailabilityUseCase
-import com.andreikslpv.domain_cards.usecase.GetCardsUseCase
-import com.andreikslpv.domain_cards.usecase.TryToChangeCollectionStatusUseCase
+import androidx.paging.map
+import com.andreikslpv.domain.entities.CardEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain_cards.repositories.CardsRouter
-import com.andreikslpv.domain.entities.CardModel
+import com.andreikslpv.domain_cards.usecase.GetCardsUseCase
+import com.andreikslpv.domain_cards.usecase.GetCollectionUseCase
+import com.andreikslpv.domain_cards.usecase.TryToChangeCollectionStatusUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CardsViewModel @AssistedInject constructor(
     @Assisted private val screen: CardsFragment.Screen?,
     private val getCardsUseCase: GetCardsUseCase,
-    private val changeApiAvailabilityUseCase: ChangeApiAvailabilityUseCase,
+    getCollectionUseCase: GetCollectionUseCase,
     private val tryToChangeCollectionStatusUseCase: TryToChangeCollectionStatusUseCase,
     private val router: CardsRouter,
 ) : ViewModel() {
 
     private val set = MutableLiveData<String?>()
-    val cards: Flow<PagingData<CardModel>>
+    private val _cards: Flow<PagingData<CardEntity>>
+    val cards: Flow<PagingData<CardUiEntity>>
 
     init {
         if (screen != null) set.postValue(screen.setCode)
         else set.postValue(null)
 
-        cards = set
+        _cards = set
             .asFlow()
             .flatMapLatest { getCardsUseCase.execute(it) }
-            // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
+
+        cards = combine(
+            _cards,
+            getCollectionUseCase.execute(),
+            ::merge
+        )
+    }
+
+    private fun merge(
+        pagingData: PagingData<CardEntity>,
+        collection: List<String>,
+    ): PagingData<CardUiEntity> {
+        return pagingData.map { card ->
+            CardUiEntity(
+                card = card,
+                isInCollection = collection.contains(card.id)
+            )
+        }
     }
 
     fun getNameOfSet() = screen?.setName ?: ""
 
-    fun goBack() {
-        router.goBack()
-    }
+    fun goBack() = router.goBack()
 
-    fun launchDetails(card: CardModel) {
-        router.launchDetails(card)
-    }
+    fun launchDetails(card: CardUiEntity) = router.launchDetails(card)
 
     fun refresh() {
         set.postValue(set.value)
     }
 
-    fun changeApiAvailability() {
-        changeApiAvailabilityUseCase.execute(false)
-    }
-
-    fun tryToChangeCollectionStatus(card: CardModel): Boolean {
-        return tryToChangeCollectionStatusUseCase.execute(card)
+    fun tryToChangeCollectionStatus(card: CardUiEntity): Boolean {
+        return tryToChangeCollectionStatusUseCase.execute(card as CardEntity)
     }
 
 

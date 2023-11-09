@@ -8,25 +8,25 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.andreikslpv.common.Constants
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardModel
-import com.andreikslpv.domain_cards.usecase.GetCollectionUseCase
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
-import com.andreikslpv.presentation.makeToast
 import com.andreikslpv.presentation.observeStateOn
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
+import com.andreikslpv.presentation.simpleScan
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation.viewModelCreator
+import com.andreikslpv.presentation.visible
 import com.andreikslpv.presentation_cards.databinding.FragmentCardsBinding
 import com.andreikslpv.presentation_cards.recyclers.CardPagingAdapter
 import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,16 +49,7 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     private lateinit var cardAdapter: CardPagingAdapter
 
     @Inject
-    lateinit var getCollectionUseCase: GetCollectionUseCase
-
-    @Inject
     lateinit var glide: RequestManager
-
-    private val decorator = SpaceItemDecoration(
-        paddingBottomInDp = 16,
-        paddingRightInDp = 8,
-        paddingLeftInDp = 8,
-    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,19 +75,21 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
     }
 
     private fun initCardsRecycler() {
+        val decorator = SpaceItemDecoration(
+            paddingBottomInDp = 16,
+            paddingRightInDp = 8,
+            paddingLeftInDp = 8,
+        )
         binding.cardsRecycler.apply {
             cardAdapter = CardPagingAdapter(
                 object : CardItemClickListener {
-                    override fun click(card: CardModel) {
-                        viewModel.launchDetails(card)
-                    }
+                    override fun click(card: CardUiEntity) = viewModel.launchDetails(card)
                 },
                 object : CardItemClickListener {
-                    override fun click(card: CardModel) {
+                    override fun click(card: CardUiEntity) {
                         viewModel.tryToChangeCollectionStatus(card)
                     }
                 },
-                getCollectionUseCase,
                 glide
             )
             adapter = cardAdapter
@@ -104,48 +97,47 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
             adapter = cardAdapter.withLoadStateHeaderAndFooter(
                 header = BaseLoadStateAdapter { cardAdapter.retry() },
                 footer = BaseLoadStateAdapter { cardAdapter.retry() })
-            //Применяем декоратор для отступов
             addItemDecoration(decorator)
         }
         initLoadStateListening()
+        if (viewModel.getNameOfSet().isBlank())
+            observeAdaptersItemCount()
     }
 
-    private fun initLoadStateListening() {
-        cardAdapter.loadStateFlow.observeStateOn(viewLifecycleOwner) {
-            if (it.source.prepend is LoadState.NotLoading) {
-                Core.loadStateHandler.setLoadState(Response.Loading)
-            }
-            if (it.source.prepend is LoadState.Error) {
-                catchError((it.source.prepend as LoadState.Error).error.message ?: "")
-            }
-            if (it.source.append is LoadState.Error) {
-                catchError((it.source.append as LoadState.Error).error.message ?: "")
-            }
-            if (it.source.refresh is LoadState.NotLoading) {
-                Core.loadStateHandler.setLoadState(Response.Success(true))
-            }
-            if (it.source.refresh is LoadState.Error) {
-                val error = (it.source.refresh as LoadState.Error).error
-                Core.loadStateHandler.setLoadState(Response.Failure(error))
-                catchError(error.message ?: Constants.UNKNOWN_ERROR)
+    // Tracking the number of elements in the response and if the response is empty - showing a special view group
+    private fun observeAdaptersItemCount() = this.lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                getRefreshLoadStateFlow().simpleScan(count = 2)
+                    .collectLatest { (previousState, currentState) ->
+                        if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
+                            if (cardAdapter.itemCount > 0) binding.cardEmptyView.visible(false)
+                            else binding.cardEmptyView.visible(true)
+                        }
+                    }
             }
         }
     }
 
-    private fun catchError(message: String) {
-        message.makeToast(requireContext())
-        viewModel.changeApiAvailability()
-        cardAdapter.refresh()
+    private fun getRefreshLoadStateFlow() = cardAdapter.loadStateFlow.map { it.refresh }
+
+    private fun initLoadStateListening() {
+        cardAdapter.loadStateFlow.observeStateOn(viewLifecycleOwner) {
+            if (it.mediator?.prepend is LoadState.NotLoading)
+                Core.loadStateHandler.setLoadState(Response.Loading)
+            if (it.mediator?.refresh is LoadState.NotLoading)
+                Core.loadStateHandler.setLoadState(Response.Success(true))
+            if (it.mediator?.refresh is LoadState.Error)
+                Core.loadStateHandler.setLoadState(
+                    Response.Failure((it.mediator?.refresh as LoadState.Error).error)
+                )
+        }
     }
 
-    private fun initCollectCards() {
-        this.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.cards.collectLatest { pagedData ->
-                        cardAdapter.submitData(pagedData)
-                    }
-                }
+    private fun initCollectCards() = this.lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.cards.collectLatest { cardAdapter.submitData(it) }
             }
         }
     }

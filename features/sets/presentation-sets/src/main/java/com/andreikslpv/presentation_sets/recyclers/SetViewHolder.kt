@@ -5,7 +5,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.andreikslpv.presentation_sets.databinding.ItemSetBinding
-import com.andreikslpv.domain_sets.entities.SetModel
+import com.andreikslpv.domain_sets.entities.SetEntity
 
 class SetViewHolder(val binding: ItemSetBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -14,7 +14,7 @@ class SetViewHolder(val binding: ItemSetBinding) :
         .components { add(SvgDecoder.Factory()) }
         .build()
 
-    fun bind(set: SetModel) {
+    fun bind(set: SetEntity) {
         binding.itemTitle.text = set.name
         val request = ImageRequest.Builder(binding.root.context)
             .data(set.symbolUrl)
