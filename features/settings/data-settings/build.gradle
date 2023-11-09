@@ -42,6 +42,10 @@ dependencies {
     implementation Libs.Google.Hilt
     kapt Libs.Google.HiltCompiler
 
+    // Firebase
+    implementation platform(Libs.Google.FirebaseBom)
+    implementation 'com.google.firebase:firebase-config'
+
     implementation project(":features:settings:domain-settings")
     implementation project(":core:common-impl")
 

@@ -1,6 +1,6 @@
 package com.andreikslpv.data_users.entities
 
-import com.andreikslpv.data.db.entities.CardFirebaseEntity
+import com.andreikslpv.data.CardFirebaseEntity
 
 data class UserModel(
     var uid: String = "",

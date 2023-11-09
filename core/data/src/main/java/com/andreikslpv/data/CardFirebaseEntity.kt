@@ -1,4 +1,4 @@
-package com.andreikslpv.data.db.entities
+package com.andreikslpv.data
 
 import com.andreikslpv.domain.entities.AvailableCardEntity
 import com.andreikslpv.domain.entities.CardEntity

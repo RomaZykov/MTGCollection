@@ -1,4 +1,4 @@
-package com.andreikslpv.data_auth.constants
+package com.andreikslpv.data_settings
 
 object RemoteConfigConstants {
 

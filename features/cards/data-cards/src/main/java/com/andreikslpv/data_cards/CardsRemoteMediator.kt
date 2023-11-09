@@ -32,7 +32,9 @@ class CardsRemoteMediator @AssistedInject constructor(
             val cards = cardsApi.getCards(
                 set = codeOfSet,
                 page = pageIndex
-            ).cards.map { CardRoomEntity(it) }
+            ).cards.map {
+                CardRoomEntity(it)
+            }
 
             if (loadType == LoadType.REFRESH) cardsDao.refresh(codeOfSet, cards)
             else cardsDao.save(cards)

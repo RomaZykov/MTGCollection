@@ -3,12 +3,14 @@ package com.andreikslpv.mtgcollection.glue.auth
 import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_cards.repositories.CardsRepository
+import com.andreikslpv.domain_settings.repositories.SettingsRepository
 import com.andreikslpv.domain_users.UsersRepository
 import javax.inject.Inject
 
 class AuthExternalRepositoryImpl @Inject constructor(
     private val usersRepository: UsersRepository,
     private val cardsRepository: CardsRepository,
+    private val settingsRepository: SettingsRepository,
 ) : AuthExternalRepository {
 
     override suspend fun createUser(uid: String) = usersRepository.createUserInDb(uid)
@@ -33,5 +35,7 @@ class AuthExternalRepositoryImpl @Inject constructor(
 
     override fun removeFromCardsCollection(uid: String, card: CardEntity) =
         cardsRepository.removeFromCardsCollection(uid, card)
+
+    override suspend fun getPrivacyPolicy() = settingsRepository.getPrivacyPolicy()
 
 }

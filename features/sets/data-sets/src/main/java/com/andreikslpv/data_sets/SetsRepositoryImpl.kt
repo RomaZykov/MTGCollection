@@ -2,57 +2,45 @@ package com.andreikslpv.data_sets
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE_SIZE
-import com.andreikslpv.data_sets.datasource.SetsApiDataSource
-import com.andreikslpv.data_sets.datasource.SetsCacheDataSource
+import com.andreikslpv.data_sets.datasource.SetsDataSource
 import com.andreikslpv.data_sets.datasource.TypesDataSource
 import com.andreikslpv.domain_sets.SetsRepository
-import com.andreikslpv.domain_sets.entities.SetModel
-import kotlinx.coroutines.flow.Flow
+import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class SetsRepositoryImpl @Inject constructor(
-    private val apiDataSource: SetsApiDataSource,
-    private val cacheDataSource: SetsCacheDataSource,
+    private val apiDataSource: SetsDataSource,
     private val typesDataSource: TypesDataSource,
+    private val remoteDatabase: FirebaseFirestore,
 ) : SetsRepository {
 
-    private var isApiAvailable = true
+    override suspend fun getNamesOfAllTypesOfSet() = typesDataSource.getNamesOfTypes()
 
-    override suspend fun getTypesOfSet() = typesDataSource.getTypeNames()
+    override suspend fun getAllTypes() = typesDataSource.getAllTypes()
 
-    override fun getSetsByType(type: String): Flow<PagingData<SetModel>> {
-        val codeOfType = typesDataSource.getTypeCodeByName(type)
-        return Pager(
-            config = PagingConfig(
-                pageSize = DEFAULT_PAGE_SIZE,
-                enablePlaceholders = false,
-                initialLoadSize = DEFAULT_PAGE_SIZE
-            ),
-            pagingSourceFactory = {
-                if (isApiAvailable) {
-                    apiDataSource.getSetsByType(
-                        codeOfType,
-                        object : SetsApiCallback {
-                            override fun onSuccess(items: List<SetModel>) {
-                                if (isApiAvailable) cacheDataSource.saveSetsToDb(items)
-                            }
+    override fun getTypeCodeByName(nameOfType: String) =
+        typesDataSource.getTypeCodeByName(nameOfType)
 
-                            override fun onFailure() {}
-                        }
-                    )
-                } else {
-                    // загружаем данные из кэша и меняем статус доступности апи на true,
-                    // чтобы в следующий раз снова сначала была попытка получить данные из апи
-                    isApiAvailable = true
-                    cacheDataSource.getSetsByType(codeOfType)
-                }
-            }).flow
-    }
+    override fun getSetsByType(codeOfType: String) = Pager(
+        config = PagingConfig(
+            pageSize = DEFAULT_PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = DEFAULT_PAGE_SIZE
+        ),
+        pagingSourceFactory = { apiDataSource.getSetsByType(codeOfType) }
+    ).flow
 
-    override fun changeApiAvailability(newStatus: Boolean) {
-        isApiAvailable = newStatus
+    override suspend fun updateTypesInDb(types: List<TypeOfSetEntity>) =
+        typesDataSource.updateTypesInDb(types)
+
+    override suspend fun getTypesOfSetInRemoteDb() = flow {
+        remoteDatabase.collection(FirestoreConstants.PATH_TYPES_OF_SET).get().await().also {
+            emit(it.toObjects(TypeOfSetEntity::class.java))
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package com.andreikslpv.domain_sets.entities
 
-data class SetModel(
+data class SetEntity(
     val block: String = "",
     val code: String = "",
     val name: String = "",

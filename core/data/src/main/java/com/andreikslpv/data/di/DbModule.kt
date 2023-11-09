@@ -29,7 +29,7 @@ class DbModule {
 
     @Singleton
     @Provides
-    fun provideSetsDao(appDatabase: AppDatabase) = appDatabase.setsDao()
+    fun provideTypeOfSetDao(appDatabase: AppDatabase) = appDatabase.typeOfSetDao()
 
     @Singleton
     @Provides

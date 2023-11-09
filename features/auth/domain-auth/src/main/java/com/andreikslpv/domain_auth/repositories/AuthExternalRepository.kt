@@ -25,4 +25,6 @@ interface AuthExternalRepository {
 
     fun removeFromCardsCollection(uid: String, card: CardEntity)
 
+    suspend fun getPrivacyPolicy(): Flow<Response<String>>
+
 }

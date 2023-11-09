@@ -1,11 +1,16 @@
 package com.andreikslpv.data_sets.datasource
 
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
+import kotlinx.coroutines.flow.Flow
 
 interface TypesDataSource {
 
-    suspend fun getTypeNames(): MutableStateFlow<List<String>>
+    suspend fun getNamesOfTypes(): Flow<List<String>>
 
-    fun getTypeCodeByName(name: String): String
+    suspend fun getAllTypes(): Flow<List<TypeOfSetEntity>>
+
+    fun getTypeCodeByName(name: String): Flow<String>
+
+    suspend fun updateTypesInDb(types: List<TypeOfSetEntity>)
 
 }

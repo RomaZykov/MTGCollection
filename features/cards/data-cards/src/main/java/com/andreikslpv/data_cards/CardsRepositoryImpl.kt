@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.andreikslpv.common.Response
 import com.andreikslpv.data.ApiConstants
-import com.andreikslpv.data.db.entities.CardFirebaseEntity
+import com.andreikslpv.data.CardFirebaseEntity
 import com.andreikslpv.data_cards.datasource.CardsFirebasePagingSource
 import com.andreikslpv.datasource_room_cards.CardsDao
 import com.andreikslpv.domain.entities.CardEntity
@@ -30,19 +30,17 @@ class CardsRepositoryImpl @Inject constructor(
 ) : CardsRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getCardsInSet(codeOfSet: String): Flow<PagingData<CardEntity>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = ApiConstants.DEFAULT_PAGE_SIZE,
-                enablePlaceholders = false,
-                initialLoadSize = ApiConstants.DEFAULT_PAGE_SIZE
-            ),
-            remoteMediator = remoteMediatorFactory.create(codeOfSet = codeOfSet),
-            pagingSourceFactory = { cardsDao.getPagingSource(codeOfSet) }
-        )
-            .flow
-            .map { it as PagingData<CardEntity> }
-    }
+    override fun getCardsInSet(codeOfSet: String) = Pager(
+        config = PagingConfig(
+            pageSize = ApiConstants.DEFAULT_PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = ApiConstants.DEFAULT_PAGE_SIZE
+        ),
+        remoteMediator = remoteMediatorFactory.create(codeOfSet = codeOfSet),
+        pagingSourceFactory = { cardsDao.getPagingSource(codeOfSet) }
+    )
+        .flow
+        .map { it as PagingData<CardEntity> }
 
     override fun getCardsInCollection(uid: String): Flow<PagingData<CardEntity>> {
         return Pager(

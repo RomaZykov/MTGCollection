@@ -2,7 +2,7 @@ package com.andreikslpv.data_cards.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.andreikslpv.data.db.entities.CardFirebaseEntity
+import com.andreikslpv.data.CardFirebaseEntity
 import com.andreikslpv.domain.entities.CardEntity
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot

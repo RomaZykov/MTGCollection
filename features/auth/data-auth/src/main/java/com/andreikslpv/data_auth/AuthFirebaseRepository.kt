@@ -5,7 +5,6 @@ import androidx.core.net.toUri
 import com.andreikslpv.common.Constants.UNKNOWN_ERROR
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.data_auth.constants.RemoteConfigConstants.SETTING_PRIVACY_POLICY
 import com.andreikslpv.data_auth.constants.StorageConstants.PATH_USERS
 import com.andreikslpv.domain_auth.entities.AccountDataEntity
 import com.andreikslpv.domain_auth.repositories.AuthRepository
@@ -13,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.userProfileChangeRequest
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onClosed
@@ -27,7 +25,6 @@ import javax.inject.Inject
 class AuthFirebaseRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val storage: FirebaseStorage,
-    private val remoteConfig: FirebaseRemoteConfig,
 ) : AuthRepository {
 
     override suspend fun signIn(idToken: String) = flow {
@@ -167,17 +164,6 @@ class AuthFirebaseRepository @Inject constructor(
                 }
             } else {
                 emit(Response.Failure(Throwable("Require auth")))
-            }
-        } catch (e: Exception) {
-            emit(Response.Failure(e))
-        }
-    }
-
-    override suspend fun getPrivacyPolicy() = flow {
-        try {
-            emit(Response.Loading)
-            remoteConfig.fetchAndActivate().await().also {
-                emit(Response.Success(remoteConfig.getString(SETTING_PRIVACY_POLICY)))
             }
         } catch (e: Exception) {
             emit(Response.Failure(e))

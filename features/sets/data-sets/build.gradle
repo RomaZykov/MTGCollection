@@ -45,13 +45,11 @@ dependencies {
     // Firebase
     implementation platform(Libs.Google.FirebaseBom)
     implementation 'com.google.firebase:firebase-firestore'
-    //Retrofit
-    implementation Libs.Other.Retrofit
-    implementation Libs.Other.RetrofitConverter
 
     implementation project(":core:common")
     implementation project(":core:data")
     implementation project(":features:sets:domain-sets")
+    implementation project(":features:sets:datasource-room-sets")
 
     testImplementation Libs.Testing.JUnit
 }

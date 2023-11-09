@@ -36,10 +36,10 @@ dependencies {
     implementation Libs.Android.CoreKtx
 
     //Room
-    implementation "androidx.room:room-runtime:2.6.0"
-    implementation "androidx.room:room-ktx:2.6.0"
-    implementation "androidx.room:room-paging:2.6.0"
-    kapt "androidx.room:room-compiler:2.6.0"
+    implementation Libs.Android.Room
+    implementation Libs.Android.RoomKtx
+    implementation Libs.Android.RoomPaging
+    kapt Libs.Android.RoomCompiler
 
     implementation project(":core:domain")
 

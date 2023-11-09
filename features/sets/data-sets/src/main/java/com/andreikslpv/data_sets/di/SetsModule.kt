@@ -1,12 +1,10 @@
 package com.andreikslpv.data_sets.di
 
 import com.andreikslpv.data_sets.SetsRepositoryImpl
-import com.andreikslpv.data_sets.datasource.SetsApiDataSource
-import com.andreikslpv.data_sets.datasource.SetsCacheDataSource
+import com.andreikslpv.data_sets.datasource.SetsDataSource
 import com.andreikslpv.data_sets.datasource.SetsFirebaseDataSource
-import com.andreikslpv.data_sets.datasource.SetsRoomDataSource
 import com.andreikslpv.data_sets.datasource.TypesDataSource
-import com.andreikslpv.data_sets.datasource.TypesInMemoryDataSource
+import com.andreikslpv.data_sets.datasource.TypesRoomDataSource
 import com.andreikslpv.domain_sets.SetsRepository
 import dagger.Module
 import dagger.Provides
@@ -20,19 +18,13 @@ class SetsModule {
 
     @Provides
     @Singleton
-    fun providesSetsCacheDataSource(setsCacheDataSource: SetsRoomDataSource): SetsCacheDataSource {
-        return setsCacheDataSource
+    fun providesSetsDataSource(setsDataSource: SetsFirebaseDataSource): SetsDataSource {
+        return setsDataSource
     }
 
     @Provides
     @Singleton
-    fun providesSetsApiDataSource(setsApiDataSource: SetsFirebaseDataSource): SetsApiDataSource {
-        return setsApiDataSource
-    }
-
-    @Provides
-    @Singleton
-    fun providesTypesDataSource(typesDataSource: TypesInMemoryDataSource): TypesDataSource {
+    fun providesTypesDataSource(typesDataSource: TypesRoomDataSource): TypesDataSource {
         return typesDataSource
     }
 

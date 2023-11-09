@@ -3,8 +3,6 @@ package com.andreikslpv.data_auth.di
 import com.andreikslpv.data_auth.AuthFirebaseRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
@@ -23,17 +21,6 @@ class AuthModule {
     @Provides
     @Singleton
     fun provideFirebaseStorage() = FirebaseStorage.getInstance()
-
-    @Provides
-    @Singleton
-    fun provideRemoteConfigInstance(): FirebaseRemoteConfig {
-        val remoteConfig = FirebaseRemoteConfig.getInstance()
-        val settings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 60
-        }
-        remoteConfig.setConfigSettingsAsync(settings)
-        return remoteConfig
-    }
 
     @Provides
     @Singleton

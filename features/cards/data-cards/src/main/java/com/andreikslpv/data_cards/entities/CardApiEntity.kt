@@ -22,7 +22,7 @@ data class CardApiEntity(
     @SerializedName("colorIdentity") override val colorIdentity: List<String>?,
     @SerializedName("colors") override val colors: List<String>?,
     @SerializedName("flavor") val flavor: String?,
-    @SerializedName("foreignNamesList") val foreignNames: List<ForeignName>?,
+    @SerializedName("foreignNames") val foreignNames: List<ForeignName>?,
     @SerializedName("id") override val id: String,
     @SerializedName("imageUrl") override val imageUrl: String?,
     @SerializedName("layout") val layout: String?,

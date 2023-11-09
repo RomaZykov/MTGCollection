@@ -47,10 +47,10 @@ dependencies {
     implementation Libs.Other.RetrofitConverter
     implementation Libs.Other.Okhttp
     //Room
-    implementation "androidx.room:room-runtime:2.6.0"
-    implementation "androidx.room:room-ktx:2.6.0"
-    implementation "androidx.room:room-paging:2.6.0"
-    kapt "androidx.room:room-compiler:2.6.0"
+    implementation Libs.Android.Room
+    implementation Libs.Android.RoomKtx
+    implementation Libs.Android.RoomPaging
+    kapt Libs.Android.RoomCompiler
 
     // Firebase
     implementation platform(Libs.Google.FirebaseBom)
@@ -59,6 +59,7 @@ dependencies {
 
     implementation project(":core:domain")
     implementation project(":features:cards:datasource-room-cards")
+    implementation project(":features:sets:datasource-room-sets")
 
     testImplementation Libs.Testing.JUnit
 }
