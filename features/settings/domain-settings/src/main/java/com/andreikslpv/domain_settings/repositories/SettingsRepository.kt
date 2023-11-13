@@ -17,6 +17,8 @@ interface SettingsRepository {
 
     fun setVersionForTypesOfSet(newVersion: Int)
 
+    fun refreshTypesOfSet()
+
     fun getDefaultMatchValue(): Int
 
     suspend fun getPrivacyPolicy(): Flow<Response<String>>

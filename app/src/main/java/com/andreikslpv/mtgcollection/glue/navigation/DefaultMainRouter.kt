@@ -10,12 +10,8 @@ class DefaultMainRouter @Inject constructor(
     private val globalNavComponentRouter: GlobalNavComponentRouter
 ) : MainRouter {
 
-    override fun launchMain() {
-        globalNavComponentRouter.startTabs()
-    }
+    override fun launchMain() = globalNavComponentRouter.startTabs()
 
-    override fun restartApp() {
-        appRestarter.restartApp()
-    }
+    override fun restartApp() = appRestarter.restartApp()
 
 }

@@ -16,6 +16,7 @@ import com.andreikslpv.domain_auth.repositories.AuthRouter
 import com.andreikslpv.domain_auth.usecase.profile.DeleteUserUseCase
 import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
 import com.andreikslpv.domain_auth.usecase.profile.TryToChangeCollectionStatusUseCase
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +33,7 @@ class ProfileViewModel @Inject constructor(
     authExternalRepository: AuthExternalRepository,
     getCollectionUseCase: GetCollectionUseCase,
     private val router: AuthRouter,
+    private val googleSignInClient: GoogleSignInClient
 ) : ViewModel() {
 
     private val _currentUser =
@@ -64,6 +66,7 @@ class ProfileViewModel @Inject constructor(
         tryToChangeCollectionStatusUseCase.execute(card as CardEntity)
 
     fun signOut() {
+        googleSignInClient.signOut()
         CoroutineScope(Dispatchers.IO).launch {
             authRepository.signOut().collect { response ->
                 withContext(Dispatchers.Main) {
@@ -74,6 +77,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun deleteUser(idToken: String) {
+        googleSignInClient.signOut()
         CoroutineScope(Dispatchers.IO).launch {
             deleteUserUseCase.execute(idToken).collect { response ->
                 withContext(Dispatchers.Main) {

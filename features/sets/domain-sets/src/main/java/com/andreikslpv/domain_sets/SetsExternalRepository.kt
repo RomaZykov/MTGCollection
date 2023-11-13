@@ -11,4 +11,6 @@ interface SetsExternalRepository {
     fun getDefaultMatchValue(): Int
 
     fun setVersionForTypesOfSet(newVersion: Int)
+
+    fun refreshTypesOfSet()
 }

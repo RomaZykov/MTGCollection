@@ -46,6 +46,9 @@ class SettingsRepositoryImpl @Inject constructor(
         settingsDataSource.putSettingsValue(ProjectSettings.VERSION_SETS_TYPE.value, newVersion)
     }
 
+    override fun refreshTypesOfSet() =
+        setVersionForTypesOfSet(ProjectSettings.VERSION_SETS_TYPE.value.defaultValue as Int)
+
     override fun getDefaultMatchValue() = NO_UPDATE_NEEDED
 
     override suspend fun getPrivacyPolicy() = flow {

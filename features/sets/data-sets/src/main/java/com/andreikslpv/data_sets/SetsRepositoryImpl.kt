@@ -38,8 +38,11 @@ class SetsRepositoryImpl @Inject constructor(
         typesDataSource.updateTypesInDb(types)
 
     override suspend fun getTypesOfSetInRemoteDb() = flow {
-        remoteDatabase.collection(FirestoreConstants.PATH_TYPES_OF_SET).get().await().also {
-            emit(it.toObjects(TypeOfSetEntity::class.java))
+        try {
+            remoteDatabase.collection(FirestoreConstants.PATH_TYPES_OF_SET).get().await().also {
+                emit(it.toObjects(TypeOfSetEntity::class.java))
+            }
+        } catch (_: Exception) {
         }
     }
 
