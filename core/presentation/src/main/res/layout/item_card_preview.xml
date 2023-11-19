@@ -11,12 +11,11 @@
         android:id="@+id/itemImage"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_card_preview_height"
-        android:clipToOutline="true"
+        android:contentDescription="@null"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription"
         tools:src="@tools:sample/avatars" />
 
     <LinearLayout
@@ -35,9 +34,9 @@
             android:layout_height="@dimen/FAB_dimen"
             android:layout_marginStart="@dimen/margin_small_8"
             android:background="@android:color/transparent"
+            android:contentDescription="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_having_not"
-            tools:ignore="ContentDescription"
             tools:src="@tools:sample/avatars" />
 
 
@@ -46,10 +45,10 @@
             style="@style/TextRecipeBasic.Bold"
             android:layout_width="124dp"
             android:layout_height="64dp"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="@dimen/margin_small_4"
             android:ellipsize="end"
+            android:gravity="center_vertical"
             android:maxLines="3"
+            android:paddingHorizontal="@dimen/margin_small_4"
             tools:text="Title" />
 
     </LinearLayout>

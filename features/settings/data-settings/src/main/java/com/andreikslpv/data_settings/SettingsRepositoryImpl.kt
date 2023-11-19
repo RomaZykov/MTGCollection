@@ -1,8 +1,7 @@
-package com.andreikslpv.data_settings.repositories
+package com.andreikslpv.data_settings
 
 import com.andreikslpv.common.Response
 import com.andreikslpv.common.SettingsDataSource
-import com.andreikslpv.data_settings.ProjectSettings
 import com.andreikslpv.data_settings.RemoteConfigConstants.SETTING_PRIVACY_POLICY
 import com.andreikslpv.domain_settings.repositories.SettingsRepository
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -28,17 +27,21 @@ class SettingsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun isNeedToUpdateTypesOfSet() = flow {
-        remoteConfig.fetchAndActivate().await().also {
-            val localValue = try {
-                (settingsDataSource.getSettingsValue(ProjectSettings.VERSION_SETS_TYPE.value) as Int)
-            } catch (e: Exception) {
-                (ProjectSettings.VERSION_SETS_TYPE.value.defaultValue as String)
+        try {
+            remoteConfig.fetchAndActivate().await().also {
+                val localValue = try {
+                    (settingsDataSource.getSettingsValue(ProjectSettings.VERSION_SETS_TYPE.value) as Int)
+                } catch (e: Exception) {
+                    (ProjectSettings.VERSION_SETS_TYPE.value.defaultValue as String)
+                }
+                val remoteValue =
+                    remoteConfig.getLong(ProjectSettings.VERSION_SETS_TYPE.value.key).toInt()
+                emit(
+                    if (localValue != remoteValue) remoteValue else NO_UPDATE_NEEDED
+                )
             }
-            val remoteValue =
-                remoteConfig.getLong(ProjectSettings.VERSION_SETS_TYPE.value.key).toInt()
-            emit(
-                if (localValue != remoteValue) remoteValue else NO_UPDATE_NEEDED
-            )
+        } catch (e: Exception) {
+            emit(NO_UPDATE_NEEDED)
         }
     }
 

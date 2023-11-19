@@ -14,4 +14,8 @@
     <string name="profile_ups">Your browsing history is empty</string>
     <string name="profile_name_anonymous">Anonymous</string>
 
+    <string name="description_avatar">User\'s avatar</string>
+    <string name="description_button_change_avatar">Change the user\'s avatar</string>
+    <string name="description_button_change_name">Change user\'s name</string>
+
 </resources>

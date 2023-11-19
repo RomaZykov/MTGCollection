@@ -36,5 +36,10 @@
     <string name="details_text_having_not">Карта отсутствует в вашей коллекции</string>
     <string name="available_select_all">Выбрать все</string>
     <string name="available_clear">Очистить выбранные</string>
+    <string name="description_button_add">Добавить информацию о карте: её языке, количестве и состоянии</string>
+    <string name="description_select_language">Выбрать язык карты</string>
+    <string name="description_select_condition">Выбрать состояние карты</string>
+    <string name="description_select_foiled">Выбрать фольгированная карта или нет</string>
+    <string name="description_button_delete">Удалить подробную информацию о карте</string>
 
 </resources>

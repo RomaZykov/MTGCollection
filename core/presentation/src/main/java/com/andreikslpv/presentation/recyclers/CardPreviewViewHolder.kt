@@ -14,11 +14,25 @@ class CardPreviewViewHolder(
 
     fun bind(card: CardUiEntity) {
         val systemLang = LangUtils.chooseLanguage(binding.root.context)
-        binding.itemTitle.text = LangUtils.getCardNameByLanguage(card, systemLang)
-        binding.itemButtonCollection.setImageResource(
-            if (card.isInCollection) R.drawable.ic_having
-            else R.drawable.ic_having_not
-        )
+        val cardNames = LangUtils.getCardNameByLanguage(card, systemLang)
+        binding.itemTitle.text = cardNames
+        binding.itemImage.contentDescription =
+            binding.root.context.getString(R.string.description_name_of_card, cardNames)
+        binding.itemButtonCollection.apply {
+            contentDescription = if (card.isInCollection) {
+                setImageResource(R.drawable.ic_having)
+                binding.root.context.getString(
+                    R.string.description_button_remove_card,
+                    cardNames
+                )
+            } else {
+                setImageResource(R.drawable.ic_having_not)
+                binding.root.context.getString(
+                    R.string.description_button_add_card,
+                    cardNames
+                )
+            }
+        }
         glide.load(LangUtils.getCardImageByLanguage(card, systemLang))
             .placeholder(R.drawable.cover_small)
             .centerCrop()

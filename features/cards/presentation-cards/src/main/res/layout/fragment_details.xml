@@ -104,8 +104,8 @@
                 android:id="@+id/availableRecyclerContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/background_main_card"
                 android:layout_marginTop="@dimen/margin_basic"
+                android:background="@drawable/background_main_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleContainer">
@@ -119,6 +119,7 @@
                     android:layout_marginStart="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:checked="false"
+                    android:minHeight="@dimen/min_height"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,6 +143,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="end|center_vertical"
+                    android:minHeight="@dimen/min_height"
                     android:text="@string/available_clear"
                     app:layout_constraintBottom_toBottomOf="@+id/availableSelectAllCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -181,10 +183,10 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/margin_basic"
         android:layout_marginBottom="@dimen/margin_big_24"
+        android:contentDescription="@string/description_button_add"
         app:backgroundTint="@color/lime"
         app:srcCompat="@drawable/ic_add"
-        app:tint="@color/icon_toolbar"
-        tools:ignore="ContentDescription" />
+        app:tint="@color/icon_toolbar" />
 
     <com.andreikslpv.presentation_cards.views.AvailableDialog
         android:id="@+id/availableDialog"

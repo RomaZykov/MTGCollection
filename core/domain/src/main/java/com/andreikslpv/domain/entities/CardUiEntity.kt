@@ -1,5 +1,7 @@
 package com.andreikslpv.domain.entities
 
+import java.io.Serializable
+
 /**
  * Represents data from [CardEntity] + state in coolection.
  */
@@ -27,7 +29,7 @@ data class CardUiEntity(
     override val types: List<String> = listOf(),
     override val availableCards: MutableList<AvailableCardEntity> = mutableListOf(),
     val isInCollection: Boolean = false,
-) : CardEntity {
+) : CardEntity, Serializable {
 
     constructor(card:CardEntity?, isInCollection: Boolean) : this(
         cmc = card?.cmc ?: 0.0,
