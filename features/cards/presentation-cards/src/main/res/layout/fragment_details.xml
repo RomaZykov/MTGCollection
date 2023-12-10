@@ -31,7 +31,7 @@
             <ImageView
                 android:id="@+id/detailsPoster"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_of_poster"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginVertical="@dimen/margin_small_8"
                 android:background="@color/background_main"
@@ -68,7 +68,7 @@
                 android:id="@+id/titleContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_basic"
+                android:layout_marginEnd="@dimen/margin_small_8"
                 android:layout_marginTop="@dimen/margin_small_8"
                 android:gravity="start"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,10 +77,11 @@
 
                 <ImageView
                     android:id="@+id/itemButtonCollection"
-                    android:layout_width="@dimen/FAB_dimen"
-                    android:layout_height="@dimen/FAB_dimen"
+                    android:layout_width="@dimen/add_button_dimen"
+                    android:layout_height="@dimen/add_button_dimen"
                     android:background="@android:color/transparent"
-                    android:scaleType="centerCrop"
+                    android:scaleType="center"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_having_not"
                     tools:ignore="ContentDescription"
                     tools:src="@tools:sample/avatars" />
@@ -91,9 +92,9 @@
                     style="@style/TextRecipeBasic.Bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small_8"
                     android:ellipsize="end"
-                    android:gravity="start"
+                    android:gravity="start|center_vertical"
+                    android:minHeight="@dimen/min_height"
                     android:maxLines="4"
                     android:paddingEnd="@dimen/item_padding"
                     android:text="@string/details_text_having_not" />

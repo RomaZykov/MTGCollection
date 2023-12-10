@@ -63,9 +63,9 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
         if (viewModel.getNameOfSet().isNotBlank()) {
             binding.toolbar.apply {
                 this.setNavigationIcon(com.andreikslpv.presentation.R.drawable.ic_arrow_back)
-                this.setNavigationOnClickListener {
-                    viewModel.goBack()
-                }
+                this.navigationContentDescription =
+                    getString(com.andreikslpv.presentation.R.string.description_back_button)
+                this.setNavigationOnClickListener { viewModel.goBack() }
                 this.title = viewModel.getNameOfSet()
             }
         } else {

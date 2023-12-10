@@ -66,7 +66,6 @@
                 android:id="@+id/profileNameContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_basic"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,15 +81,18 @@
                     android:inputType="text"
                     android:maxLength="15"
                     android:maxLines="1"
+                    android:minHeight="@dimen/min_height"
+                    android:paddingStart="@dimen/margin_basic"
                     android:text="@string/profile_name_anonymous"
                     tools:ignore="Autofill,LabelFor" />
 
                 <ImageView
                     android:id="@+id/profilePencil"
-                    android:layout_width="@dimen/profile_pencil_dimen"
-                    android:layout_height="@dimen/profile_pencil_dimen"
+                    android:layout_width="@dimen/add_button_dimen"
+                    android:layout_height="@dimen/add_button_dimen"
                     android:contentDescription="@string/description_button_change_name"
-                    android:scaleType="centerCrop"
+                    android:paddingEnd="@dimen/margin_basic"
+                    android:scaleType="center"
                     android:src="@drawable/ic_pencil" />
             </LinearLayout>
 
@@ -193,12 +195,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_basic"
-                android:layout_marginTop="@dimen/margin_small_4"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"
-                android:gravity="start|center_vertical"
+                android:gravity="start|top"
+                android:minWidth="@dimen/min_height"
                 android:minHeight="@dimen/min_height"
+                android:paddingTop="@dimen/margin_basic"
                 android:text="@string/profile_sign_out"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/historyContainer" />
@@ -213,18 +216,20 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="start|center_vertical"
+                android:gravity="start|top"
+                android:minWidth="@dimen/min_height"
                 android:minHeight="@dimen/min_height"
+                android:paddingTop="@dimen/margin_small_8"
                 android:text="@string/profile_delete_user"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/signOutButton" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_basic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/deleteUserButton" />
+            <!--            <Space-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/margin_basic"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/deleteUserButton" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

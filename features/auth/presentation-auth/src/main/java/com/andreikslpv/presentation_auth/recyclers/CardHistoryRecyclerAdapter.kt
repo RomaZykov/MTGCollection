@@ -15,6 +15,7 @@ class CardHistoryRecyclerAdapter(
     private val cardClickListener: CardItemClickListener,
     private val collectionClickListener: CardItemClickListener,
     private val glide: RequestManager,
+    private val containerWidthPx: Int,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val items = mutableListOf<CardUiEntity>()
@@ -32,6 +33,7 @@ class CardHistoryRecyclerAdapter(
         when (holder) {
             is CardPreviewViewHolder -> {
                 holder.bind(items[position])
+                holder.binding.itemContainer.maxWidth = containerWidthPx
                 holder.binding.itemContainer.setOnClickListener {
                     cardClickListener.click(items[position])
                 }
