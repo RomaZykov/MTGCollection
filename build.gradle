@@ -11,17 +11,17 @@ buildscript {
 
         coreVersion = '1.12.0'
         fragmentVersion = '1.6.1'
-        activityVersion = '1.8.1'
+        activityVersion = '1.8.2'
         appcompatVersion = '1.6.1'
-        navVersion = '2.7.5'
+        navVersion = '2.7.6'
         pagingVersion = '3.2.1'
         coordinatorVersion = '1.2.0'
         livedataVersion = '2.6.2'
         roomVersion = '2.6.0'
 
-        materialVersion = '1.10.0'
+        materialVersion = '1.11.0'
         hiltVersion = '2.49'
-        firebaseBomVersion = '32.6.0'
+        firebaseBomVersion = '32.7.0'
         gmsVersion = '20.7.0'
 
         coroutinesVersion = '1.6.4'

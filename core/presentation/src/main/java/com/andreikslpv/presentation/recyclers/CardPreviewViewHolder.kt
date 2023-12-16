@@ -35,7 +35,6 @@ class CardPreviewViewHolder(
         }
         glide.load(LangUtils.getCardImageByLanguage(card, systemLang))
             .placeholder(R.drawable.cover_small)
-            .centerCrop()
             .into(binding.itemImage)
     }
 
