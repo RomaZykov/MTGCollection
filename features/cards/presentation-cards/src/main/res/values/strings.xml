@@ -30,9 +30,14 @@
     <string name="share">Share</string>
     <string name="clearList">Clear list</string>
 
-
     <string name="details_text_having_not">The card is missing from your collection</string>
     <string name="details_text_having">The card has been added to the collection. Now you can specify the number of such cards in your collection and their condition</string>
     <string name="available_select_all">Select all</string>
     <string name="available_clear">Clear selected</string>
+
+    <string name="description_button_add">Add information about the card: its language, quantity and condition</string>
+    <string name="description_select_language">Select the card language</string>
+    <string name="description_select_condition">Select the card condition</string>
+    <string name="description_select_foiled">Choose foil card or not</string>
+    <string name="description_button_delete">Delete detailed card information</string>
 </resources>

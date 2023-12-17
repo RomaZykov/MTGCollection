@@ -4,7 +4,7 @@ import android.content.Context
 import com.andreikslpv.common.SettingsDataSource
 import com.andreikslpv.common_impl.SettingsDataSourceImpl
 import com.andreikslpv.data_settings.AllSettings
-import com.andreikslpv.data_settings.repositories.SettingsRepositoryImpl
+import com.andreikslpv.data_settings.SettingsRepositoryImpl
 import com.andreikslpv.domain_settings.repositories.SettingsRepository
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings

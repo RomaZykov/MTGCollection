@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemContainer"
     android:background="@drawable/background_item"
-    android:layout_width="@dimen/item_set_dimen"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/item_set_dimen">
 
     <ImageView
         android:id="@+id/itemImage"
-        android:layout_width="@dimen/item_set_image_dimen"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/item_set_image_dimen"
         android:layout_marginTop="@dimen/margin_small"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

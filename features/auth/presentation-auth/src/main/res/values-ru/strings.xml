@@ -15,4 +15,8 @@
     <string name="profile_ups">Ваша история просмотров пуста</string>
     <string name="profile_name_anonymous">Аноним</string>
 
+    <string name="description_avatar">Аватар пользователя</string>
+    <string name="description_button_change_avatar">Изменить аватар пользователя</string>
+    <string name="description_button_change_name">Изменить имя пользователя</string>
+
 </resources>

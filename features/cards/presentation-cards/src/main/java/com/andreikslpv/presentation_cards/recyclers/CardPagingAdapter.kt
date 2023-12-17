@@ -18,19 +18,25 @@ class CardPagingAdapter(
 ) {
 
     override fun onBindViewHolder(holder: CardPreviewViewHolder, position: Int) {
-        getItem(position)?.let {card->
+        getItem(position)?.let { card ->
             holder.bind(card)
         }
 
         holder.binding.itemContainer.setOnClickListener {
-            getItem(position)?.let { card ->
-                cardClickListener.click(card)
+            try {
+                getItem(position)?.let { card ->
+                    cardClickListener.click(card)
+                }
+            } catch (_: Exception) {
             }
         }
 
         holder.binding.itemButtonCollection.setOnClickListener {
-            getItem(position)?.let { card ->
-                collectionClickListener.click(card)
+            try {
+                getItem(position)?.let { card ->
+                    collectionClickListener.click(card)
+                }
+            } catch (_: Exception) {
             }
         }
     }

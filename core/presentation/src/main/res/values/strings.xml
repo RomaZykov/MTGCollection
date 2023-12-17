@@ -3,4 +3,9 @@
 
     <string name="retry_button">Click to restart</string>
 
+    <string name="description_button_add_card">Add the card %s to the collection. The card is not in the collection now</string>
+    <string name="description_button_remove_card">Delete the card %s from the collection. The card is now in the collection</string>
+    <string name="description_name_of_card">Card: %s</string>
+    <string name="description_back_button">Back</string>
+
 </resources>

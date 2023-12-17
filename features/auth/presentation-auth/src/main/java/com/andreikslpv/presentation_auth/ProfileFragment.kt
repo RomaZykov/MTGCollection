@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
@@ -114,6 +115,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         )
 
         binding.profileRecyclerHistory.apply {
+            val containerWidthPx =
+                requireContext().resources.getDimension(R.dimen.item_set_dimen).toInt()
+
             cardHistoryAdapter = CardHistoryRecyclerAdapter(
                 object : CardItemClickListener {
                     override fun click(card: CardUiEntity) {
@@ -125,7 +129,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         viewModel.tryToChangeCollectionStatus(card)
                     }
                 },
-                glide
+                glide,
+                containerWidthPx,
             )
             adapter = cardHistoryAdapter
             layoutManager =

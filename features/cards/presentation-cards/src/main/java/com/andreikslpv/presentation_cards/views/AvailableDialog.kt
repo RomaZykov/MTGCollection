@@ -45,7 +45,7 @@ class AvailableDialog(context: Context, attributeSet: AttributeSet?) :
 
     private fun getCardLanguageArray(): Array<String> {
         val result = mutableListOf<String>()
-        CardLanguage.values().forEach {
+        CardLanguage.entries.forEach {
             result.add(it.cardLang)
         }
         return result.toTypedArray()
@@ -53,7 +53,7 @@ class AvailableDialog(context: Context, attributeSet: AttributeSet?) :
 
     private fun getCardConditionArray(): Array<String> {
         val result = mutableListOf<String>()
-        CardCondition.values().forEach {
+        CardCondition.entries.forEach {
             result.add(it.fullName)
         }
         return result.toTypedArray()

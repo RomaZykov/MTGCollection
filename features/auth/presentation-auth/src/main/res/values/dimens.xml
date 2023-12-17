@@ -6,4 +6,6 @@
     <dimen name="profile_avatar_dimen">124dp</dimen>
     <dimen name="profile_camera_dimen">40dp</dimen>
     <dimen name="profile_pencil_dimen">24dp</dimen>
+
+    <dimen name="item_set_dimen">156dp</dimen>
 </resources>

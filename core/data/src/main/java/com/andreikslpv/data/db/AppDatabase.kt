@@ -11,7 +11,7 @@ import com.andreikslpv.datasource_room_sets.TypeOfSetRoomEntity
 
 @Database(
     entities = [TypeOfSetRoomEntity::class, CardRoomEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(DatabaseConverters::class, CardsRoomConverters::class)

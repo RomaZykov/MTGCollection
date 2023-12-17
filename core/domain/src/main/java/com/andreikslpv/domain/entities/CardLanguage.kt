@@ -1,5 +1,9 @@
 package com.andreikslpv.domain.entities
 
+/**
+ * A class designed to store the card language and the corresponding operating system language
+ */
+
 enum class CardLanguage(val systemLang: String, val cardLang: String) {
     NONE("", ""),
     ENGLISH("english", "English"),

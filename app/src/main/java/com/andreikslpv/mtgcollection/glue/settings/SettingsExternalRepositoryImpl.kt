@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SettingsExternalRepositoryImpl @Inject constructor(
     private val setsDataRepository: SetsRepository,
-): SettingsExternalRepository {
+) : SettingsExternalRepository {
 
     override suspend fun getTypesOfSet() = setsDataRepository.getNamesOfAllTypesOfSet()
 

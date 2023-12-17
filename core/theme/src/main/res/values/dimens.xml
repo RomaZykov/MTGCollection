@@ -32,4 +32,7 @@
     <!-- for SearchView and Spinner -->
     <dimen name="search_corner_radius">30dp</dimen>
 
+    <!-- for Text button -->
+    <dimen name="min_height">48dp</dimen>
+
 </resources>

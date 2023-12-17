@@ -64,6 +64,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initToolbar() {
         binding.toolbar.setNavigationIcon(com.andreikslpv.presentation.R.drawable.ic_arrow_back)
+        binding.toolbar.navigationContentDescription =
+            getString(com.andreikslpv.presentation.R.string.description_back_button)
         binding.toolbar.setNavigationOnClickListener { viewModel.goBack() }
     }
 
@@ -112,11 +114,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 viewModel.collection.observe(viewLifecycleOwner) {
                     if (it.contains(card.id)) {
                         binding.itemButtonCollection.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having)
+                        binding.itemButtonCollection.contentDescription = getString(
+                            com.andreikslpv.presentation.R.string.description_button_remove_card,
+                            binding.toolbar.title
+                        )
                         binding.itemTitle.text = getString(R.string.details_text_having)
                         binding.availableRecyclerContainer.visible(true)
                         binding.availableAddButton.visible(true)
                     } else {
                         binding.itemButtonCollection.setImageResource(com.andreikslpv.presentation.R.drawable.ic_having_not)
+                        binding.itemButtonCollection.contentDescription = getString(
+                            com.andreikslpv.presentation.R.string.description_button_add_card,
+                            binding.toolbar.title
+                        )
                         binding.itemTitle.text = getString(R.string.details_text_having_not)
                         binding.availableRecyclerContainer.visible(false)
                         binding.availableAddButton.visible(false)

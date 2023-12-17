@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:menu="@menu/menu_toolbar_profile"
-            app:layout_scrollFlags="scroll|enterAlways">
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:menu="@menu/menu_toolbar_profile">
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -40,13 +40,13 @@
                 android:layout_width="@dimen/profile_avatar_dimen"
                 android:layout_height="@dimen/profile_avatar_dimen"
                 android:layout_marginTop="@dimen/margin_big_24"
+                android:contentDescription="@string/description_avatar"
                 android:scaleType="centerCrop"
                 android:src="@drawable/anonim"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                tools:ignore="ContentDescription"
                 tools:src="@tools:sample/avatars" />
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -55,18 +55,17 @@
                 android:layout_height="@dimen/profile_camera_dimen"
                 android:layout_marginTop="@dimen/margin_big_24"
                 android:background="@color/white"
+                android:contentDescription="@string/description_button_change_avatar"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_camera"
                 app:layout_constraintBottom_toBottomOf="@+id/profileAvatar"
                 app:layout_constraintEnd_toEndOf="@+id/profileAvatar"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                tools:ignore="ContentDescription" />
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
             <LinearLayout
                 android:id="@+id/profileNameContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_basic"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,16 +81,19 @@
                     android:inputType="text"
                     android:maxLength="15"
                     android:maxLines="1"
+                    android:minHeight="@dimen/min_height"
+                    android:paddingStart="@dimen/margin_basic"
                     android:text="@string/profile_name_anonymous"
                     tools:ignore="Autofill,LabelFor" />
 
                 <ImageView
                     android:id="@+id/profilePencil"
-                    android:layout_width="@dimen/profile_pencil_dimen"
-                    android:layout_height="@dimen/profile_pencil_dimen"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_pencil"
-                    tools:ignore="ContentDescription" />
+                    android:layout_width="@dimen/add_button_dimen"
+                    android:layout_height="@dimen/add_button_dimen"
+                    android:contentDescription="@string/description_button_change_name"
+                    android:paddingEnd="@dimen/margin_basic"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_pencil" />
             </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
@@ -166,8 +168,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/item_card_preview_height"
                         android:layout_marginTop="@dimen/margin_basic"
-                        android:paddingHorizontal="@dimen/margin_small_8"
                         android:background="@android:color/transparent"
+                        android:paddingHorizontal="@dimen/margin_small_8"
                         android:scaleType="centerInside"
                         android:src="@drawable/empty_list"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -193,11 +195,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_basic"
-                android:layout_marginTop="@dimen/margin_big_24"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"
-                android:gravity="start"
+                android:gravity="start|top"
+                android:minWidth="@dimen/min_height"
+                android:minHeight="@dimen/min_height"
+                android:paddingTop="@dimen/margin_basic"
                 android:text="@string/profile_sign_out"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/historyContainer" />
@@ -208,22 +212,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_basic"
-                android:layout_marginTop="@dimen/margin_basic"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="start"
+                android:gravity="start|top"
+                android:minWidth="@dimen/min_height"
+                android:minHeight="@dimen/min_height"
+                android:paddingTop="@dimen/margin_small_8"
                 android:text="@string/profile_delete_user"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/signOutButton" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_basic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/deleteUserButton" />
+            <!--            <Space-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/margin_basic"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/deleteUserButton" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

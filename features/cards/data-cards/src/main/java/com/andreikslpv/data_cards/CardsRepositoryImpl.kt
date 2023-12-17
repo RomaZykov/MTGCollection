@@ -34,7 +34,6 @@ class CardsRepositoryImpl @Inject constructor(
         config = PagingConfig(
             pageSize = ApiConstants.DEFAULT_PAGE_SIZE,
             enablePlaceholders = false,
-            initialLoadSize = ApiConstants.DEFAULT_PAGE_SIZE
         ),
         remoteMediator = remoteMediatorFactory.create(codeOfSet = codeOfSet),
         pagingSourceFactory = { cardsDao.getPagingSource(codeOfSet) }

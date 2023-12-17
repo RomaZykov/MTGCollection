@@ -6,6 +6,7 @@
         android:id="@+id/favoritesShare"
         android:icon="@drawable/ic_share"
         android:title="@string/share"
+        android:visible="false"
         app:showAsAction="collapseActionView" />
 
     <item

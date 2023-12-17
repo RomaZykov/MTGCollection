@@ -19,4 +19,6 @@ class SetsExternalRepositoryImpl @Inject constructor(
     override fun setVersionForTypesOfSet(newVersion: Int) =
         settingsRepository.setVersionForTypesOfSet(newVersion)
 
+    override fun refreshTypesOfSet() = settingsRepository.refreshTypesOfSet()
+
 }
