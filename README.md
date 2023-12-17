@@ -1,6 +1,10 @@
 # MTGCollection
 "Clean" architecture / MVVM / multimodule (features/core/navigation) / Hilt / LiveData / Flow / Navigation component / Retrofit2+Okhttp3 / Paging3+RemoteMediator / Glide / Coil / Room / SharedPreferences / Firebase
 
+<P>
+The application is published on <a href="[https://github.com/andreikslpv/MTGCollection](https://play.google.com/store/apps/details?id=com.andreikslpv.mtgcollection&pcampaignid=web_share)"> Google Play </a>
+</P>
+
 <P>MTGCollection is an application that will help you always have your collection of Magic: The Gathering cards with you. You can always easily find which MTG cards you have, what language they are in and what their condition is. Adding cards to the collection is convenient and simple:</P>
 <P>1. First select the type of set (core, expansion, etc.);</P>
 <P>2. Then select the set;</P>
