@@ -1,0 +1,4 @@
+<resources>
+    <string name="description_image">Set\'s logo</string>
+    <string name="set_type_hint">Type of sets</string>
+</resources>

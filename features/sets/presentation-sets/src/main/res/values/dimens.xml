@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="item_set_dimen">156dp</dimen>
+    <dimen name="item_set_image_dimen">40dp</dimen>
+
+
+
+</resources>

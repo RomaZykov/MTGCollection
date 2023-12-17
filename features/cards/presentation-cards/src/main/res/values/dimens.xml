@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="height_of_appbar">372dp</dimen>
+    <dimen name="height_of_poster">300dp</dimen>
+
+    <!-- for available -->
+    <dimen name="available_name_height">24dp</dimen>
+    <dimen name="available_count_height">20dp</dimen>
+    <dimen name="available_item_divider">2dp</dimen>
+
+    <!-- for available dialog -->
+    <dimen name="available_dialog_field_width">256dp</dimen>
+    <dimen name="available_dialog_field_width_half">120dp</dimen>
+    <dimen name="available_dialog_dropdown_height">200dp</dimen>
+
+</resources>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.MTGCollectionCore" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <!-- for CheckBox -->
+        <item name="checkboxStyle">@style/Widget.App.CheckBox</item>
+        <!-- for TextField -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <!-- for TextInputLayout -->
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+        <item name="textInputOutlinedExposedDropdownMenuStyle">
+            @style/Widget.App.TextInputLayoutExposedDropdownMenu
+        </item>
+        <!-- for OverflowButton -->
+        <item name="actionOverflowButtonStyle">@style/actionButtonOverflow</item>
+        <!-- for AlertDialog -->
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+
+    </style>
+
+    <!-- CheckBox -->
+    <style name="Widget.App.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CheckBox" parent="">
+        <!-- Container colors -->
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorError">@color/design_default_color_error</item>
+        <!-- Icon colors -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnError">@color/design_default_color_error</item>
+    </style>
+
+    <!-- TextField -->
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/search_corner_radius</item>
+    </style>
+
+    <!-- TextInputLayout -->
+    <style name="Widget.App.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="hintTextColor">@color/black</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
+        <item name="colorError">@color/design_default_color_error</item>
+        <item name="editTextStyle">@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense
+        </item>
+    </style>
+
+    <style name="Widget.App.TextInputLayoutExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.App.TextInputLayout
+        </item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="hintTextColor">@color/black</item>
+    </style>
+
+    <!-- OverflowButton -->
+    <style name="actionButtonOverflow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <!-- for AlertDialog -->
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">@color/background_main</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text
+        </item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.App.Body.Text
+        </item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.PositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.App.NegativeButton</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.Material3">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="android:background">@drawable/background_dialog</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.Material3.Title.Text.CenterStacked">
+        style="@style/TextName"</style>
+
+    <style name="MaterialAlertDialog.App.Body.Text" parent="MaterialAlertDialog.Material3.Body.Text">
+        style="@style/TextSelectAll"</style>
+
+    <style name="Widget.App.NegativeButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textSize">@dimen/text_title_category</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_card_title</item>
+    </style>
+
+    <style name="Widget.App.PositiveButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textSize">@dimen/text_title_category</item>
+        <item name="android:textColor">@color/text_button_danger</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MTGCollection</string>
+    <string name="title_sets">Сеты</string>
+    <string name="title_cards">Коллекция</string>
+    <string name="title_profile">Профиль</string>
+</resources>

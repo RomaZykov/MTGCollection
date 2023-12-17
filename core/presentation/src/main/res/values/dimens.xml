@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="item_padding">4dp</dimen>
+    <dimen name="progress_bar_elevation">12dp</dimen>
+    <dimen name="progress_bar_size">32dp</dimen>
+
+
+    <dimen name="item_card_preview_height">218dp</dimen>
+
+    <!-- for FAB -->
+    <dimen name="FAB_dimen">24dp</dimen>
+
+    <dimen name="add_button_dimen">48dp</dimen>
+    <dimen name="card_name_dimen">64dp</dimen>
+</resources>

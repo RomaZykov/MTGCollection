@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.andreikslpv.datasource_room_cards'
+    compileSdk targetAndroidSdk
+
+    defaultConfig {
+        minSdk minAndroidSdk
+        targetSdk targetAndroidSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = kotlinVersion
+    }
+}
+
+dependencies {
+
+    implementation Libs.Android.CoreKtx
+
+    //Room
+    implementation Libs.Android.Room
+    implementation Libs.Android.RoomKtx
+    implementation Libs.Android.RoomPaging
+    kapt Libs.Android.RoomCompiler
+
+    implementation project(":core:domain")
+
+    testImplementation Libs.Testing.JUnit
+}

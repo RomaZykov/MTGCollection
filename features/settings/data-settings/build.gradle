@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace 'com.andreikslpv.data_settings'
+    compileSdk targetAndroidSdk
+
+    defaultConfig {
+        minSdk minAndroidSdk
+        targetSdk targetAndroidSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = kotlinVersion
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+dependencies {
+
+    implementation Libs.Android.CoreKtx
+
+    implementation Libs.Google.Hilt
+    kapt Libs.Google.HiltCompiler
+
+    // Firebase
+    implementation platform(Libs.Google.FirebaseBom)
+    implementation 'com.google.firebase:firebase-config'
+
+    implementation project(":features:settings:domain-settings")
+    implementation project(":core:common-impl")
+
+    testImplementation Libs.Testing.JUnit
+
+}

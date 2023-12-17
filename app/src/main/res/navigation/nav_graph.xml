@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/tabsFragment"
+        android:name="com.andreikslpv.navigation.presentation.TabsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_tabs" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.andreikslpv.presentation_auth.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/cardsFragment"
+        android:name="com.andreikslpv.presentation_cards.CardsFragment"
+        android:label="CardsFragment"
+        tools:layout="@layout/fragment_cards" />
+    <fragment
+        android:id="@+id/setsFragment"
+        android:name="com.andreikslpv.presentation_sets.SetsFragment"
+        android:label="SetsFragment"
+        tools:layout="@layout/fragment_sets" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.andreikslpv.presentation_cards.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.andreikslpv.presentation_settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.andreikslpv.presentation_auth.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in" />
+</navigation>

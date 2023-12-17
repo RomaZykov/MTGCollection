@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_cards">Коллекция</string>
+
+    <string name="collection_ups">Ваша коллекция пуста</string>
+    <string name="cards_ups">Не удалось загрузить карты</string>
+
+    //for available
+    <string name="available_item_count">%d шт.</string>
+    <string name="available_item_name_not_foil">%s, %s</string>
+    <string name="available_item_name_foil">%s, %s, foil</string>
+
+    //for available dialog
+    <string name="available_dialog_title_edit">Редактирование</string>
+    <string name="available_dialog_title_add">Добавление</string>
+    <string name="available_dialog_action_edit">Изменить</string>
+    <string name="available_dialog_action_add">Добавить</string>
+    <string name="available_dialog_action_cancel">Отменить</string>
+    <string name="available_dialog_field_language">Язык</string>
+    <string name="available_dialog_field_condition">Состояние</string>
+    <string name="available_dialog_field_count">Количество</string>
+    <string name="available_dialog_field_foil">Foil</string>
+    <string name="available_dialog_field_error">Заполните это поле</string>
+    <string name="content_description_end_icon">Очистить поле</string>
+    <string name="foil_yes">да</string>
+    <string name="foil_no">нет</string>
+    <string name="snackbar_text">Такая карта уже есть в вашей коллекции</string>
+    <string name="snackbar_action">Переписать</string>
+
+    //Toolbar menu
+    <string name="share">Поделиться</string>
+    <string name="clearList">Очистить список</string>
+
+    <string name="details_text_having">Карта добавлена в коллекцию. Теперь вы можете уточнить количество таких карт в вашей коллекции и их состояние</string>
+    <string name="details_text_having_not">Карта отсутствует в вашей коллекции</string>
+    <string name="available_select_all">Выбрать все</string>
+    <string name="available_clear">Очистить выбранные</string>
+    <string name="description_button_add">Добавить информацию о карте: её языке, количестве и состоянии</string>
+    <string name="description_select_language">Выбрать язык карты</string>
+    <string name="description_select_condition">Выбрать состояние карты</string>
+    <string name="description_select_foiled">Выбрать фольгированная карта или нет</string>
+    <string name="description_button_delete">Удалить подробную информацию о карте</string>
+
+</resources>

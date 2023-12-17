@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retry_button">Нажмите для перезагрузки</string>
+
+    <string name="description_button_add_card">Добавить карту %s в коллекцию. Сейчас карты нет в коллекции</string>
+    <string name="description_button_remove_card">Удалить карту %s из коллекции. Сейчас карта в коллекции</string>
+    <string name="description_name_of_card">Карта: %s</string>
+    <string name="description_back_button">Назад</string>
+</resources>

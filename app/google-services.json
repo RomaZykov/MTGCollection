@@ -1,0 +1,92 @@
+{
+  "project_info": {
+    "project_number": "414513953201",
+    "project_id": "mtgcollection-f6991",
+    "storage_bucket": "mtgcollection-f6991.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414513953201:android:e8ebabbb0ff2cbdd782590",
+        "android_client_info": {
+          "package_name": "com.andreikslpv.mtgcollection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414513953201-303upe3lu0vajfmvo92oaai1ilskeji7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andreikslpv.mtgcollection",
+            "certificate_hash": "33048e22944dc8e30c97cba0a2e13b41dc278c81"
+          }
+        },
+        {
+          "client_id": "414513953201-lreqmjb8il7k7tuocv441a492e7rcfn1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andreikslpv.mtgcollection",
+            "certificate_hash": "cf9e127931033c499d109e2f4f8233ecc1f127fd"
+          }
+        },
+        {
+          "client_id": "414513953201-56quiu7fpamcap5rj42i3pt6l2a9a2og.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcgQ4mlCxd3J_O2xFAw0OOL9F-Ee6n_Qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414513953201-56quiu7fpamcap5rj42i3pt6l2a9a2og.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414513953201:android:25aee1ee020d4607782590",
+        "android_client_info": {
+          "package_name": "com.andreikslpv.mtgcollectionadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414513953201-0cstgn19jski4cgepr977tu7mnrsu54n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andreikslpv.mtgcollectionadmin",
+            "certificate_hash": "cf9e127931033c499d109e2f4f8233ecc1f127fd"
+          }
+        },
+        {
+          "client_id": "414513953201-56quiu7fpamcap5rj42i3pt6l2a9a2og.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcgQ4mlCxd3J_O2xFAw0OOL9F-Ee6n_Qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414513953201-56quiu7fpamcap5rj42i3pt6l2a9a2og.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/favoritesShare"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share"
+        android:visible="false"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/favoritesClearList"
+        android:icon="@drawable/ic_list_remove"
+        android:title="@string/clearList"
+        app:showAsAction="collapseActionView" />
+</menu>
