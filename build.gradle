@@ -16,12 +16,12 @@ buildscript {
         navVersion = '2.7.6'
         pagingVersion = '3.2.1'
         coordinatorVersion = '1.2.0'
-        livedataVersion = '2.6.2'
+        livedataVersion = '2.7.0'
         roomVersion = '2.6.0'
 
         materialVersion = '1.11.0'
-        hiltVersion = '2.49'
-        firebaseBomVersion = '32.7.0'
+        hiltVersion = '2.50'
+        firebaseBomVersion = '32.7.1'
         gmsVersion = '20.7.0'
 
         coroutinesVersion = '1.6.4'
@@ -82,15 +82,15 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.4.0'
-        classpath 'com.android.tools.build:gradle:8.2.0'
+        classpath 'com.android.tools.build:gradle:8.2.1'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
     }
 }
 
 plugins {
     id 'com.google.dagger.hilt.android' version "$hiltVersion" apply false
-    id 'com.android.application' version '8.2.0' apply false
-    id 'com.android.library' version '8.2.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
-    id 'org.jetbrains.kotlin.jvm' version '1.9.0' apply false
+    id 'com.android.application' version '8.2.1' apply false
+    id 'com.android.library' version '8.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22' apply false
 }

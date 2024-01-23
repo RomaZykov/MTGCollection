@@ -1,10 +1,11 @@
 package com.andreikslpv.data_settings.di
 
 import android.content.Context
-import com.andreikslpv.common.SettingsDataSource
-import com.andreikslpv.common_impl.SettingsDataSourceImpl
-import com.andreikslpv.data_settings.AllSettings
 import com.andreikslpv.data_settings.SettingsRepositoryImpl
+import com.andreikslpv.data_settings.local.LocalSettingsDataSource
+import com.andreikslpv.data_settings.local.SharedPreferencesDataSource
+import com.andreikslpv.data_settings.remote.FirebaseRemoteConfigDataSource
+import com.andreikslpv.data_settings.remote.RemoteSettingsDataSource
 import com.andreikslpv.domain_settings.repositories.SettingsRepository
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
@@ -21,10 +22,18 @@ class SettingsModule {
 
     @Provides
     @Singleton
-    fun provideSettingsDataSource(
+    fun provideLocalSettingsDataSource(
         @ApplicationContext applicationContext: Context,
-    ): SettingsDataSource {
-        return SettingsDataSourceImpl(AllSettings.settings, applicationContext)
+    ): LocalSettingsDataSource {
+        return SharedPreferencesDataSource(applicationContext)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteSettingsDataSource(
+        remoteSettingsDataSource: FirebaseRemoteConfigDataSource
+    ): RemoteSettingsDataSource {
+        return remoteSettingsDataSource
     }
 
     @Provides
