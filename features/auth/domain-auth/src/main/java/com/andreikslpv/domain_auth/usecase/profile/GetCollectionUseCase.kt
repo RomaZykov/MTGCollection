@@ -10,7 +10,7 @@ class GetCollectionUseCase @Inject constructor(
     private val authExternalRepository: AuthExternalRepository,
 ) {
 
-    fun execute(): MutableStateFlow<List<String>> {
+    operator fun invoke(): MutableStateFlow<List<String>> {
         val user = authRepository.getCurrentUser()
         return if (user != null) authExternalRepository.getCollection()
         else MutableStateFlow(emptyList())

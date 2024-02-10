@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardEntity
@@ -18,12 +19,10 @@ import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
 import com.andreikslpv.domain_auth.usecase.profile.TryToChangeCollectionStatusUseCase
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -33,7 +32,8 @@ class ProfileViewModel @Inject constructor(
     authExternalRepository: AuthExternalRepository,
     getCollectionUseCase: GetCollectionUseCase,
     private val router: AuthRouter,
-    private val googleSignInClient: GoogleSignInClient
+    private val googleSignInClient: GoogleSignInClient,
+    private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
     private val _currentUser =
@@ -46,7 +46,7 @@ class ProfileViewModel @Inject constructor(
 
     val history = combine(
         authExternalRepository.getHistory(),
-        getCollectionUseCase.execute(),
+        getCollectionUseCase(),
         ::merge
     )
 
@@ -63,31 +63,27 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun tryToChangeCollectionStatus(card: CardUiEntity) =
-        tryToChangeCollectionStatusUseCase.execute(card as CardEntity)
+        tryToChangeCollectionStatusUseCase(card as CardEntity)
 
     fun signOut() {
         googleSignInClient.signOut()
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(coroutineContext) {
             authRepository.signOut().collect { response ->
-                withContext(Dispatchers.Main) {
-                    Core.loadStateHandler.setLoadState(response)
-                }
+                Core.loadStateHandler.setLoadState(response)
             }
         }
     }
 
     fun deleteUser(idToken: String) {
         googleSignInClient.signOut()
-        CoroutineScope(Dispatchers.IO).launch {
-            deleteUserUseCase.execute(idToken).collect { response ->
-                withContext(Dispatchers.Main) {
-                    Core.loadStateHandler.setLoadState(response)
-                }
+        viewModelScope.launch(coroutineContext) {
+            deleteUserUseCase(idToken).collect { response ->
+                Core.loadStateHandler.setLoadState(response)
             }
         }
     }
 
-    fun linkAnonymousWithCredential(idToken: String) = liveData(Dispatchers.IO) {
+    fun linkAnonymousWithCredential(idToken: String) = liveData(coroutineContext) {
         authRepository.linkAnonymousWithCredential(idToken).collect { response ->
             Core.loadStateHandler.setLoadState(response)
             emit(response)
@@ -97,23 +93,19 @@ class ProfileViewModel @Inject constructor(
     // --------------- all for users photo & name
 
     fun editUserName(newName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(coroutineContext) {
             authRepository.editUserName(newName).collect { response ->
-                withContext(Dispatchers.Main) {
-                    refreshCurrentUser()
-                    Core.loadStateHandler.setLoadState(response)
-                }
+                refreshCurrentUser()
+                Core.loadStateHandler.setLoadState(response)
             }
         }
     }
 
     fun changeUserPhoto(localUri: Uri) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(coroutineContext) {
             authRepository.changeUserPhoto(localUri.toString()).collect { response ->
-                withContext(Dispatchers.Main) {
-                    if (response is Response.Success) refreshCurrentUser()
-                    Core.loadStateHandler.setLoadState(response)
-                }
+                if (response is Response.Success) refreshCurrentUser()
+                Core.loadStateHandler.setLoadState(response)
             }
         }
     }

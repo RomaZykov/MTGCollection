@@ -1,6 +1,7 @@
 package com.andreikslpv.common
 
 import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Common global singleton variables.
@@ -32,6 +33,11 @@ object Core {
      * can be ignored. Exceptions are ignored too.
      */
     val globalScope: CoroutineScope get() = coreProvider.globalScope
+
+    /**
+     * Global CoroutineContext for launching async actions.
+     */
+    val globalCoroutineContext: CoroutineContext get() = coreProvider.globalCoroutineContext
 
     /**
      * Default global error handler for the whole app. Usually it is used

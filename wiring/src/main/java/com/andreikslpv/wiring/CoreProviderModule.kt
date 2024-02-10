@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.ElementsIntoSet
 import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
 
 @Module
@@ -47,6 +48,11 @@ class CoreProviderModule {
     @Provides
     fun provideCoroutineScope(): CoroutineScope {
         return Core.globalScope
+    }
+
+    @Provides
+    fun provideCoroutineContext(): CoroutineContext {
+        return Core.globalCoroutineContext
     }
 
     @Provides

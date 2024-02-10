@@ -10,7 +10,7 @@ class TryToChangeCollectionStatusUseCase @Inject constructor(
     private val authExternalRepository: AuthExternalRepository,
 ) {
 
-    fun execute(card: CardEntity): Boolean {
+    operator fun invoke(card: CardEntity): Boolean {
         val user = authRepository.getCurrentUser()
         return if (user != null) {
             authExternalRepository.getCollection().value.let { collection ->

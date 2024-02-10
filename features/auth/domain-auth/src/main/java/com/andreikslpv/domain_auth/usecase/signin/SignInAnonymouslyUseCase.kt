@@ -7,6 +7,6 @@ class SignInAnonymouslyUseCase @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
 
-    suspend fun execute() = authRepository.signInAnonymously()
+    suspend operator fun invoke() = authRepository.signInAnonymously()
 
 }

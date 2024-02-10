@@ -7,5 +7,5 @@ class GetPrivacyPolicyUseCase @Inject constructor(
     private val authExternalRepository: AuthExternalRepository,
 ) {
 
-    suspend fun execute() = authExternalRepository.getPrivacyPolicy()
+    suspend operator fun invoke() = authExternalRepository.getPrivacyPolicy()
 }

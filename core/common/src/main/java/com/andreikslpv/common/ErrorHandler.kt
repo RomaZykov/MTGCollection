@@ -1,12 +1,10 @@
 package com.andreikslpv.common
 
 /**
- * Default global error handler for actions executed usually via viewModelScope.
+ * Default global error handler.
  */
 interface ErrorHandler {
 
     fun handleError(exception: Throwable)
-
-    fun getUserMessage(exception: Throwable): String
 
 }
