@@ -15,9 +15,9 @@ interface UsersRepository {
 
     fun getCollection(): MutableStateFlow<List<String>>
 
-    fun addToCollection(uid: String, cardId: String)
+    suspend fun addToCollection(uid: String, cardId: String)
 
-    fun removeFromCollection(uid: String, cardId: String)
+    suspend fun removeFromCollection(uid: String, cardId: String)
 
     fun removeAllFromCollection(uid: String)
 

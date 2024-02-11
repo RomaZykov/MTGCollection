@@ -12,15 +12,14 @@ import com.andreikslpv.datasource_room_cards.CardsDao
 import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_cards.repositories.CardsRepository
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CardsRepositoryImpl @Inject constructor(
@@ -59,8 +58,8 @@ class CardsRepositoryImpl @Inject constructor(
             }).flow
     }
 
-    override fun addToCardsCollection(uid: String, card: CardEntity) {
-        CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun addToCardsCollection(uid: String, card: CardEntity): Unit =
+        withContext(Dispatchers.IO) {
             database.collection(FirestoreConstants.PATH_CARDS)
                 .document(uid)
                 .collection(FirestoreConstants.PATH_COLLECTION)
@@ -68,10 +67,9 @@ class CardsRepositoryImpl @Inject constructor(
                 .set(CardFirebaseEntity(card))
                 .await()
         }
-    }
 
-    override fun removeFromCardsCollection(uid: String, card: CardEntity) {
-        CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun removeFromCardsCollection(uid: String, card: CardEntity): Unit =
+        withContext(Dispatchers.IO) {
             database.collection(FirestoreConstants.PATH_CARDS)
                 .document(uid)
                 .collection(FirestoreConstants.PATH_COLLECTION)
@@ -79,7 +77,6 @@ class CardsRepositoryImpl @Inject constructor(
                 .delete()
                 .await()
         }
-    }
 
     override fun getCardFromCollection(uid: String, cardId: String): Flow<CardEntity> =
         callbackFlow {

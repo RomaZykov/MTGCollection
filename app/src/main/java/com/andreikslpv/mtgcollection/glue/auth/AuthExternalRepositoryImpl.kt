@@ -24,16 +24,16 @@ class AuthExternalRepositoryImpl @Inject constructor(
 
     override fun getHistory() = usersRepository.getHistory()
 
-    override fun addToUsersCollection(uid: String, cardId: String) =
+    override suspend fun addToUsersCollection(uid: String, cardId: String) =
         usersRepository.addToCollection(uid, cardId)
 
-    override fun removeFromUsersCollection(uid: String, cardId: String) =
+    override suspend fun removeFromUsersCollection(uid: String, cardId: String) =
         usersRepository.removeFromCollection(uid, cardId)
 
-    override fun addToCardsCollection(uid: String, card: CardEntity) =
+    override suspend fun addToCardsCollection(uid: String, card: CardEntity) =
         cardsRepository.addToCardsCollection(uid, card)
 
-    override fun removeFromCardsCollection(uid: String, card: CardEntity) =
+    override suspend fun removeFromCardsCollection(uid: String, card: CardEntity) =
         cardsRepository.removeFromCardsCollection(uid, card)
 
     override suspend fun getPrivacyPolicy() = settingsRepository.getPrivacyPolicy()

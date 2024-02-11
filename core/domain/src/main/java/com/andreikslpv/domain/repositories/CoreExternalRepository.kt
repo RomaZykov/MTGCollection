@@ -1,9 +1,9 @@
-package com.andreikslpv.domain_cards.repositories
+package com.andreikslpv.domain.repositories
 
 import com.andreikslpv.domain.entities.CardEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 
-interface CardsExternalRepository {
+interface CoreExternalRepository {
 
     fun getCurrentUserUid(): String?
 
@@ -13,8 +13,8 @@ interface CardsExternalRepository {
 
     suspend fun removeFromUsersCollection(uid: String, cardId: String)
 
-    fun getHistory(): MutableStateFlow<List<CardEntity>>
+    suspend fun addToCardsCollection(uid: String, card: CardEntity)
 
-    fun setHistory(uid: String, newHistory: List<CardEntity>)
+    suspend fun removeFromCardsCollection(uid: String, card: CardEntity)
 
 }

@@ -10,7 +10,7 @@ class AddCardToCollectionUseCase @Inject constructor(
     private val cardsExternalRepository: CardsExternalRepository,
 ) {
 
-    fun execute(card: CardEntity) {
+    suspend operator fun invoke(card: CardEntity) {
         val uid = cardsExternalRepository.getCurrentUserUid()
         if (uid != null) cardsRepository.addToCardsCollection(uid, card)
     }

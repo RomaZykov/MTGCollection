@@ -11,9 +11,9 @@ interface CardsRepository {
 
     fun getCardsInCollection(uid: String): Flow<PagingData<CardEntity>>
 
-    fun addToCardsCollection(uid: String, card: CardEntity)
+    suspend fun addToCardsCollection(uid: String, card: CardEntity)
 
-    fun removeFromCardsCollection(uid: String, card: CardEntity)
+    suspend fun removeFromCardsCollection(uid: String, card: CardEntity)
 
     fun getCardFromCollection(uid: String, cardId: String): Flow<CardEntity>
 

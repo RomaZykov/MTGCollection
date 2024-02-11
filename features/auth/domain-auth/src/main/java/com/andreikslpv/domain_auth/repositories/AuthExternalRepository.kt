@@ -17,13 +17,13 @@ interface AuthExternalRepository {
 
     fun getHistory(): MutableStateFlow<List<CardEntity>>
 
-    fun addToUsersCollection(uid: String, cardId: String)
+    suspend fun addToUsersCollection(uid: String, cardId: String)
 
-    fun removeFromUsersCollection(uid: String, cardId: String)
+    suspend fun removeFromUsersCollection(uid: String, cardId: String)
 
-    fun addToCardsCollection(uid: String, card: CardEntity)
+    suspend fun addToCardsCollection(uid: String, card: CardEntity)
 
-    fun removeFromCardsCollection(uid: String, card: CardEntity)
+    suspend fun removeFromCardsCollection(uid: String, card: CardEntity)
 
     suspend fun getPrivacyPolicy(): Flow<Response<String>>
 

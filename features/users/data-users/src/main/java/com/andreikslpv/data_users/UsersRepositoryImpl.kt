@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UsersRepositoryImpl @Inject constructor(
@@ -53,23 +54,19 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCollection(): MutableStateFlow<List<String>> {
-        return collection
-    }
+    override fun getCollection() = collection
 
-    override fun addToCollection(uid: String, cardId: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun addToCollection(uid: String, cardId: String): Unit =
+        withContext(Dispatchers.IO) {
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             user.update(FirestoreConstants.FIELD_COLLECTION, FieldValue.arrayUnion(cardId))
         }
-    }
 
-    override fun removeFromCollection(uid: String, cardId: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun removeFromCollection(uid: String, cardId: String): Unit =
+        withContext(Dispatchers.IO) {
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             user.update(FirestoreConstants.FIELD_COLLECTION, FieldValue.arrayRemove(cardId))
         }
-    }
 
     override fun removeAllFromCollection(uid: String) {
         CoroutineScope(Dispatchers.IO).launch {

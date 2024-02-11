@@ -10,13 +10,13 @@ import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain.entities.CardUiEntity
+import com.andreikslpv.domain.usecase.TryToChangeCollectionStatusUseCase
 import com.andreikslpv.domain_auth.entities.AccountDataEntity
 import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
 import com.andreikslpv.domain_auth.repositories.AuthRouter
 import com.andreikslpv.domain_auth.usecase.profile.DeleteUserUseCase
 import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
-import com.andreikslpv.domain_auth.usecase.profile.TryToChangeCollectionStatusUseCase
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
@@ -62,8 +62,11 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun tryToChangeCollectionStatus(card: CardUiEntity) =
-        tryToChangeCollectionStatusUseCase(card as CardEntity)
+    fun tryToChangeCollectionStatus(card: CardUiEntity) {
+        viewModelScope.launch(coroutineContext) {
+            tryToChangeCollectionStatusUseCase(card as CardEntity)
+        }
+    }
 
     fun signOut() {
         googleSignInClient.signOut()
