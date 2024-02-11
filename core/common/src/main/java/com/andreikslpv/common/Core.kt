@@ -14,16 +14,6 @@ object Core {
     private lateinit var coreProvider: CoreProvider
 
     /**
-     * @see CommonUi
-     */
-    val commonUi: CommonUi get() = coreProvider.commonUi
-
-    /**
-     * @see Resources
-     */
-    val resources: Resources get() = coreProvider.resources
-
-    /**
      * @see Logger
      */
     val logger: Logger get() = coreProvider.logger
@@ -50,11 +40,6 @@ object Core {
      * An interface which provides a method for restarting the app.
      */
     val appRestarter: AppRestarter get() = coreProvider.appRestarter
-
-    /**
-     * Communication interface for sending and receiving screen results.
-     */
-    //val screenCommunication: ScreenCommunication get() = coreProvider.screenCommunication
 
     /**
      * Default timeout for local operations.

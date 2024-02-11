@@ -8,11 +8,7 @@ import kotlin.coroutines.CoroutineContext
  */
 interface CoreProvider {
 
-    val commonUi: CommonUi
-
     val logger: Logger
-
-    val resources: Resources
 
     val globalScope: CoroutineScope
 
@@ -21,8 +17,6 @@ interface CoreProvider {
     val errorHandler: ErrorHandler
 
     val appRestarter: AppRestarter
-
-    //val screenCommunication: ScreenCommunication
 
     val remoteTimeoutMillis: Long get() = 10_000L
 
