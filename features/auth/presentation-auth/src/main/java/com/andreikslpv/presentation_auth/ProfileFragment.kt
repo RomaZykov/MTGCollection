@@ -18,7 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardUiEntity
-import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
+import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.viewBinding

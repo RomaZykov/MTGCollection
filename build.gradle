@@ -13,7 +13,7 @@ buildscript {
         fragmentVersion = '1.6.1'
         activityVersion = '1.8.2'
         appcompatVersion = '1.6.1'
-        navVersion = '2.7.6'
+        navVersion = '2.7.7'
         pagingVersion = '3.2.1'
         coordinatorVersion = '1.2.0'
         livedataVersion = '2.7.0'
@@ -21,7 +21,7 @@ buildscript {
 
         materialVersion = '1.11.0'
         hiltVersion = '2.50'
-        firebaseBomVersion = '32.7.1'
+        firebaseBomVersion = '32.7.2'
         gmsVersion = '20.7.0'
 
         coroutinesVersion = '1.6.4'
@@ -81,7 +81,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.4.0'
+        classpath 'com.google.gms:google-services:4.4.1'
         classpath 'com.android.tools.build:gradle:8.2.2'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
     }

@@ -75,15 +75,12 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getHistory(): MutableStateFlow<List<CardEntity>> {
-        return history
-    }
+    override fun getHistory() = history
 
-    override fun setHistory(uid: String, newHistory: List<CardEntity>) {
-        CoroutineScope(Dispatchers.IO).launch {
+    override suspend fun setHistory(uid: String, newHistory: List<CardEntity>): Unit =
+        withContext(Dispatchers.IO) {
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             user.update(FirestoreConstants.FIELD_HISTORY, newHistory)
-        }
     }
 
 }

@@ -4,7 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.andreikslpv.common.Response
 import com.andreikslpv.data.ApiConstants
 import com.andreikslpv.data.CardFirebaseEntity
 import com.andreikslpv.data_cards.datasource.CardsFirebasePagingSource
@@ -16,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -28,6 +27,7 @@ class CardsRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore,
 ) : CardsRepository {
 
+    @Suppress("UNCHECKED_CAST")
     @OptIn(ExperimentalPagingApi::class)
     override fun getCardsInSet(codeOfSet: String) = Pager(
         config = PagingConfig(
@@ -39,24 +39,26 @@ class CardsRepositoryImpl @Inject constructor(
     )
         .flow
         .map { it as PagingData<CardEntity> }
+        .flowOn(Dispatchers.IO)
 
-    override fun getCardsInCollection(uid: String): Flow<PagingData<CardEntity>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = ApiConstants.DEFAULT_PAGE_SIZE,
-                enablePlaceholders = false,
-                initialLoadSize = ApiConstants.DEFAULT_PAGE_SIZE
-            ),
-            pagingSourceFactory = {
-                val collection = database.collection(FirestoreConstants.PATH_CARDS)
-                    .document(uid)
-                    .collection(FirestoreConstants.PATH_COLLECTION)
-                val query = collection
-                    .orderBy("name")
-                    .limit(ApiConstants.DEFAULT_PAGE_SIZE.toLong())
-                CardsFirebasePagingSource(query)
-            }).flow
-    }
+    override fun getCardsInCollection(uid: String) = Pager(
+        config = PagingConfig(
+            pageSize = ApiConstants.DEFAULT_PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = ApiConstants.DEFAULT_PAGE_SIZE
+        ),
+        pagingSourceFactory = {
+            val collection = database.collection(FirestoreConstants.PATH_CARDS)
+                .document(uid)
+                .collection(FirestoreConstants.PATH_COLLECTION)
+            val query = collection
+                .orderBy("name")
+                .limit(ApiConstants.DEFAULT_PAGE_SIZE.toLong())
+            CardsFirebasePagingSource(query)
+        }
+    )
+        .flow
+        .flowOn(Dispatchers.IO)
 
     override suspend fun addToCardsCollection(uid: String, card: CardEntity): Unit =
         withContext(Dispatchers.IO) {
@@ -89,22 +91,19 @@ class CardsRepositoryImpl @Inject constructor(
                         val tempList = value.documents.mapNotNull {
                             it.toObject(CardFirebaseEntity::class.java)
                         }
-                        if (tempList.isNotEmpty()) trySend(tempList[0]) else trySend(
-                            CardFirebaseEntity()
-                        )
+                        if (tempList.isNotEmpty()) trySend(tempList[0])
+                        else trySend(CardFirebaseEntity())
                     } else trySend(CardFirebaseEntity())
                 }
             awaitClose { cardStateListener.remove() }
         }
+            .flowOn(Dispatchers.IO)
 
-    // TODO перписать с использованием команды сервера
-    override fun removeAllFromCollection(uid: String) = flow {
-        try {
-            emit(Response.Loading)
-            database.collection(FirestoreConstants.PATH_CARDS).document(uid).delete().await()
-                .also { emit(Response.Success(true)) }
-        } catch (e: Exception) {
-            emit(Response.Failure(e))
-        }
+    // TODO переписать с использованием команды сервера
+    override suspend fun removeAllFromCollection(uid: String): Unit = withContext(Dispatchers.IO) {
+        database.collection(FirestoreConstants.PATH_CARDS)
+            .document(uid)
+            .delete()
+            .addOnFailureListener { }
     }
 }

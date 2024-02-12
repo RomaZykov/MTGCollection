@@ -23,6 +23,6 @@ class CardsExternalRepositoryImpl @Inject constructor(
 
     override fun getHistory() = usersRepository.getHistory()
 
-    override fun setHistory(uid: String, newHistory: List<CardEntity>) =
+    override suspend fun setHistory(uid: String, newHistory: List<CardEntity>) =
         usersRepository.setHistory(uid, newHistory)
 }

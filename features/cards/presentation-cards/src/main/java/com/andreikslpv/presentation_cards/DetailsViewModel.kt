@@ -7,17 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.andreikslpv.domain.entities.AvailableCardEntity
 import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain.entities.CardUiEntity
+import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.domain.usecase.TryToChangeCollectionStatusUseCase
 import com.andreikslpv.domain_cards.repositories.CardsRouter
 import com.andreikslpv.domain_cards.usecase.AddCardToCollectionUseCase
 import com.andreikslpv.domain_cards.usecase.GetCardFromCollectionUseCase
-import com.andreikslpv.domain_cards.usecase.GetCollectionUseCase
 import com.andreikslpv.domain_cards.usecase.SetHistoryUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -35,10 +33,8 @@ class DetailsViewModel @AssistedInject constructor(
 
     val card = MutableLiveData<CardUiEntity?>()
 
-    val collection = liveData(Dispatchers.IO) {
-        getCollectionUseCase.execute().collect { response ->
-            emit(response)
-        }
+    val collection = liveData(coroutineContext) {
+        getCollectionUseCase().collect { emit(it) }
     }
 
     private var currentCard = CardUiEntity()
@@ -49,8 +45,8 @@ class DetailsViewModel @AssistedInject constructor(
         card.postValue(screen?.card)
     }
 
-    fun getCardFromCollection(cardId: String) = liveData(Dispatchers.IO) {
-        getCardFromCollectionUseCase.execute(cardId).collect { card ->
+    fun getCardFromCollection(cardId: String) = liveData(coroutineContext) {
+        getCardFromCollectionUseCase(cardId).collect { card ->
             val cardUi = CardUiEntity(card, true)
             emit(cardUi)
             currentCard = cardUi
@@ -99,16 +95,12 @@ class DetailsViewModel @AssistedInject constructor(
             selectedAvailableItem.value.add(availableItem)
     }
 
-    fun selectAll() {
-        refreshAvailableList(currentCard.availableCards)
-    }
+    fun selectAll() = refreshAvailableList(currentCard.availableCards)
 
-    fun unSelectAll() {
-        refreshAvailableList(mutableListOf())
-    }
+    fun unSelectAll() = refreshAvailableList(mutableListOf())
 
     private fun refreshAvailableList(newList: MutableList<AvailableCardEntity>) {
-        CoroutineScope(Dispatchers.Main).launch {
+        viewModelScope.launch(coroutineContext) {
             selectedAvailableItem.emit(newList)
         }
     }
@@ -128,8 +120,8 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     fun setHistory(card: CardUiEntity) {
-        CoroutineScope(Dispatchers.IO).launch {
-            setHistoryUseCase.execute(card as CardEntity)
+        viewModelScope.launch(coroutineContext) {
+            setHistoryUseCase(card as CardEntity)
         }
     }
 

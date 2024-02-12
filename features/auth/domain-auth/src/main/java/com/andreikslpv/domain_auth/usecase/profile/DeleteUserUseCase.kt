@@ -18,7 +18,7 @@ class DeleteUserUseCase @Inject constructor(
         val uid = authRepository.getCurrentUser()?.uid ?: ""
         if (uid.isNotBlank()) {
             authExternalRepository.deleteUserInDb(uid).collect { send(it) }
-            authExternalRepository.removeAllFromCollection(uid).collect { send(it) }
+            authExternalRepository.removeAllFromCollection(uid)
             authRepository.deleteUsersPhotoInDb(uid)
         }
         authRepository.deleteUserInAuth(idToken).collect { send(it) }

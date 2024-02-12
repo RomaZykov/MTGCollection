@@ -23,6 +23,6 @@ interface UsersRepository {
 
     fun getHistory(): MutableStateFlow<List<CardEntity>>
 
-    fun setHistory(uid: String, newHistory: List<CardEntity>)
+    suspend fun setHistory(uid: String, newHistory: List<CardEntity>)
 
 }
