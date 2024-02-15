@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteSettingsDataSource {
 
-    suspend fun getVersionSetsType(): Int
+    suspend fun getVersionSetsType(): Flow<Int>
 
     suspend fun getPrivacyPolicy(): Flow<Response<String>>
 

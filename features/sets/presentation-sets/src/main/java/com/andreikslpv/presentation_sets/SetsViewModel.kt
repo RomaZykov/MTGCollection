@@ -8,12 +8,10 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.andreikslpv.domain_sets.SetsExternalRepository
 import com.andreikslpv.domain_sets.SetsRouter
 import com.andreikslpv.domain_sets.entities.SetEntity
 import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
-import com.andreikslpv.domain_sets.usecase.CheckForUpdatesUseCase
-import com.andreikslpv.domain_sets.usecase.GetNamesOfAllTypesOfSetUseCase
+import com.andreikslpv.domain_sets.usecase.GetAllTypesOfSetUseCase
 import com.andreikslpv.domain_sets.usecase.GetSetsByCodeOfTypeUseCase
 import com.andreikslpv.domain_sets.usecase.GetStartedTypeOfSetUseCase
 import com.andreikslpv.domain_sets.usecase.GetTypeCodeByNameUseCase
@@ -26,31 +24,24 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SetsViewModel @Inject constructor(
-    private val getNamesOfAllTypesOfSetUseCase: GetNamesOfAllTypesOfSetUseCase,
+    private val getAllTypesOfSetUseCase: GetAllTypesOfSetUseCase,
     private val getSetsByCodeOfTypeUseCase: GetSetsByCodeOfTypeUseCase,
     private val getTypeCodeByNameUseCase: GetTypeCodeByNameUseCase,
-    private val checkForUpdatesUseCase: CheckForUpdatesUseCase,
     getStartedTypeOfSetUseCase: GetStartedTypeOfSetUseCase,
     private val router: SetsRouter,
-    private val setsExternalRepository: SetsExternalRepository,
+    coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
     var sets: Flow<PagingData<SetEntity>>
 
-    private var canBeUpdated = true
-    val typesOfSet = liveData {
-        getNamesOfAllTypesOfSetUseCase().collect { response ->
-            if (response.isEmpty() && canBeUpdated) {
-                canBeUpdated = false
-                setsExternalRepository.refreshTypesOfSet()
-                checkForUpdatesUseCase()
-            } else {
-                emit(response.map { convertTypeToUIModel(it) }.toTypedArray())
-            }
+    val typesOfSet = liveData(coroutineContext) {
+        getAllTypesOfSetUseCase().collect { response ->
+            emit(response.map { convertTypeToUIModel(it) }.toTypedArray())
         }
     }
 

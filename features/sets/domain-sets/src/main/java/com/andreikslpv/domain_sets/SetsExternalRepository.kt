@@ -6,11 +6,12 @@ interface SetsExternalRepository {
 
     fun getStartedTypeOfSet(): String
 
-    suspend fun isNeedToUpdateTypesOfSet(): Flow<Int>
-
-    fun getDefaultMatchValue(): Int
-
     fun setVersionForTypesOfSet(newVersion: Int)
 
     fun refreshTypesOfSet()
+
+    suspend fun getRemoteVersionForTypesOfSet(): Flow<Int>
+
+    fun getLocaleVersionForTypesOfSet(): Int
+
 }

@@ -8,12 +8,14 @@ import com.andreikslpv.data_sets.datasource.TypesDataSource
 import com.andreikslpv.domain_sets.SetsRepository
 import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class SetsRepositoryImpl @Inject constructor(
-    private val apiDataSource: SetsDataSource,
+    private val setsDataSource: SetsDataSource,
     private val typesDataSource: TypesDataSource,
     private val remoteDatabase: FirebaseFirestore,
 ) : SetsRepository {
@@ -31,19 +33,18 @@ class SetsRepositoryImpl @Inject constructor(
             enablePlaceholders = false,
             initialLoadSize = DEFAULT_PAGE_SIZE
         ),
-        pagingSourceFactory = { apiDataSource.getSetsByType(codeOfType) }
-    ).flow
+        pagingSourceFactory = { setsDataSource.getSetsByType(codeOfType) }
+    )
+        .flow
+        .flowOn(Dispatchers.IO)
 
     override suspend fun updateTypesInDb(types: List<TypeOfSetEntity>) =
         typesDataSource.updateTypesInDb(types)
 
     override suspend fun getTypesOfSetInRemoteDb() = flow {
-        try {
-            remoteDatabase.collection(FirestoreConstants.PATH_TYPES_OF_SET).get().await().also {
-                emit(it.toObjects(TypeOfSetEntity::class.java))
-            }
-        } catch (_: Exception) {
+        remoteDatabase.collection(FirestoreConstants.PATH_TYPES_OF_SET).get().await().also {
+            emit(it.toObjects(TypeOfSetEntity::class.java))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
 }
