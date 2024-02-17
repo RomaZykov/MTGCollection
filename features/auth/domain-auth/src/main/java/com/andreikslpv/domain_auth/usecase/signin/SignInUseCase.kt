@@ -7,6 +7,6 @@ class SignInUseCase @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
 
-    suspend fun execute(idToken: String) = authRepository.signIn(idToken)
+    suspend operator fun invoke(idToken: String) = authRepository.signIn(idToken)
 
 }

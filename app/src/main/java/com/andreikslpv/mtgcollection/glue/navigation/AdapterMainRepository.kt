@@ -18,6 +18,8 @@ class AdapterMainRepository @Inject constructor(
 
     override fun startObserveUserInDb(uid: String) = usersRepository.startObserveUserInDb(uid)
 
+    override fun stopObserveUserInDb() = usersRepository.stopObserveUserInDb()
+
     override fun sendErrorToCrashlytics(error: Throwable) = crashlytics.recordException(error)
 
 }

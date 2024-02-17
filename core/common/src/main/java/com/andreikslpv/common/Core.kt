@@ -1,6 +1,7 @@
 package com.andreikslpv.common
 
 import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Common global singleton variables.
@@ -11,16 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 object Core {
 
     private lateinit var coreProvider: CoreProvider
-
-    /**
-     * @see CommonUi
-     */
-    val commonUi: CommonUi get() = coreProvider.commonUi
-
-    /**
-     * @see Resources
-     */
-    val resources: Resources get() = coreProvider.resources
 
     /**
      * @see Logger
@@ -34,6 +25,11 @@ object Core {
     val globalScope: CoroutineScope get() = coreProvider.globalScope
 
     /**
+     * Global CoroutineContext for launching async actions.
+     */
+    val globalCoroutineContext: CoroutineContext get() = coreProvider.globalCoroutineContext
+
+    /**
      * Default global error handler for the whole app. Usually it is used
      * in a viewModelScope to handle basic errors.
      * @see ErrorHandler
@@ -44,11 +40,6 @@ object Core {
      * An interface which provides a method for restarting the app.
      */
     val appRestarter: AppRestarter get() = coreProvider.appRestarter
-
-    /**
-     * Communication interface for sending and receiving screen results.
-     */
-    //val screenCommunication: ScreenCommunication get() = coreProvider.screenCommunication
 
     /**
      * Default timeout for local operations.

@@ -40,5 +40,7 @@ dependencies {
     implementation Libs.Android.RoomKtx
     kapt Libs.Android.RoomCompiler
 
+    api project(':features:sets:domain-sets')
+
     testImplementation Libs.Testing.JUnit
 }

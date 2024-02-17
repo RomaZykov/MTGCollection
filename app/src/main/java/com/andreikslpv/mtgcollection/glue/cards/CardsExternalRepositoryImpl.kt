@@ -15,14 +15,14 @@ class CardsExternalRepositoryImpl @Inject constructor(
 
     override fun getCollection() = usersRepository.getCollection()
 
-    override fun addToUsersCollection(uid: String, cardId: String) =
+    override suspend fun addToUsersCollection(uid: String, cardId: String) =
         usersRepository.addToCollection(uid, cardId)
 
-    override fun removeFromUsersCollection(uid: String, cardId: String) =
+    override suspend fun removeFromUsersCollection(uid: String, cardId: String) =
         usersRepository.removeFromCollection(uid, cardId)
 
     override fun getHistory() = usersRepository.getHistory()
 
-    override fun setHistory(uid: String, newHistory: List<CardEntity>) =
+    override suspend fun setHistory(uid: String, newHistory: List<CardEntity>) =
         usersRepository.setHistory(uid, newHistory)
 }

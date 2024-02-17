@@ -11,18 +11,20 @@ interface UsersRepository {
 
     fun startObserveUserInDb(uid: String)
 
-    suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
+    fun stopObserveUserInDb()
+
+    suspend fun deleteUserInDb(uid: String)
 
     fun getCollection(): MutableStateFlow<List<String>>
 
-    fun addToCollection(uid: String, cardId: String)
+    suspend fun addToCollection(uid: String, cardId: String)
 
-    fun removeFromCollection(uid: String, cardId: String)
+    suspend fun removeFromCollection(uid: String, cardId: String)
 
-    fun removeAllFromCollection(uid: String)
+    suspend fun removeAllFromCollection(uid: String)
 
     fun getHistory(): MutableStateFlow<List<CardEntity>>
 
-    fun setHistory(uid: String, newHistory: List<CardEntity>)
+    suspend fun setHistory(uid: String, newHistory: List<CardEntity>)
 
 }

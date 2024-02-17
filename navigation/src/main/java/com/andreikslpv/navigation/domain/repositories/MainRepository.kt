@@ -10,6 +10,8 @@ interface MainRepository {
 
     fun startObserveUserInDb(uid: String)
 
+    fun stopObserveUserInDb()
+
     fun sendErrorToCrashlytics(error: Throwable)
 
 }

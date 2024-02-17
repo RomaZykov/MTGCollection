@@ -16,11 +16,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.andreikslpv.common.AlertDialogConfig
-import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardUiEntity
-import com.andreikslpv.domain_auth.usecase.profile.GetCollectionUseCase
+import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.presentation.viewBinding
@@ -32,9 +30,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -164,17 +161,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun showDialog() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val confirmed = Core.commonUi.alertDialog(
-                AlertDialogConfig(
-                    title = getString(R.string.profile_dialog_title),
-                    message = getString(R.string.profile_dialog_text),
-                    positiveButton = getString(R.string.profile_dialog_action_auth),
-                    negativeButton = getString(R.string.profile_dialog_action_cancel)
-                )
-            )
-            if (confirmed) signInResultLauncher.launch(signInIntent)
-        }
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.profile_dialog_title))
+            .setMessage(getString(R.string.profile_dialog_text))
+            .setNegativeButton(getString(R.string.profile_dialog_action_cancel)) { _, _ ->
+                // Respond to negative button press
+            }
+            .setPositiveButton(getString(R.string.profile_dialog_action_auth)) { _, _ ->
+                // Respond to positive button press
+                signInResultLauncher.launch(signInIntent)
+            }
+            .show()
     }
 
     // --------------- all for users photo & name

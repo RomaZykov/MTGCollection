@@ -9,12 +9,12 @@ interface CardsExternalRepository {
 
     fun getCollection(): MutableStateFlow<List<String>>
 
-    fun addToUsersCollection(uid: String, cardId: String)
+    suspend fun addToUsersCollection(uid: String, cardId: String)
 
-    fun removeFromUsersCollection(uid: String, cardId: String)
+    suspend fun removeFromUsersCollection(uid: String, cardId: String)
 
     fun getHistory(): MutableStateFlow<List<CardEntity>>
 
-    fun setHistory(uid: String, newHistory: List<CardEntity>)
+    suspend fun setHistory(uid: String, newHistory: List<CardEntity>)
 
 }
