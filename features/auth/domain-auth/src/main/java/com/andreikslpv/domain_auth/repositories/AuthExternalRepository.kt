@@ -9,7 +9,7 @@ interface AuthExternalRepository {
 
     suspend fun createUser(uid: String): Flow<Response<Boolean>>
 
-    suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
+    suspend fun deleteUserInDb(uid: String)
 
     suspend fun removeAllFromCollection(uid: String)
 

@@ -11,7 +11,9 @@ interface UsersRepository {
 
     fun startObserveUserInDb(uid: String)
 
-    suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
+    fun stopObserveUserInDb()
+
+    suspend fun deleteUserInDb(uid: String)
 
     fun getCollection(): MutableStateFlow<List<String>>
 
@@ -19,7 +21,7 @@ interface UsersRepository {
 
     suspend fun removeFromCollection(uid: String, cardId: String)
 
-    fun removeAllFromCollection(uid: String)
+    suspend fun removeAllFromCollection(uid: String)
 
     fun getHistory(): MutableStateFlow<List<CardEntity>>
 

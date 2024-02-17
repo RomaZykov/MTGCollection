@@ -18,10 +18,12 @@ class StartObserveUserUseCase @Inject constructor(
             mainRepository.getCurrentUserUid()?.let { uid ->
                 if (uid.isNotBlank()) mainRepository.startObserveUserInDb(uid)
             }
-            if (isUserSignedOut)
+            if (isUserSignedOut) {
+                mainRepository.stopObserveUserInDb()
                 withContext(Dispatchers.Main) {
                     router.restartApp()
                 }
+            }
             emit(isUserSignedOut)
         }
     }.flowOn(Dispatchers.IO)
