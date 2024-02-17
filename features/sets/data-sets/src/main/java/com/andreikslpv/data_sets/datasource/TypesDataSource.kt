@@ -9,7 +9,7 @@ interface TypesDataSource {
 
     suspend fun getAllTypes(): Flow<List<TypeOfSetEntity>>
 
-    fun getTypeCodeByName(name: String): Flow<String>
+    fun getTypeCodeByName(name: String): Flow<String?>
 
     suspend fun updateTypesInDb(types: List<TypeOfSetEntity>)
 

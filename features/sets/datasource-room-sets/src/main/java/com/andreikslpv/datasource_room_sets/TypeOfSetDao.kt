@@ -27,7 +27,7 @@ interface TypeOfSetDao {
      * Get type of set by type's name
      */
     @Query("SELECT `code` FROM $TABLE_TYPES_OF_SETS WHERE `name` = :name")
-    fun getTypeCodeByName(name: String): Flow<String>
+    fun getTypeCodeByName(name: String): Flow<String?>
 
     /**
      * Clear all local records

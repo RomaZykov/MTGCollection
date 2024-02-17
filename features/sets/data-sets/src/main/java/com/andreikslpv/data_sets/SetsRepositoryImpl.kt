@@ -7,6 +7,7 @@ import com.andreikslpv.data_sets.datasource.SetsDataSource
 import com.andreikslpv.data_sets.datasource.TypesDataSource
 import com.andreikslpv.domain_sets.SetsRepository
 import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
+import com.andreikslpv.domain_sets.entities.TypeOfSetFirebaseEntity
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -43,7 +44,7 @@ class SetsRepositoryImpl @Inject constructor(
 
     override suspend fun getTypesOfSetInRemoteDb() = flow {
         remoteDatabase.collection(FirestoreConstants.PATH_TYPES_OF_SET).get().await().also {
-            emit(it.toObjects(TypeOfSetEntity::class.java))
+            emit(it.toObjects(TypeOfSetFirebaseEntity::class.java))
         }
     }.flowOn(Dispatchers.IO)
 
