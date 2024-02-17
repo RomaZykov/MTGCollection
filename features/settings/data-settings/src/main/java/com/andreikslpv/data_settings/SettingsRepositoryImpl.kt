@@ -26,7 +26,6 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun getPrivacyPolicy() = remoteSettingsDataSource.getPrivacyPolicy()
 
-
     override suspend fun getRemoteVersionForTypesOfSet() =
         remoteSettingsDataSource.getVersionSetsType()
 

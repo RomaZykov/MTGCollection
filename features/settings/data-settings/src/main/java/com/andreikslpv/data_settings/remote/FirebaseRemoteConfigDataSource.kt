@@ -21,14 +21,10 @@ class FirebaseRemoteConfigDataSource @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getPrivacyPolicy() = flow {
-        try {
-            emit(Response.Loading)
-            remoteConfig.fetchAndActivate().await().also {
-                emit(Response.Success(remoteConfig.getString(SettingPrivacyPolicy().key)))
-            }
-        } catch (e: Exception) {
-            emit(Response.Failure(e))
+        emit(Response.Loading)
+        remoteConfig.fetchAndActivate().await().also {
+            emit(Response.Success(remoteConfig.getString(SettingPrivacyPolicy().key)))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
 }
