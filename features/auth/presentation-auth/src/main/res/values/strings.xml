@@ -4,6 +4,7 @@
     <string name="anonymous_button">Continue without authorization</string>
 
     <string name="title_profile">Profile</string>
+    <string name="title_settings">Settings</string>
     <string name="profile_dialog_title">Delete Profile</string>
     <string name="profile_dialog_text">Are you sure you want to delete your profile?</string>
     <string name="profile_dialog_action_cancel">Cancel</string>

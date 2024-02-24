@@ -1,0 +1,6 @@
+ext {
+    storeFilePath = "d:\\Android\\MTGCollection\\keystore.jks"
+    keyAliasValue = "key0"
+    storePasswordValue = "ACDsee565"
+    keyPasswordValue = "ACDsee565"
+}
