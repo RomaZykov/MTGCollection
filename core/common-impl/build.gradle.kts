@@ -33,8 +33,8 @@ android {
 
 dependencies {
 
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation(libs.androidx.fragment.ktx)
     api(project(":core:common"))
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 }

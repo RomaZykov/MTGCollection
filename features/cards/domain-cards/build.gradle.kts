@@ -9,9 +9,9 @@ java {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    implementation("javax.inject:javax.inject:1")
-    implementation("androidx.paging:paging-common-ktx:3.2.1")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.javax.inject)
+    implementation(libs.androidx.paging.common.ktx)
 
     implementation(project(":core:common"))
     implementation(project(":core:domain"))

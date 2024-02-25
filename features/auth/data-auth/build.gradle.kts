@@ -38,20 +38,19 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.core.ktx)
 
-    implementation("androidx.core:core-ktx:1.12.0")
-
-    implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-storage")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.storage)
 
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":features:auth:domain-auth"))
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 }

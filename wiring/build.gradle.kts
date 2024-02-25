@@ -35,11 +35,11 @@ android {
 }
 
 dependencies {
-    implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     implementation(project(":core:common-impl"))
     implementation(project(":core:presentation"))
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 }

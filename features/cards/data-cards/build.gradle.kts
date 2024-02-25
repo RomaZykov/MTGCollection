@@ -37,18 +37,17 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.paging.runtime.ktx)
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
-
-    implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-    implementation("com.google.firebase:firebase-firestore")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
@@ -56,5 +55,5 @@ dependencies {
     implementation(project(":features:cards:domain-cards"))
     implementation(project(":features:cards:datasource-room-cards"))
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 }
