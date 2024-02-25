@@ -1,4 +1,5 @@
 [versions]
+#libraries
 activityKtx = "1.8.2"
 appcompat = "1.6.1"
 coil = "2.6.0"
@@ -7,8 +8,12 @@ coreKtx = "1.12.0"
 coroutines = "1.8.0"
 espresso = "3.5.1"
 firebaseBom = "32.7.2"
+firebaseCrashlyticsGradle = "2.9.9"
 fragment = "1.6.2"
 glide = "4.16.0"
+googlePlayServicesAuth = "21.0.0"
+googleServices = "4.4.1"
+gradle = "8.2.2"
 hilt = "2.50"
 javax = "1"
 junit = "4.13.2"
@@ -18,9 +23,11 @@ material = "1.11.0"
 navigation = "2.7.7"
 okhttp = "4.12.0"
 paging = "3.2.1"
-playServicesAuth = "21.0.0"
 retrofit = "2.9.0"
 room = "2.6.1"
+#plugins
+androidGradlePlugin = "8.2.2"
+kotlin = "1.9.22"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -42,8 +49,9 @@ coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-config = { module = "com.google.firebase:firebase-config" }
+firebase-crashlytics-core = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
@@ -52,8 +60,12 @@ glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide"
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
 
-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+google-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "googlePlayServicesAuth" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 
@@ -72,3 +84,8 @@ room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

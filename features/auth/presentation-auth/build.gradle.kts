@@ -1,8 +1,8 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.hilt.android)
     id("com.google.gms.google-services")
 }
 
@@ -44,10 +44,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.coordinatorlayout)
 
+    implementation(libs.google.play.services.auth)
     implementation(libs.material)
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    implementation(libs.play.services.auth)
 
     implementation(libs.glide.core)
     kapt(libs.glide.compiler)

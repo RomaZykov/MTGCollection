@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
     id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.hilt.android)
     id("com.google.firebase.crashlytics")
 }
 
@@ -62,12 +62,13 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.paging.runtime.ktx)
 
+    implementation(libs.google.play.services.auth)
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    implementation(libs.play.services.auth)
     // Firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.crashlytics.core)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
 
