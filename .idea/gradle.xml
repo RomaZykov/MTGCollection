@@ -19,13 +19,11 @@
             <option value="$PROJECT_DIR$/core/theme" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/auth" />
-            <option value="$PROJECT_DIR$/features/auth/auth-presentation" />
             <option value="$PROJECT_DIR$/features/auth/data-auth" />
             <option value="$PROJECT_DIR$/features/auth/domain-auth" />
             <option value="$PROJECT_DIR$/features/auth/presentation-auth" />
             <option value="$PROJECT_DIR$/features/cards" />
             <option value="$PROJECT_DIR$/features/cards/data-cards" />
-            <option value="$PROJECT_DIR$/features/cards/datasource-cards" />
             <option value="$PROJECT_DIR$/features/cards/datasource-room-cards" />
             <option value="$PROJECT_DIR$/features/cards/domain-cards" />
             <option value="$PROJECT_DIR$/features/cards/presentation-cards" />
