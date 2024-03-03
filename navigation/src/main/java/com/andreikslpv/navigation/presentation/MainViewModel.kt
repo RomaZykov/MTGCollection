@@ -10,12 +10,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val launchMainIfUserAuthenticatedUseCase: LaunchMainIfUserAuthenticatedUseCase,
     private val startObserveUserUseCase: StartObserveUserUseCase,
     private val sendErrorToCrashlyticsUseCase: SendErrorToCrashlyticsUseCase,
+    private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
     val loadState = liveData(Dispatchers.Main) {
@@ -27,8 +29,8 @@ class MainViewModel @Inject constructor(
     fun launchMainIfUserAuthenticated() = launchMainIfUserAuthenticatedUseCase.execute()
 
     @ExperimentalCoroutinesApi
-    fun getAuthState() = liveData(Dispatchers.IO) {
-        startObserveUserUseCase.execute().collect { emit(it) }
+    fun getAuthState() = liveData(coroutineContext) {
+        startObserveUserUseCase().collect { emit(it) }
     }
 
     fun sendErrorToCrashlytics(error: Throwable) = sendErrorToCrashlyticsUseCase.execute(error)

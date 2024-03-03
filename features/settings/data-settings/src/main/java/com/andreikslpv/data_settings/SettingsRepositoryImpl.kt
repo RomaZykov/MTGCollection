@@ -1,72 +1,35 @@
 package com.andreikslpv.data_settings
 
-import com.andreikslpv.common.Response
-import com.andreikslpv.common.SettingsDataSource
-import com.andreikslpv.data_settings.RemoteConfigConstants.SETTING_PRIVACY_POLICY
+import com.andreikslpv.data_settings.local.LocalSettingsDataSource
+import com.andreikslpv.data_settings.remote.RemoteSettingsDataSource
+import com.andreikslpv.domain_settings.entities.SettingStartSetsType
+import com.andreikslpv.domain_settings.entities.SettingVersionSetsType
 import com.andreikslpv.domain_settings.repositories.SettingsRepository
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
-    private val settingsDataSource: SettingsDataSource,
-    private val remoteConfig: FirebaseRemoteConfig,
+    private val localSettingsDataSource: LocalSettingsDataSource,
+    private val remoteSettingsDataSource: RemoteSettingsDataSource,
 ) : SettingsRepository {
 
-    override fun getStartedTypeOfSet(): String {
-        return try {
-            (settingsDataSource.getSettingsValue(ProjectSettings.START_SETS_TYPE.value) as String)
-        } catch (e: Exception) {
-            (ProjectSettings.START_SETS_TYPE.value.defaultValue as String)
-        }
-    }
+    override fun getStartedTypeOfSet() =
+        localSettingsDataSource.getSettingValue(SettingStartSetsType()) as String
 
-    override fun setStartedTypeOfSet(type: String) {
-        settingsDataSource.putSettingsValue(ProjectSettings.START_SETS_TYPE.value, type)
-    }
+    override fun setStartedTypeOfSet(type: String) =
+        localSettingsDataSource.putSettingValue(SettingStartSetsType(), type)
 
-    override suspend fun isNeedToUpdateTypesOfSet() = flow {
-        try {
-            remoteConfig.fetchAndActivate().await().also {
-                val localValue = try {
-                    (settingsDataSource.getSettingsValue(ProjectSettings.VERSION_SETS_TYPE.value) as Int)
-                } catch (e: Exception) {
-                    (ProjectSettings.VERSION_SETS_TYPE.value.defaultValue as String)
-                }
-                val remoteValue =
-                    remoteConfig.getLong(ProjectSettings.VERSION_SETS_TYPE.value.key).toInt()
-                emit(
-                    if (localValue != remoteValue) remoteValue else NO_UPDATE_NEEDED
-                )
-            }
-        } catch (e: Exception) {
-            emit(NO_UPDATE_NEEDED)
-        }
-    }
-
-    override fun setVersionForTypesOfSet(newVersion: Int) {
-        settingsDataSource.putSettingsValue(ProjectSettings.VERSION_SETS_TYPE.value, newVersion)
-    }
+    override fun setVersionForTypesOfSet(newVersion: Int) =
+        localSettingsDataSource.putSettingValue(SettingVersionSetsType(), newVersion)
 
     override fun refreshTypesOfSet() =
-        setVersionForTypesOfSet(ProjectSettings.VERSION_SETS_TYPE.value.defaultValue as Int)
+        setVersionForTypesOfSet(SettingVersionSetsType().defaultValue as Int)
 
-    override fun getDefaultMatchValue() = NO_UPDATE_NEEDED
+    override suspend fun getPrivacyPolicy() = remoteSettingsDataSource.getPrivacyPolicy()
 
-    override suspend fun getPrivacyPolicy() = flow {
-        try {
-            emit(Response.Loading)
-            remoteConfig.fetchAndActivate().await().also {
-                emit(Response.Success(remoteConfig.getString(SETTING_PRIVACY_POLICY)))
-            }
-        } catch (e: Exception) {
-            emit(Response.Failure(e))
-        }
-    }
+    override suspend fun getRemoteVersionForTypesOfSet() =
+        remoteSettingsDataSource.getVersionSetsType()
 
-    companion object {
-        const val NO_UPDATE_NEEDED = -1
-    }
+    override fun getLocaleVersionForTypesOfSet() =
+        localSettingsDataSource.getSettingValue(SettingVersionSetsType()) as Int
 
 }

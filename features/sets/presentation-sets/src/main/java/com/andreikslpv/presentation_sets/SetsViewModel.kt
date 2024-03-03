@@ -8,49 +8,38 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.andreikslpv.domain_sets.SetsExternalRepository
 import com.andreikslpv.domain_sets.SetsRouter
 import com.andreikslpv.domain_sets.entities.SetEntity
-import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
-import com.andreikslpv.domain_sets.usecase.CheckForUpdatesUseCase
-import com.andreikslpv.domain_sets.usecase.GetNamesOfAllTypesOfSetUseCase
+import com.andreikslpv.domain_sets.entities.TypeOfSetUiEntity
+import com.andreikslpv.domain_sets.usecase.GetAllTypesOfSetUseCase
 import com.andreikslpv.domain_sets.usecase.GetSetsByCodeOfTypeUseCase
 import com.andreikslpv.domain_sets.usecase.GetStartedTypeOfSetUseCase
 import com.andreikslpv.domain_sets.usecase.GetTypeCodeByNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SetsViewModel @Inject constructor(
-    private val getNamesOfAllTypesOfSetUseCase: GetNamesOfAllTypesOfSetUseCase,
+    private val getAllTypesOfSetUseCase: GetAllTypesOfSetUseCase,
     private val getSetsByCodeOfTypeUseCase: GetSetsByCodeOfTypeUseCase,
     private val getTypeCodeByNameUseCase: GetTypeCodeByNameUseCase,
-    private val checkForUpdatesUseCase: CheckForUpdatesUseCase,
     getStartedTypeOfSetUseCase: GetStartedTypeOfSetUseCase,
     private val router: SetsRouter,
-    private val setsExternalRepository: SetsExternalRepository,
+    private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
     var sets: Flow<PagingData<SetEntity>>
 
-    private var canBeUpdated = true
-    val typesOfSet = liveData {
-        getNamesOfAllTypesOfSetUseCase().collect { response ->
-            if (response.isEmpty() && canBeUpdated) {
-                canBeUpdated = false
-                setsExternalRepository.refreshTypesOfSet()
-                checkForUpdatesUseCase()
-            } else {
-                emit(response.map { convertTypeToUIModel(it) }.toTypedArray())
-            }
+    val typesOfSet = liveData(coroutineContext) {
+        getAllTypesOfSetUseCase().collect { response ->
+            emit(response.map { TypeOfSetUiEntity(it) })
         }
     }
 
@@ -68,23 +57,24 @@ class SetsViewModel @Inject constructor(
             .cachedIn(viewModelScope)
     }
 
-    fun setType(selectedType: String) {
-        val nameOfSelectedType = getNameOfTypeFromUIModel(selectedType)
-        _nameOfCurrentType.postValue(nameOfSelectedType)
-        CoroutineScope(Dispatchers.IO).launch {
-            getTypeCodeByNameUseCase(nameOfSelectedType).collectLatest { codeOfType ->
-                if (codeOfType != null) codeOfCurrentType.postValue(codeOfType)
+    fun setType(position: Int) {
+        val type = typesOfSet.value?.get(position)
+        type?.let {
+            codeOfCurrentType.postValue(it.code)
+            _nameOfCurrentType.postValue(it.name)
+        }
+    }
+
+    private fun setType(nameOfType: String) {
+        _nameOfCurrentType.postValue(nameOfType)
+        viewModelScope.launch(coroutineContext) {
+            getTypeCodeByNameUseCase(nameOfType).collectLatest { codeOfType ->
+                @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
+                if (codeOfType != null) codeOfCurrentType.postValue(codeOfType!!)
             }
         }
     }
 
     fun launchCards(set: SetEntity) = router.launchCards(set)
-
-    private fun convertTypeToUIModel(type: TypeOfSetEntity) = "${type.name} (${type.countOfSet})"
-
-    private fun getNameOfTypeFromUIModel(uiModel: String): String {
-        return if (uiModel.contains("(")) uiModel.take(uiModel.indexOf("(")).trim()
-        else uiModel
-    }
 
 }

@@ -1,15 +1,14 @@
 package com.andreikslpv.wiring
 
-import android.content.Context
 import com.andreikslpv.common.*
 import com.andreikslpv.common_impl.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.ElementsIntoSet
 import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
 
 @Module
@@ -17,32 +16,21 @@ import kotlinx.coroutines.CoroutineScope
 class CoreProviderModule {
 
     @Provides
-    fun provideCoreProvider(
-        @ApplicationContext context: Context,
-        appRestarter: AppRestarter,
-    ): CoreProvider {
-        return DefaultCoreProvider(
-            appContext = context,
-            appRestarter = appRestarter
-        )
+    fun provideCoreProvider(appRestarter: AppRestarter): CoreProvider {
+        return DefaultCoreProvider(appRestarter = appRestarter)
     }
 
     @Provides
     @ElementsIntoSet
     fun provideActivityRequiredSet(
-        commonUi: CommonUi,
+//        commonUi: CommonUi,
 //        screenCommunication: ScreenCommunication,
     ): Set<@JvmSuppressWildcards ActivityRequired> {
         val set = hashSetOf<ActivityRequired>()
-        if (commonUi is ActivityRequired) set.add(commonUi)
+        //if (commonUi is ActivityRequired) set.add(commonUi)
         //if (screenCommunication is ActivityRequired) set.add(screenCommunication)
         return set
     }
-
-//    @Provides
-//    fun provideScreenCommunication(): ScreenCommunication {
-//        return Core.screenCommunication
-//    }
 
     @Provides
     fun provideCoroutineScope(): CoroutineScope {
@@ -50,18 +38,13 @@ class CoreProviderModule {
     }
 
     @Provides
-    fun provideCommonUi(): CommonUi {
-        return Core.commonUi
+    fun provideCoroutineContext(): CoroutineContext {
+        return Core.globalCoroutineContext
     }
 
     @Provides
     fun provideLogger(): Logger {
         return Core.logger
-    }
-
-    @Provides
-    fun provideResources(): Resources {
-        return Core.resources
     }
 
     @Provides

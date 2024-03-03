@@ -9,21 +9,17 @@ interface AuthExternalRepository {
 
     suspend fun createUser(uid: String): Flow<Response<Boolean>>
 
-    suspend fun deleteUserInDb(uid: String): Flow<Response<Boolean>>
+    suspend fun deleteUserInDb(uid: String)
 
-    fun removeAllFromCollection(uid: String): Flow<Response<Boolean>>
+    suspend fun removeAllFromCollection(uid: String)
 
     fun getCollection(): MutableStateFlow<List<String>>
 
     fun getHistory(): MutableStateFlow<List<CardEntity>>
 
-    fun addToUsersCollection(uid: String, cardId: String)
+    suspend fun addToUsersCollection(uid: String, cardId: String)
 
-    fun removeFromUsersCollection(uid: String, cardId: String)
-
-    fun addToCardsCollection(uid: String, card: CardEntity)
-
-    fun removeFromCardsCollection(uid: String, card: CardEntity)
+    suspend fun removeFromUsersCollection(uid: String, cardId: String)
 
     suspend fun getPrivacyPolicy(): Flow<Response<String>>
 

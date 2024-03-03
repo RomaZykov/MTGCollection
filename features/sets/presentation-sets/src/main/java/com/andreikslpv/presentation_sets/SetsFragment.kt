@@ -45,14 +45,14 @@ class SetsFragment : Fragment(R.layout.fragment_sets) {
 
     private fun initSetsTypeSpinner() {
         (binding.setTypeText as? MaterialAutoCompleteTextView)?.apply {
-            this.setOnItemClickListener { parent, _, position, _ ->
-                viewModel.setType(parent.getItemAtPosition(position) as String)
+            this.setOnItemClickListener { _, _, position, _ ->
+                viewModel.setType(position)
             }
             viewModel.nameOfCurrentType.observe(viewLifecycleOwner) { type ->
                 this.setText(type, false)
             }
             viewModel.typesOfSet.observe(viewLifecycleOwner) { types ->
-                this.setSimpleItems(types)
+                this.setSimpleItems(types.map { it.uiName }.toTypedArray())
             }
         }
     }

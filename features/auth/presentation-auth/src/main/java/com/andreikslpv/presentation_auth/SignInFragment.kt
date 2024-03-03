@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.andreikslpv.common.Core
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation_auth.databinding.FragmentSignInBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -37,7 +38,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                         }
                     }
                 } catch (e: ApiException) {
-                    //crashlytics.recordException(e)
+                    Core.errorHandler.handleError(e)
                 }
             }
         }

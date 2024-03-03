@@ -1,25 +1,22 @@
 package com.andreikslpv.common
 
 import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Provides a global entities for [Core] via [Core.init] method.
  */
 interface CoreProvider {
 
-    val commonUi: CommonUi
-
     val logger: Logger
 
-    val resources: Resources
-
     val globalScope: CoroutineScope
+
+    val globalCoroutineContext: CoroutineContext
 
     val errorHandler: ErrorHandler
 
     val appRestarter: AppRestarter
-
-    //val screenCommunication: ScreenCommunication
 
     val remoteTimeoutMillis: Long get() = 10_000L
 

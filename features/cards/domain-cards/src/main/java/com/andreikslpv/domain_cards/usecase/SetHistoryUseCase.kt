@@ -2,6 +2,8 @@ package com.andreikslpv.domain_cards.usecase
 
 import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_cards.repositories.CardsExternalRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SetHistoryUseCase @Inject constructor(
@@ -9,7 +11,7 @@ class SetHistoryUseCase @Inject constructor(
 ) {
     private val historyMaxCount = 10
 
-    fun execute(card: CardEntity) {
+    suspend operator fun invoke(card: CardEntity) = withContext(Dispatchers.IO) {
         val uid = cardsExternalRepository.getCurrentUserUid()
         if (uid != null) {
             // получаем текущую историю

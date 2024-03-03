@@ -1,14 +1,22 @@
 package com.andreikslpv.common_impl
 
-import android.util.Log
+import com.andreikslpv.common.ErrorHandler
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlin.coroutines.CoroutineContext
 
-fun createDefaultGlobalScope(): CoroutineScope {
-    val errorHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("DefaultGlobalScope", "Error", exception)
+fun createDefaultGlobalScope(errorHandler: ErrorHandler): CoroutineScope {
+    val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        errorHandler.handleError(exception)
     }
-    return CoroutineScope(SupervisorJob() + Dispatchers.Main + errorHandler)
+    return CoroutineScope(SupervisorJob() + Dispatchers.Main + coroutineExceptionHandler)
+}
+
+fun createDefaultGlobalCoroutineContext(errorHandler: ErrorHandler): CoroutineContext {
+    val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        errorHandler.handleError(exception)
+    }
+    return SupervisorJob() + coroutineExceptionHandler
 }

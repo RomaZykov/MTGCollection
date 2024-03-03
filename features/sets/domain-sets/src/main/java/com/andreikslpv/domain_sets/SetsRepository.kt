@@ -11,7 +11,7 @@ interface SetsRepository {
 
     suspend fun getAllTypes(): Flow<List<TypeOfSetEntity>>
 
-    fun getTypeCodeByName(nameOfType: String): Flow<String>
+    fun getTypeCodeByName(nameOfType: String): Flow<String?>
 
     fun getSetsByType(codeOfType: String): Flow<PagingData<SetEntity>>
 

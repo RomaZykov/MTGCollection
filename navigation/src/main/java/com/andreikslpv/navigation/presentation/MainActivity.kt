@@ -16,6 +16,7 @@ import com.andreikslpv.navigation.R
 import com.andreikslpv.navigation.databinding.ActivityMainBinding
 import com.andreikslpv.navigation.presentation.navigation.NavComponentRouter
 import com.andreikslpv.navigation.presentation.navigation.RouterHolder
+import com.andreikslpv.presentation.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -147,6 +148,8 @@ class MainActivity : AppCompatActivity(), RouterHolder {
                 is Response.Success -> binding.progressBar.hide()
                 is Response.Failure -> {
                     binding.progressBar.hide()
+                    getString(com.andreikslpv.common_impl.R.string.core_common_error_message)
+                        .makeToast(this)
                     viewModel.sendErrorToCrashlytics(response.error)
                 }
             }

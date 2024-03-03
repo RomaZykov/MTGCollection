@@ -20,7 +20,7 @@ interface AuthRepository {
 
     suspend fun deleteUserInAuth(idToken: String): Flow<Response<Boolean>>
 
-    suspend fun deleteUsersPhotoInDb(uid: String): Flow<Response<Boolean>>
+    suspend fun deleteUsersPhotoInDb(uid: String)
 
     suspend fun editUserName(newName: String): Flow<Response<Boolean>>
 
