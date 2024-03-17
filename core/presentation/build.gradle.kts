@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
-    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -45,15 +43,7 @@ dependencies {
 
     implementation(libs.material)
 
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-
-    // Glide
-    implementation(libs.glide.core)
-    kapt(libs.glide.compiler)
-    implementation(libs.glide.okhttp3.integration) {
-        exclude(group = "glide-parent")
-    }
+    implementation(libs.coil.core)
 
     api(project(":core:theme"))
     implementation(project(":core:domain"))

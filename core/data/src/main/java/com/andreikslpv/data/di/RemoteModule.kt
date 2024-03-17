@@ -1,8 +1,8 @@
 package com.andreikslpv.data.di
 
-import com.andreikslpv.data.BuildConfig
 import com.andreikslpv.data.ApiConstants.BASE_URL
 import com.andreikslpv.data.ApiConstants.TIMEOUT
+import com.andreikslpv.data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,9 +26,7 @@ class RemoteModule {
         .readTimeout(TIMEOUT, TimeUnit.SECONDS)
         //Добавляем логгер
         .addInterceptor(HttpLoggingInterceptor().apply {
-            if (BuildConfig.DEBUG) {
-                level = HttpLoggingInterceptor.Level.BASIC
-            }
+            if (BuildConfig.DEBUG) level = HttpLoggingInterceptor.Level.BASIC
         })
         .build()
 

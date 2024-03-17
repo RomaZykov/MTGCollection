@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.andreikslpv.domain.entities.AvailableCardEntity
-import com.andreikslpv.domain.entities.CardEntity
-import com.andreikslpv.domain.entities.CardUiEntity
+import com.andreikslpv.domain.entities.CardPreviewEntity
+import com.andreikslpv.domain.entities.CardPreviewUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.domain.usecase.TryToChangeCollectionStatusUseCase
 import com.andreikslpv.domain_cards.repositories.CardsRouter
@@ -31,13 +31,13 @@ class DetailsViewModel @AssistedInject constructor(
     private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
-    val card = MutableLiveData<CardUiEntity?>()
+    val card = MutableLiveData<CardPreviewUiEntity?>()
 
     val collection = liveData(coroutineContext) {
         getCollectionUseCase().collect { emit(it) }
     }
 
-    private var currentCard = CardUiEntity()
+    //private var currentCard = CardPreviewUiEntity()
 
     val selectedAvailableItem = MutableStateFlow(mutableListOf<AvailableCardEntity>())
 
@@ -45,47 +45,47 @@ class DetailsViewModel @AssistedInject constructor(
         card.postValue(screen?.card)
     }
 
-    fun getCardFromCollection(cardId: String) = liveData(coroutineContext) {
-        getCardFromCollectionUseCase(cardId).collect { card ->
-            val cardUi = CardUiEntity(card, true)
-            emit(cardUi)
-            currentCard = cardUi
-        }
-    }
+//    fun getCardFromCollection(cardId: String) = liveData(coroutineContext) {
+//        getCardFromCollectionUseCase(cardId).collect { card ->
+//            val cardUi = CardPreviewUiEntity(card, true)
+//            emit(cardUi)
+//            currentCard = cardUi
+//        }
+//    }
 
-    fun tryToChangeCollectionStatus(card: CardUiEntity) {
+    fun tryToChangeCollectionStatus(card: CardPreviewUiEntity) {
         viewModelScope.launch(coroutineContext) {
-            tryToChangeCollectionStatusUseCase(card as CardEntity)
+            tryToChangeCollectionStatusUseCase(card as CardPreviewUiEntity)
         }
     }
 
     fun tryToAddAvailableItem(newAvailableItem: AvailableCardEntity, rewrite: Boolean): Boolean {
-        currentCard.availableCards.forEach { item ->
-            if (item.language == newAvailableItem.language
-                && item.condition == newAvailableItem.condition
-                && item.foiled == newAvailableItem.foiled
-            ) {
-                return if (rewrite) {
-                    item.count = newAvailableItem.count
-                    viewModelScope.launch(coroutineContext) {
-                        addCardToCollectionUseCase(currentCard as CardEntity)
-                    }
-                    true
-                } else false
-            }
-        }
-        currentCard.availableCards.add(newAvailableItem)
-        viewModelScope.launch(coroutineContext) {
-            addCardToCollectionUseCase(currentCard as CardEntity)
-        }
+//        currentCard.availableCards.forEach { item ->
+//            if (item.language == newAvailableItem.language
+//                && item.condition == newAvailableItem.condition
+//                && item.foiled == newAvailableItem.foiled
+//            ) {
+//                return if (rewrite) {
+//                    item.count = newAvailableItem.count
+//                    viewModelScope.launch(coroutineContext) {
+//                        //addCardToCollectionUseCase(currentCard as CardEntity)
+//                    }
+//                    true
+//                } else false
+//            }
+//        }
+//        currentCard.availableCards.add(newAvailableItem)
+//        viewModelScope.launch(coroutineContext) {
+//            //addCardToCollectionUseCase(currentCard as CardEntity)
+//        }
         return true
     }
 
     fun removeAvailableItem(availableItem: AvailableCardEntity) {
-        currentCard.availableCards.remove(availableItem)
-        viewModelScope.launch(coroutineContext) {
-            addCardToCollectionUseCase(currentCard as CardEntity)
-        }
+//        currentCard.availableCards.remove(availableItem)
+//        viewModelScope.launch(coroutineContext) {
+//            addCardToCollectionUseCase(currentCard as CardEntity)
+//        }
     }
 
     fun changeSelectedStatus(availableItem: AvailableCardEntity) {
@@ -95,7 +95,9 @@ class DetailsViewModel @AssistedInject constructor(
             selectedAvailableItem.value.add(availableItem)
     }
 
-    fun selectAll() = refreshAvailableList(currentCard.availableCards)
+    fun selectAll() {
+//        = refreshAvailableList(currentCard.availableCards)
+    }
 
     fun unSelectAll() = refreshAvailableList(mutableListOf())
 
@@ -106,22 +108,22 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     fun removeSelectedFromAvailableList() {
-        currentCard.availableCards.removeAll(selectedAvailableItem.value)
-        viewModelScope.launch(coroutineContext) {
-            addCardToCollectionUseCase(currentCard)
-        }
+//        currentCard.availableCards.removeAll(selectedAvailableItem.value)
+//        viewModelScope.launch(coroutineContext) {
+//            addCardToCollectionUseCase(currentCard)
+//        }
     }
 
     fun removeAllFromAvailableList() {
-        currentCard.availableCards.clear()
-        viewModelScope.launch(coroutineContext) {
-            addCardToCollectionUseCase(currentCard)
-        }
+//        currentCard.availableCards.clear()
+//        viewModelScope.launch(coroutineContext) {
+//            addCardToCollectionUseCase(currentCard)
+//        }
     }
 
-    fun setHistory(card: CardUiEntity) {
+    fun setHistory(card: CardPreviewUiEntity) {
         viewModelScope.launch(coroutineContext) {
-            setHistoryUseCase(card as CardEntity)
+            setHistoryUseCase(card as CardPreviewEntity)
         }
     }
 

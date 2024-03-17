@@ -1,8 +1,8 @@
 package com.andreikslpv.presentation.recyclers
 
-import com.andreikslpv.domain.entities.CardUiEntity
+import com.andreikslpv.domain.entities.CardPreviewUiEntity
 
 
 interface CardItemClickListener {
-    fun click(card: CardUiEntity)
+    fun click(card: CardPreviewUiEntity)
 }

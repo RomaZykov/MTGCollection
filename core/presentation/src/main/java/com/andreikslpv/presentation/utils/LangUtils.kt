@@ -2,6 +2,7 @@ package com.andreikslpv.presentation.utils
 
 import android.content.Context
 import com.andreikslpv.domain.entities.CardLanguage
+import com.andreikslpv.domain.entities.CardLanguageV2
 import com.andreikslpv.domain.entities.CardUiEntity
 
 object LangUtils {
@@ -35,7 +36,17 @@ object LangUtils {
         val systemLang =
             context.resources.configuration.locales.get(0).displayLanguage.lowercase()
         var result = CardLanguage.ENGLISH
-        CardLanguage.values().forEach {
+        CardLanguage.entries.forEach {
+            if (it.systemLang == systemLang) result = it
+        }
+        return result
+    }
+
+    fun chooseLanguageV2(context: Context): CardLanguageV2 {
+        val systemLang =
+            context.resources.configuration.locales.get(0).displayLanguage.lowercase()
+        var result = CardLanguageV2.ENGLISH
+        CardLanguageV2.entries.forEach {
             if (it.systemLang == systemLang) result = it
         }
         return result

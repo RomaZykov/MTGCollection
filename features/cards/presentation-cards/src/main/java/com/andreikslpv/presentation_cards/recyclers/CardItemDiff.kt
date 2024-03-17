@@ -1,14 +1,14 @@
 package com.andreikslpv.presentation_cards.recyclers
 
 import androidx.recyclerview.widget.DiffUtil
-import com.andreikslpv.domain.entities.CardUiEntity
+import com.andreikslpv.domain.entities.CardPreviewUiEntity
 
-class CardItemDiff: DiffUtil.ItemCallback<CardUiEntity>() {
-    override fun areItemsTheSame(oldItem: CardUiEntity, newItem: CardUiEntity): Boolean {
+class CardItemDiff: DiffUtil.ItemCallback<CardPreviewUiEntity>() {
+    override fun areItemsTheSame(oldItem: CardPreviewUiEntity, newItem: CardPreviewUiEntity): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: CardUiEntity, newItem: CardUiEntity): Boolean {
+    override fun areContentsTheSame(oldItem: CardPreviewUiEntity, newItem: CardPreviewUiEntity): Boolean {
         return oldItem == newItem
     }
 }

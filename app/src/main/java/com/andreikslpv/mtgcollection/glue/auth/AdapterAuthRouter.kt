@@ -1,6 +1,6 @@
 package com.andreikslpv.mtgcollection.glue.auth
 
-import com.andreikslpv.domain.entities.CardUiEntity
+import com.andreikslpv.domain.entities.CardPreviewUiEntity
 import com.andreikslpv.domain_auth.repositories.AuthRouter
 import com.andreikslpv.mtgcollection.R
 import com.andreikslpv.navigation.GlobalNavComponentRouter
@@ -19,7 +19,7 @@ class AdapterAuthRouter @Inject constructor(
         globalNavComponentRouter.launch(R.id.settingsFragment)
     }
 
-    override fun launchDetails(card: CardUiEntity) {
+    override fun launchDetails(card: CardPreviewUiEntity) {
         val screen = DetailsFragment.Screen(card)
         globalNavComponentRouter.launch(R.id.detailsFragment, screen)
     }

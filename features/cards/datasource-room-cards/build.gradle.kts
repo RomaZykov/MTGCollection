@@ -41,6 +41,7 @@ dependencies {
     kapt(libs.room.compiler)
 
     implementation(project(":core:domain"))
+    implementation(project(":features:cards:domain-cards"))
 
     testImplementation(libs.junit)
 }

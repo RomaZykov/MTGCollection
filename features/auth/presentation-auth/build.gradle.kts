@@ -50,8 +50,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.glide.core)
-    kapt(libs.glide.compiler)
+    implementation(libs.coil.core)
 
     implementation(project(":core:common"))
     implementation(project(":core:domain"))

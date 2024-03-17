@@ -7,10 +7,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.andreikslpv.domain.entities.CardEntity
-import com.andreikslpv.domain.entities.CardUiEntity
+import com.andreikslpv.domain.entities.CardPreviewEntity
+import com.andreikslpv.domain.entities.CardPreviewUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.domain.usecase.TryToChangeCollectionStatusUseCase
+import com.andreikslpv.domain_cards.entities.CardFilters
 import com.andreikslpv.domain_cards.repositories.CardsRouter
 import com.andreikslpv.domain_cards.usecase.GetCardsUseCase
 import dagger.assisted.Assisted
@@ -33,15 +34,15 @@ class CardsViewModel @AssistedInject constructor(
     private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
-    private val set = MutableLiveData<String?>()
-    private val _cards: Flow<PagingData<CardEntity>>
-    val cards: Flow<PagingData<CardUiEntity>>
+    private val filters = MutableLiveData<CardFilters>()
+    private val _cards: Flow<PagingData<CardPreviewEntity>>
+    val cards: Flow<PagingData<CardPreviewUiEntity>>
 
     init {
-        if (screen != null) set.postValue(screen.setCode)
-        else set.postValue(null)
+        if (screen != null) filters.postValue(CardFilters(codeOfSet = screen.setCode))
+        else filters.postValue(CardFilters(codeOfSet = "m11"))
 
-        _cards = set
+        _cards = filters
             .asFlow()
             .flatMapLatest { getCardsUseCase(it) }
             .cachedIn(viewModelScope)
@@ -54,11 +55,11 @@ class CardsViewModel @AssistedInject constructor(
     }
 
     private fun merge(
-        pagingData: PagingData<CardEntity>,
+        pagingData: PagingData<CardPreviewEntity>,
         collection: List<String>,
-    ): PagingData<CardUiEntity> {
+    ): PagingData<CardPreviewUiEntity> {
         return pagingData.map { card ->
-            CardUiEntity(
+            CardPreviewUiEntity(
                 card = card,
                 isInCollection = collection.contains(card.id)
             )
@@ -69,13 +70,13 @@ class CardsViewModel @AssistedInject constructor(
 
     fun goBack() = router.goBack()
 
-    fun launchDetails(card: CardUiEntity) = router.launchDetails(card)
+    fun launchDetails(card: CardPreviewUiEntity) = router.launchDetails(card)
 
-    fun refresh() = set.postValue(set.value)
+    fun refresh() = filters.postValue(filters.value)
 
-    fun tryToChangeCollectionStatus(card: CardUiEntity) {
+    fun tryToChangeCollectionStatus(card: CardPreviewUiEntity) {
         viewModelScope.launch(coroutineContext) {
-            tryToChangeCollectionStatusUseCase(card as CardEntity)
+            tryToChangeCollectionStatusUseCase(card as CardPreviewEntity)
         }
     }
 
