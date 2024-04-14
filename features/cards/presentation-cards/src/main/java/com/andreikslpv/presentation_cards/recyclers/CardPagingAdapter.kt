@@ -3,7 +3,7 @@ package com.andreikslpv.presentation_cards.recyclers
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.CardPreviewViewHolder
@@ -11,7 +11,7 @@ import com.andreikslpv.presentation.recyclers.CardPreviewViewHolder
 class CardPagingAdapter(
     private val cardClickListener: CardItemClickListener,
     private val collectionClickListener: CardItemClickListener,
-) : PagingDataAdapter<CardPreviewUiEntity, CardPreviewViewHolder>(CardItemDiff()) {
+) : PagingDataAdapter<CardUiEntity, CardPreviewViewHolder>(CardItemDiff()) {
 
     override fun onBindViewHolder(holder: CardPreviewViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }

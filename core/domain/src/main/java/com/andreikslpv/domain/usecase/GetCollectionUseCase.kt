@@ -9,8 +9,8 @@ class GetCollectionUseCase @Inject constructor(
 ) {
 
     operator fun invoke(): MutableStateFlow<List<String>> {
-        val userUid = coreExternalRepository.getCurrentUserUid()
-        return if (userUid != null) coreExternalRepository.getCollection()
-        else MutableStateFlow(emptyList())
+        coreExternalRepository.getCurrentUserUid()?.let {
+            return coreExternalRepository.getCollection()
+        } ?: return MutableStateFlow(emptyList())
     }
 }

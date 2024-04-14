@@ -1,6 +1,7 @@
-package com.andreikslpv.data_cards.dtov2
+package com.andreikslpv.data_cards.dto
 
-import com.andreikslpv.domain.entities.CardPreviewEntity
+import com.andreikslpv.domain.entities.AvailableCardEntity
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain.entities.CardPurchaseUrisEntity
 import com.andreikslpv.domain.entities.CardRelatedUrisEntity
 import com.google.gson.annotations.SerializedName
@@ -162,8 +163,8 @@ data class CardData(
     /** A URI where you can retrieve a full object describing this card on Scryfall’s API. */
     @SerializedName("uri") override val uri: String,
     /** Whether this card is a variation of another printing. */
-    @SerializedName("variation") val variation: Boolean
-) : CardPreviewEntity {
+    @SerializedName("variation") val variation: Boolean,
+) : CardEntity {
 
     override val imageDetailUri: String
         get() = cardImageUris?.png ?: ""
@@ -198,4 +199,7 @@ data class CardData(
                 tcgplayerInfiniteDecks = it.tcgplayerInfiniteDecks ?: "",
             )
         }
+
+    override val availableCards: MutableList<AvailableCardEntity>
+        get() = mutableListOf()
 }

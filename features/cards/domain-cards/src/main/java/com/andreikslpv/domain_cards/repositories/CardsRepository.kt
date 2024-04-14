@@ -2,26 +2,18 @@ package com.andreikslpv.domain_cards.repositories
 
 import androidx.paging.PagingData
 import com.andreikslpv.domain.entities.CardEntity
-import com.andreikslpv.domain.entities.CardLanguageV2
-import com.andreikslpv.domain.entities.CardPreviewEntity
-import com.andreikslpv.domain_cards.entities.SortsType
-import com.andreikslpv.domain_cards.entities.SortsTypeDir
+import com.andreikslpv.domain_cards.entities.CardFilters
 import kotlinx.coroutines.flow.Flow
 
 interface CardsRepository {
 
-    fun getCardsInSet(
-        codeOfSet: String,
-        lang: CardLanguageV2,
-        sortsType: SortsType,
-        sortsTypeDir: SortsTypeDir
-    ): Flow<PagingData<CardPreviewEntity>>
+    fun getCardsInSet(filters: CardFilters): Flow<PagingData<CardEntity>>
 
-    fun getCardsInCollection(uid: String): Flow<PagingData<CardPreviewEntity>>
+    fun getCardsInCollection(uid: String): Flow<PagingData<CardEntity>>
 
-    suspend fun addToCardsCollection(uid: String, card: CardPreviewEntity)
+    suspend fun addToCardsCollection(uid: String, card: CardEntity)
 
-    suspend fun removeFromCardsCollection(uid: String, card: CardPreviewEntity)
+    suspend fun removeFromCardsCollection(uid: String, card: CardEntity)
 
     fun getCardFromCollection(uid: String, cardId: String): Flow<CardEntity>
 

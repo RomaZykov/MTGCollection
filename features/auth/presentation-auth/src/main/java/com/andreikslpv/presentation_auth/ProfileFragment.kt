@@ -18,7 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
@@ -113,12 +113,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             cardHistoryAdapter = CardHistoryRecyclerAdapter(
                 object : CardItemClickListener {
-                    override fun click(card: CardPreviewUiEntity) {
+                    override fun click(card: CardUiEntity) {
                         viewModel.launchDetails(card)
                     }
                 },
                 object : CardItemClickListener {
-                    override fun click(card: CardPreviewUiEntity) {
+                    override fun click(card: CardUiEntity) {
                         viewModel.tryToChangeCollectionStatus(card)
                     }
                 },
@@ -241,6 +241,5 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
         }
     }
-
 
 }

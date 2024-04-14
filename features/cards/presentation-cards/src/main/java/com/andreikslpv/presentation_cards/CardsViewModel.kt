@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.andreikslpv.domain.entities.CardPreviewEntity
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.domain.usecase.TryToChangeCollectionStatusUseCase
 import com.andreikslpv.domain_cards.entities.CardFilters
@@ -34,13 +34,13 @@ class CardsViewModel @AssistedInject constructor(
     private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
-    private val filters = MutableLiveData<CardFilters>()
-    private val _cards: Flow<PagingData<CardPreviewEntity>>
-    val cards: Flow<PagingData<CardPreviewUiEntity>>
+    private val filters = MutableLiveData<CardFilters?>()
+    private val _cards: Flow<PagingData<CardEntity>>
+    val cards: Flow<PagingData<CardUiEntity>>
 
     init {
         if (screen != null) filters.postValue(CardFilters(codeOfSet = screen.setCode))
-        else filters.postValue(CardFilters(codeOfSet = "m11"))
+        else filters.postValue(null)
 
         _cards = filters
             .asFlow()
@@ -55,11 +55,11 @@ class CardsViewModel @AssistedInject constructor(
     }
 
     private fun merge(
-        pagingData: PagingData<CardPreviewEntity>,
+        pagingData: PagingData<CardEntity>,
         collection: List<String>,
-    ): PagingData<CardPreviewUiEntity> {
+    ): PagingData<CardUiEntity> {
         return pagingData.map { card ->
-            CardPreviewUiEntity(
+            CardUiEntity(
                 card = card,
                 isInCollection = collection.contains(card.id)
             )
@@ -70,13 +70,13 @@ class CardsViewModel @AssistedInject constructor(
 
     fun goBack() = router.goBack()
 
-    fun launchDetails(card: CardPreviewUiEntity) = router.launchDetails(card)
+    fun launchDetails(card: CardUiEntity) = router.launchDetails(card)
 
     fun refresh() = filters.postValue(filters.value)
 
-    fun tryToChangeCollectionStatus(card: CardPreviewUiEntity) {
+    fun tryToChangeCollectionStatus(card: CardUiEntity) {
         viewModelScope.launch(coroutineContext) {
-            tryToChangeCollectionStatusUseCase(card as CardPreviewEntity)
+            tryToChangeCollectionStatusUseCase(card as CardEntity)
         }
     }
 

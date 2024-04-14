@@ -1,6 +1,6 @@
 package com.andreikslpv.domain.repositories
 
-import com.andreikslpv.domain.entities.CardPreviewEntity
+import com.andreikslpv.domain.entities.CardEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 
 interface CoreExternalRepository {
@@ -13,8 +13,8 @@ interface CoreExternalRepository {
 
     suspend fun removeFromUsersCollection(uid: String, cardId: String)
 
-    suspend fun addToCardsCollection(uid: String, card: CardPreviewEntity)
+    suspend fun addToCardsCollection(uid: String, card: CardEntity)
 
-    suspend fun removeFromCardsCollection(uid: String, card: CardPreviewEntity)
+    suspend fun removeFromCardsCollection(uid: String, card: CardEntity)
 
 }

@@ -6,59 +6,63 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE
 import com.andreikslpv.data_cards.services.CardsApi
-import com.andreikslpv.datasource_room_cards.CardPreviewRoomEntity
+import com.andreikslpv.datasource_room_cards.CardRoomEntity
 import com.andreikslpv.datasource_room_cards.CardsDao
-import com.andreikslpv.domain.entities.CardLanguageV2
-import com.andreikslpv.domain_cards.entities.SortsType
-import com.andreikslpv.domain_cards.entities.SortsTypeDir
+import com.andreikslpv.domain.entities.CardLanguage
+import com.andreikslpv.domain_cards.entities.CardFilters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import java.util.Locale
 
 @OptIn(ExperimentalPagingApi::class)
 class CardsRemoteMediator @AssistedInject constructor(
     private val cardsDao: CardsDao,
     private val cardsApi: CardsApi,
-    @Assisted private val codeOfSet: String,
-    @Assisted private val lang: CardLanguageV2,
-    @Assisted private val sortsType: SortsType,
-    @Assisted private val sortsTypeDir: SortsTypeDir,
-) : RemoteMediator<Int, CardPreviewRoomEntity>() {
+    @Assisted private val filters: CardFilters,
+) : RemoteMediator<Int, CardRoomEntity>() {
 
     private var pageIndex = DEFAULT_PAGE
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CardPreviewRoomEntity>
+        state: PagingState<Int, CardRoomEntity>
     ): MediatorResult {
         pageIndex =
             getPageIndex(loadType) ?: return MediatorResult.Success(endOfPaginationReached = true)
         return try {
+            val codeOfSet = filters.codeOfSet.lowercase(Locale.ROOT)
             // Если требуемый язык не английский, запрашиваем все доступные языки
-            val includeMultilingual = lang != CardLanguageV2.ENGLISH
+            val includeMultilingual = filters.lang != CardLanguage.ENGLISH
             val cardsResult = cardsApi.getCardsInSet(
                 includeMultilingual = includeMultilingual,
-                order = sortsType.typeApi,
-                dir = sortsTypeDir.dirApi,
+                order = filters.sortsType.typeApi,
+                dir = filters.sortsTypeDir.dirApi,
                 page = pageIndex,
                 q = "set:$codeOfSet",
             )
             // Пробуем получить карты на требуемом языке
             val cards = if (includeMultilingual) {
                 cardsResult.cardData
-                    .filter { it.lang == lang.cardLang }
-                    .map { CardPreviewRoomEntity(it) }
+                    .filter { it.lang == filters.lang.cardLang }
+                    .map { CardRoomEntity(it) }
                     .toMutableList()
             } else mutableListOf()
             // Если карт на требуемом языке нет,то берем карты на английском
             if (cards.isEmpty()) cards.addAll(
                 cardsResult.cardData
-                    .filter { it.lang == CardLanguageV2.ENGLISH.cardLang }
-                    .map { CardPreviewRoomEntity(it) }
+                    .filter { it.lang == CardLanguage.ENGLISH.cardLang }
+                    .map { CardRoomEntity(it) }
             )
 
-            if (loadType == LoadType.REFRESH) cardsDao.refresh(codeOfSet, cards)
-            else cardsDao.save(cards)
+            if (loadType == LoadType.REFRESH) {
+                cardsDao.refresh(codeOfSet, cards)
+                println("AndroidLogger refresh ${cards.size}")
+            }
+            else {
+                cardsDao.save(cards)
+                println("AndroidLogger save ${cards.size}")
+            }
             MediatorResult.Success(endOfPaginationReached = !cardsResult.hasMore)
         } catch (e: Exception) {
             MediatorResult.Error(e)
@@ -73,11 +77,6 @@ class CardsRemoteMediator @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(
-            codeOfSet: String,
-            lang: CardLanguageV2,
-            sortsType: SortsType,
-            sortsTypeDir: SortsTypeDir
-        ): CardsRemoteMediator
+        fun create(filters: CardFilters): CardsRemoteMediator
     }
 }

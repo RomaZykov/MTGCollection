@@ -2,14 +2,14 @@ package com.andreikslpv.presentation.recyclers
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.presentation.R
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
 
 class CardPreviewViewHolder(val binding: ItemCardPreviewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(card: CardPreviewUiEntity) {
+    fun bind(card: CardUiEntity) {
         binding.itemTitle.text = card.name
         binding.itemImage.contentDescription =
             binding.root.context.getString(R.string.description_name_of_card, card.name)

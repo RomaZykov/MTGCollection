@@ -27,13 +27,13 @@ interface CardsDao {
         lang: String,
         sortType: String,
         isAsc: Boolean
-    ): PagingSource<Int, CardPreviewRoomEntity>
+    ): PagingSource<Int, CardRoomEntity>
 
     /**
      * Insert (or replace by ID) a list of Cards.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(cards: List<CardPreviewRoomEntity>)
+    suspend fun save(cards: List<CardRoomEntity>)
 
     /**
      * Clear local records for the specified set (or clear all
@@ -46,7 +46,7 @@ interface CardsDao {
      * Clear old records and place new records from the list.
      */
     @Transaction
-    suspend fun refresh(codeOfSet: String, cards: List<CardPreviewRoomEntity>) {
+    suspend fun refresh(codeOfSet: String, cards: List<CardRoomEntity>) {
         clear(codeOfSet)
         save(cards)
     }
@@ -54,7 +54,7 @@ interface CardsDao {
     /**
      * Convenient call for saving one Card entity.
      */
-    suspend fun save(card: CardPreviewRoomEntity) {
+    suspend fun save(card: CardRoomEntity) {
         save(listOf(card))
     }
 

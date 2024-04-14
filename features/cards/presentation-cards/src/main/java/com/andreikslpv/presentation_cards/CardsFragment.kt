@@ -10,7 +10,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.presentation.BaseLoadStateAdapter
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
@@ -77,10 +77,10 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
         binding.cardsRecycler.apply {
             cardAdapter = CardPagingAdapter(
                 object : CardItemClickListener {
-                    override fun click(card: CardPreviewUiEntity) = viewModel.launchDetails(card)
+                    override fun click(card: CardUiEntity) = viewModel.launchDetails(card)
                 },
                 object : CardItemClickListener {
-                    override fun click(card: CardPreviewUiEntity) =
+                    override fun click(card: CardUiEntity) =
                         viewModel.tryToChangeCollectionStatus(card)
                 },
             )

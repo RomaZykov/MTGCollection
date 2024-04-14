@@ -14,8 +14,8 @@ class GetCardFromCollectionUseCase @Inject constructor(
 ) {
 
     operator fun invoke(cardId: String): Flow<CardEntity> {
-        val userUid = cardsExternalRepository.getCurrentUserUid()
-        return if (userUid != null) cardsRepository.getCardFromCollection(userUid, cardId)
-        else flowOf(CardUiEntity())
+        cardsExternalRepository.getCurrentUserUid()?.let {
+            return cardsRepository.getCardFromCollection(it, cardId)
+        } ?: return flowOf(CardUiEntity(null))
     }
 }

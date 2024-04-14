@@ -2,7 +2,7 @@ package com.andreikslpv.data_users
 
 import com.andreikslpv.common.Response
 import com.andreikslpv.data_users.entities.UserModel
-import com.andreikslpv.domain.entities.CardPreviewEntity
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain_users.UsersRepository
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,7 +20,7 @@ class UsersRepositoryImpl @Inject constructor(
 ) : UsersRepository {
 
     private val collection = MutableStateFlow(emptyList<String>())
-    private val history = MutableStateFlow(emptyList<CardPreviewEntity>())
+    private val history = MutableStateFlow(emptyList<CardEntity>())
     private lateinit var userListener: ListenerRegistration
 
     override suspend fun createUserInDb(uid: String) = flow {
@@ -36,7 +36,7 @@ class UsersRepositoryImpl @Inject constructor(
                 if (error == null && value != null) {
                     val user = value.toObject(UserModel::class.java) ?: UserModel()
                     collection.tryEmit(user.collection)
-                    //history.tryEmit(user.history)
+                    history.tryEmit(user.history)
                 }
             }
     }
@@ -73,10 +73,10 @@ class UsersRepositoryImpl @Inject constructor(
 
     override fun getHistory() = history
 
-    override suspend fun setHistory(uid: String, newHistory: List<CardPreviewEntity>): Unit =
+    override suspend fun setHistory(uid: String, newHistory: List<CardEntity>): Unit =
         withContext(Dispatchers.IO) {
-//            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-//            user.update(FirestoreConstants.FIELD_HISTORY, newHistory)
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_HISTORY, newHistory)
         }
 
 }

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.CardPreviewViewHolder
@@ -16,7 +16,7 @@ class CardHistoryRecyclerAdapter(
     private val containerWidthPx: Int,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val items = mutableListOf<CardPreviewUiEntity>()
+    private val items = mutableListOf<CardUiEntity>()
 
     override fun getItemCount() = items.size
 
@@ -41,7 +41,7 @@ class CardHistoryRecyclerAdapter(
         }
     }
 
-    fun changeItems(list: List<CardPreviewUiEntity>) {
+    fun changeItems(list: List<CardUiEntity>) {
         val diff = ItemDiff(items, list)
         val diffResult = DiffUtil.calculateDiff(diff)
         items.clear()

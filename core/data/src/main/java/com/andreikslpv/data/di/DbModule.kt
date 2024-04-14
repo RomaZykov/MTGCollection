@@ -3,7 +3,7 @@ package com.andreikslpv.data.di
 import android.content.Context
 import androidx.room.Room
 import com.andreikslpv.data.db.AppDatabase
-import com.andreikslpv.data.db.DatabaseConstants
+import com.andreikslpv.data.db.AppDatabase.Companion.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ class DbModule {
     ) = Room.databaseBuilder(
         applicationContext,
         AppDatabase::class.java,
-        DatabaseConstants.DATABASE_NAME
+        DATABASE_NAME
     )
         .fallbackToDestructiveMigration()
         .build()

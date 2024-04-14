@@ -2,17 +2,18 @@ package com.andreikslpv.data_cards.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.andreikslpv.domain.entities.CardPreviewEntity
+import com.andreikslpv.data.CardFirebaseEntity
+import com.andreikslpv.domain.entities.CardEntity
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
 class CardsFirebasePagingSource(private val query: Query) :
-    PagingSource<QuerySnapshot, CardPreviewEntity>() {
+    PagingSource<QuerySnapshot, CardEntity>() {
 
-    override fun getRefreshKey(state: PagingState<QuerySnapshot, CardPreviewEntity>) = null
+    override fun getRefreshKey(state: PagingState<QuerySnapshot, CardEntity>) = null
 
-    override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, CardPreviewEntity> {
+    override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, CardEntity> {
         return try {
             val currentPage = params.key ?: query.get().await()
             val lastVisibleCard =
@@ -21,8 +22,7 @@ class CardsFirebasePagingSource(private val query: Query) :
                 if (lastVisibleCard != null) query.startAfter(lastVisibleCard).get()
                     .await() else null
             LoadResult.Page(
-                //data = currentPage.toObjects(CardFirebaseEntity::class.java),
-                data = listOf<CardPreviewEntity>(),
+                data = currentPage.toObjects(CardFirebaseEntity::class.java),
                 prevKey = null,
                 nextKey = nextPage
             )

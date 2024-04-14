@@ -1,6 +1,6 @@
 package com.andreikslpv.mtgcollection.glue.core
 
-import com.andreikslpv.domain.entities.CardPreviewEntity
+import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain.repositories.CoreExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
 import com.andreikslpv.domain_cards.repositories.CardsRepository
@@ -23,9 +23,9 @@ class CoreExternalRepositoryImpl @Inject constructor(
     override suspend fun removeFromUsersCollection(uid: String, cardId: String) =
         usersRepository.removeFromCollection(uid, cardId)
 
-    override suspend fun addToCardsCollection(uid: String, card: CardPreviewEntity) =
+    override suspend fun addToCardsCollection(uid: String, card: CardEntity) =
         cardsRepository.addToCardsCollection(uid, card)
 
-    override suspend fun removeFromCardsCollection(uid: String, card: CardPreviewEntity) =
+    override suspend fun removeFromCardsCollection(uid: String, card: CardEntity) =
         cardsRepository.removeFromCardsCollection(uid, card)
 }

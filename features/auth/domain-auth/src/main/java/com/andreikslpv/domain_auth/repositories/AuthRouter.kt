@@ -1,6 +1,6 @@
 package com.andreikslpv.domain_auth.repositories
 
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 
 interface AuthRouter {
 
@@ -17,6 +17,6 @@ interface AuthRouter {
     /**
      * Launch card details screen.
      */
-    fun launchDetails(card: CardPreviewUiEntity)
+    fun launchDetails(card: CardUiEntity)
 
 }

@@ -8,8 +8,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
-import com.andreikslpv.domain.entities.CardPreviewEntity
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.domain.usecase.TryToChangeCollectionStatusUseCase
 import com.andreikslpv.domain_auth.entities.AccountDataEntity
@@ -51,20 +51,20 @@ class ProfileViewModel @Inject constructor(
     )
 
     private fun merge(
-        history: List<CardPreviewEntity>,
+        history: List<CardEntity>,
         collection: List<String>,
-    ): List<CardPreviewUiEntity> {
+    ): List<CardUiEntity> {
         return history.map { card ->
-            CardPreviewUiEntity(
+            CardUiEntity(
                 card = card,
                 isInCollection = collection.contains(card.id)
             )
         }
     }
 
-    fun tryToChangeCollectionStatus(card: CardPreviewUiEntity) {
+    fun tryToChangeCollectionStatus(card: CardUiEntity) {
         viewModelScope.launch(coroutineContext) {
-            //tryToChangeCollectionStatusUseCase(card as CardPreviewEntity)
+            tryToChangeCollectionStatusUseCase(card as CardEntity)
         }
     }
 
@@ -117,6 +117,6 @@ class ProfileViewModel @Inject constructor(
 
     fun launchSettings() = router.launchSettings()
 
-    fun launchDetails(card: CardPreviewUiEntity) = router.launchDetails(card)
+    fun launchDetails(card: CardUiEntity) = router.launchDetails(card)
 
 }

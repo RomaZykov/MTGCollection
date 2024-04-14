@@ -1,4 +1,4 @@
-package com.andreikslpv.data_cards.dtov2
+package com.andreikslpv.data_cards.dto
 
 import com.google.gson.annotations.SerializedName
 

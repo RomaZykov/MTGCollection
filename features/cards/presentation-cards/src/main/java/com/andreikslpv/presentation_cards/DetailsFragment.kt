@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.andreikslpv.domain.entities.AvailableCardEntity
 import com.andreikslpv.domain.entities.CardLanguage
-import com.andreikslpv.domain.entities.CardPreviewUiEntity
+import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain_cards.entities.CardCondition
 import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     class Screen(
-        val card: CardPreviewUiEntity,
+        val card: CardUiEntity,
     ) : BaseScreen
 
     @Inject
@@ -100,7 +100,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 }
 
                 binding.itemButtonCollection.setOnClickListener {
-                    //viewModel.tryToChangeCollectionStatus(card)
+                    viewModel.tryToChangeCollectionStatus(card)
                 }
 
                 viewModel.collection.observe(viewLifecycleOwner) {
@@ -134,16 +134,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeCardInCollection(cardId: String) {
-//        viewModel.getCardFromCollection(cardId).observe(viewLifecycleOwner) { response ->
-//            recyclerAdapter.changeItems(response.availableCards)
-//            recyclerAdapter.notifyDataSetChanged()
-//        }
+        viewModel.getCardFromCollection(cardId).observe(viewLifecycleOwner) { response ->
+            recyclerAdapter.changeItems(response.availableCards)
+            recyclerAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun initSelectAllButton() {
         binding.availableSelectAllCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) viewModel.unSelectAll()
-            else viewModel.selectAll()
+            if (!isChecked) viewModel.unSelectAll() else viewModel.selectAll()
         }
     }
 
@@ -254,7 +253,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             binding.availableDialog.visible(false)
         }
     }
-
 
     private fun getAvailableItemFromDialog(): AvailableCardEntity? {
         binding.availableDialog.apply {

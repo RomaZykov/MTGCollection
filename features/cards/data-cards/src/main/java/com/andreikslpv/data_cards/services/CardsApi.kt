@@ -1,11 +1,6 @@
 package com.andreikslpv.data_cards.services
 
-import com.andreikslpv.data.ApiConstants.DEFAULT_FORMAT
-import com.andreikslpv.data.ApiConstants.DEFAULT_INCLUDE_EXTRAS
-import com.andreikslpv.data.ApiConstants.DEFAULT_INCLUDE_MULTILINGUAL
-import com.andreikslpv.data.ApiConstants.DEFAULT_INCLUDE_VARIATIONS
-import com.andreikslpv.data.ApiConstants.DEFAULT_UNIQUE
-import com.andreikslpv.data_cards.dtov2.CardsResults
+import com.andreikslpv.data_cards.dto.CardsResults
 import com.andreikslpv.domain_cards.entities.SortsType
 import com.andreikslpv.domain_cards.entities.SortsTypeDir
 import retrofit2.http.GET
@@ -34,4 +29,11 @@ interface CardsApi {
         @Query("unique") unique: String = DEFAULT_UNIQUE,
     ): CardsResults
 
+    private companion object {
+        const val DEFAULT_FORMAT = "json"
+        const val DEFAULT_INCLUDE_EXTRAS = false
+        const val DEFAULT_INCLUDE_MULTILINGUAL = false
+        const val DEFAULT_INCLUDE_VARIATIONS = false
+        const val DEFAULT_UNIQUE = "cards"
+    }
 }
