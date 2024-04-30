@@ -46,8 +46,10 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
-    implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":features:sets:domain-sets"))
     implementation(project(":features:sets:datasource-room-sets"))

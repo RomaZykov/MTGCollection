@@ -1,10 +1,9 @@
 package com.andreikslpv.data_sets
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import com.andreikslpv.data.ApiConstants.DEFAULT_PAGE_SIZE
 import com.andreikslpv.data_sets.datasource.SetsDataSource
 import com.andreikslpv.data_sets.datasource.TypesDataSource
+import com.andreikslpv.data_sets.services.SetsApi
+import com.andreikslpv.domain.entities.CardLanguage
 import com.andreikslpv.domain_sets.SetsRepository
 import com.andreikslpv.domain_sets.entities.TypeOfSetEntity
 import com.andreikslpv.domain_sets.entities.TypeOfSetFirebaseEntity
@@ -19,6 +18,8 @@ class SetsRepositoryImpl @Inject constructor(
     private val setsDataSource: SetsDataSource,
     private val typesDataSource: TypesDataSource,
     private val remoteDatabase: FirebaseFirestore,
+    private val setsApi: SetsApi,
+    private val systemLanguage: CardLanguage,
 ) : SetsRepository {
 
     override suspend fun getNamesOfAllTypesOfSet() = typesDataSource.getNamesOfTypes()
@@ -28,22 +29,27 @@ class SetsRepositoryImpl @Inject constructor(
     override fun getTypeCodeByName(nameOfType: String) =
         typesDataSource.getTypeCodeByName(nameOfType)
 
-    override fun getSetsByType(codeOfType: String) = Pager(
-        config = PagingConfig(
-            pageSize = DEFAULT_PAGE_SIZE,
-            enablePlaceholders = false,
-            initialLoadSize = DEFAULT_PAGE_SIZE
-        ),
-        pagingSourceFactory = { setsDataSource.getSetsByType(codeOfType) }
-    )
-        .flow
-        .flowOn(Dispatchers.IO)
+    override fun getSetsByType(codeOfType: String) = setsDataSource.getSetsByType(codeOfType)
+
+    override suspend fun updateSets() {
+        try {
+            val sets = setsApi.getAllSets().data
+            if (sets.isNotEmpty()) setsDataSource.saveSets(sets)
+        } catch (_: Exception) {
+        }
+    }
 
     override suspend fun updateTypesInDb(types: List<TypeOfSetEntity>) =
         typesDataSource.updateTypesInDb(types)
 
     override suspend fun getTypesOfSetInRemoteDb() = flow {
-        remoteDatabase.collection(FirestoreConstants.PATH_TYPES_OF_SET).get().await().also {
+        val path = if (systemLanguage == CardLanguage.RUSSIAN) {
+            FirestoreConstants.PATH_TYPES_OF_SET_RU
+        } else {
+            FirestoreConstants.PATH_TYPES_OF_SET_EN
+        }
+
+        remoteDatabase.collection(path).get().await().also {
             emit(it.toObjects(TypeOfSetFirebaseEntity::class.java))
         }
     }.flowOn(Dispatchers.IO)

@@ -35,4 +35,8 @@ class DbModule {
     @Provides
     fun provideCardsDao(appDatabase: AppDatabase) = appDatabase.cardsDao()
 
+    @Singleton
+    @Provides
+    fun provideSetsDao(appDatabase: AppDatabase) = appDatabase.setsDao()
+
 }

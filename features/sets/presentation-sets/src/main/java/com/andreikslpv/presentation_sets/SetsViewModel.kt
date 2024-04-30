@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.andreikslpv.domain_sets.SetsRouter
 import com.andreikslpv.domain_sets.entities.SetEntity
 import com.andreikslpv.domain_sets.entities.TypeOfSetUiEntity
@@ -35,7 +33,7 @@ class SetsViewModel @Inject constructor(
     private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
-    var sets: Flow<PagingData<SetEntity>>
+    val sets: Flow<List<SetEntity>>
 
     val typesOfSet = liveData(coroutineContext) {
         getAllTypesOfSetUseCase().collect { response ->
@@ -54,7 +52,6 @@ class SetsViewModel @Inject constructor(
         sets = codeOfCurrentType
             .asFlow()
             .flatMapLatest { getSetsByCodeOfTypeUseCase(it) }
-            .cachedIn(viewModelScope)
     }
 
     fun setType(position: Int) {

@@ -8,7 +8,7 @@ object LangUtils {
     /**
      * Selects the [CardLanguage] according to the language of the operating system
      */
-    fun chooseLanguageV2(context: Context): CardLanguage {
+    fun chooseLanguage(context: Context): CardLanguage {
         val systemLang =
             context.resources.configuration.locales.get(0).displayLanguage.lowercase()
         var result = CardLanguage.ENGLISH

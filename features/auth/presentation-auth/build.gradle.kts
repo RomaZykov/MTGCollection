@@ -52,8 +52,6 @@ dependencies {
 
     implementation(libs.coil.core)
 
-    implementation(project(":core:common"))
-    implementation(project(":core:domain"))
     implementation(project(":core:presentation"))
     implementation(project(":features:auth:domain-auth"))
 

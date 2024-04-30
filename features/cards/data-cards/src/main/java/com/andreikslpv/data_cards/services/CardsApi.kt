@@ -6,10 +6,7 @@ import com.andreikslpv.domain_cards.entities.SortsTypeDir
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-/**
- * API for fetching Cards.
- */
-
+/** API for fetching Cards. */
 interface CardsApi {
 
     /**
