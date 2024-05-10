@@ -9,12 +9,10 @@ import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
 import com.andreikslpv.presentation.recyclers.CardItemClickListener
 import com.andreikslpv.presentation.recyclers.CardPreviewViewHolder
 import com.andreikslpv.presentation.recyclers.ItemDiff
-import com.bumptech.glide.RequestManager
 
 class CardHistoryRecyclerAdapter(
     private val cardClickListener: CardItemClickListener,
     private val collectionClickListener: CardItemClickListener,
-    private val glide: RequestManager,
     private val containerWidthPx: Int,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -25,7 +23,6 @@ class CardHistoryRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return CardPreviewViewHolder(
             ItemCardPreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            glide
         )
     }
 

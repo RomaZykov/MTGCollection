@@ -16,6 +16,8 @@ import com.andreikslpv.domain_cards.usecase.SetHistoryUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -37,7 +39,7 @@ class DetailsViewModel @AssistedInject constructor(
         getCollectionUseCase().collect { emit(it) }
     }
 
-    private var currentCard = CardUiEntity()
+    private var currentCard = CardUiEntity(null)
 
     val selectedAvailableItem = MutableStateFlow(mutableListOf<AvailableCardEntity>())
 
@@ -54,8 +56,8 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     fun tryToChangeCollectionStatus(card: CardUiEntity) {
-        viewModelScope.launch(coroutineContext) {
-            tryToChangeCollectionStatusUseCase(card as CardEntity)
+        CoroutineScope(Dispatchers.IO).launch(coroutineContext) {
+            tryToChangeCollectionStatusUseCase(card as CardUiEntity)
         }
     }
 
@@ -67,7 +69,7 @@ class DetailsViewModel @AssistedInject constructor(
             ) {
                 return if (rewrite) {
                     item.count = newAvailableItem.count
-                    viewModelScope.launch(coroutineContext) {
+                    CoroutineScope(Dispatchers.IO).launch(coroutineContext) {
                         addCardToCollectionUseCase(currentCard as CardEntity)
                     }
                     true
@@ -75,7 +77,7 @@ class DetailsViewModel @AssistedInject constructor(
             }
         }
         currentCard.availableCards.add(newAvailableItem)
-        viewModelScope.launch(coroutineContext) {
+        CoroutineScope(Dispatchers.IO).launch(coroutineContext) {
             addCardToCollectionUseCase(currentCard as CardEntity)
         }
         return true
@@ -83,7 +85,7 @@ class DetailsViewModel @AssistedInject constructor(
 
     fun removeAvailableItem(availableItem: AvailableCardEntity) {
         currentCard.availableCards.remove(availableItem)
-        viewModelScope.launch(coroutineContext) {
+        CoroutineScope(Dispatchers.IO).launch(coroutineContext) {
             addCardToCollectionUseCase(currentCard as CardEntity)
         }
     }
@@ -107,20 +109,20 @@ class DetailsViewModel @AssistedInject constructor(
 
     fun removeSelectedFromAvailableList() {
         currentCard.availableCards.removeAll(selectedAvailableItem.value)
-        viewModelScope.launch(coroutineContext) {
+        CoroutineScope(Dispatchers.IO).launch(coroutineContext) {
             addCardToCollectionUseCase(currentCard)
         }
     }
 
     fun removeAllFromAvailableList() {
         currentCard.availableCards.clear()
-        viewModelScope.launch(coroutineContext) {
+        CoroutineScope(Dispatchers.IO).launch(coroutineContext) {
             addCardToCollectionUseCase(currentCard)
         }
     }
 
     fun setHistory(card: CardUiEntity) {
-        viewModelScope.launch(coroutineContext) {
+        CoroutineScope(Dispatchers.IO).launch(coroutineContext) {
             setHistoryUseCase(card as CardEntity)
         }
     }

@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
@@ -26,8 +27,6 @@ import com.andreikslpv.presentation.visible
 import com.andreikslpv.presentation_auth.databinding.FragmentProfileBinding
 import com.andreikslpv.presentation_auth.recyclers.CardHistoryRecyclerAdapter
 import com.andreikslpv.presentation_auth.utils.StringToIconConverter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -48,9 +47,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     @Inject
     lateinit var getCollectionUseCase: GetCollectionUseCase
-
-    @Inject
-    lateinit var glide: RequestManager
 
     @Inject
     lateinit var signInIntent: Intent
@@ -126,7 +122,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         viewModel.tryToChangeCollectionStatus(card)
                     }
                 },
-                glide,
                 containerWidthPx,
             )
             adapter = cardHistoryAdapter
@@ -180,10 +175,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             when (user?.isAnonymous) {
                 true, null -> {
-                    Glide.with(binding.profileAvatar)
-                        .load(R.drawable.anonim)
-                        .centerCrop()
-                        .into(binding.profileAvatar)
+                    binding.profileAvatar.load(R.drawable.anonim)
                     binding.profileName.setText(R.string.profile_name_anonymous)
                     binding.deleteUserButton.text = getString(R.string.sign_in_with_google_button)
                     binding.deleteUserButton.setOnClickListener {
@@ -192,10 +184,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
 
                 false -> {
-                    Glide.with(binding.profileAvatar)
-                        .load(user.photoUrl)
-                        .centerCrop()
-                        .into(binding.profileAvatar)
+                    binding.profileAvatar.load(user.photoUrl)
                     binding.profileName.setText(user.displayName)
                     binding.profileEmail.text = user.email
                     binding.deleteUserButton.text = getString(R.string.profile_delete_user)
@@ -252,6 +241,5 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
         }
     }
-
 
 }

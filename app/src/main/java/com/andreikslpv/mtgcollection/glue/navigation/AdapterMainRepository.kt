@@ -1,6 +1,7 @@
 package com.andreikslpv.mtgcollection.glue.navigation
 
 import com.andreikslpv.domain_auth.repositories.AuthRepository
+import com.andreikslpv.domain_sets.SetsRepository
 import com.andreikslpv.domain_users.UsersRepository
 import com.andreikslpv.navigation.domain.repositories.MainRepository
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -9,7 +10,7 @@ import javax.inject.Inject
 class AdapterMainRepository @Inject constructor(
     private val authRepository: AuthRepository,
     private val usersRepository: UsersRepository,
-    private val crashlytics: FirebaseCrashlytics,
+    private val setsRepository: SetsRepository,
 ) : MainRepository {
 
     override fun getCurrentUserUid() = authRepository.getCurrentUser()?.uid
@@ -20,6 +21,9 @@ class AdapterMainRepository @Inject constructor(
 
     override fun stopObserveUserInDb() = usersRepository.stopObserveUserInDb()
 
-    override fun sendErrorToCrashlytics(error: Throwable) = crashlytics.recordException(error)
+    override fun sendErrorToCrashlytics(error: Throwable) =
+        FirebaseCrashlytics.getInstance().recordException(error)
+
+    override suspend fun updateSets() = setsRepository.updateSets()
 
 }

@@ -23,7 +23,6 @@ import com.andreikslpv.presentation.viewModelCreator
 import com.andreikslpv.presentation.visible
 import com.andreikslpv.presentation_cards.databinding.FragmentCardsBinding
 import com.andreikslpv.presentation_cards.recyclers.CardPagingAdapter
-import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -40,16 +39,11 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
 
     @Inject
     lateinit var factory: CardsViewModel.Factory
-    private val viewModel by viewModelCreator {
-        factory.create(args())
-    }
+    private val viewModel by viewModelCreator { factory.create(args()) }
 
     private val binding by viewBinding<FragmentCardsBinding>()
 
     private lateinit var cardAdapter: CardPagingAdapter
-
-    @Inject
-    lateinit var glide: RequestManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,11 +80,9 @@ class CardsFragment : Fragment(R.layout.fragment_cards) {
                     override fun click(card: CardUiEntity) = viewModel.launchDetails(card)
                 },
                 object : CardItemClickListener {
-                    override fun click(card: CardUiEntity) {
+                    override fun click(card: CardUiEntity) =
                         viewModel.tryToChangeCollectionStatus(card)
-                    }
                 },
-                glide
             )
             adapter = cardAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)

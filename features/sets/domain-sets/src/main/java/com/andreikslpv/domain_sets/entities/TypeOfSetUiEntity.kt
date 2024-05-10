@@ -4,6 +4,7 @@ data class TypeOfSetUiEntity(
     override val code: String = "",
     override val name: String = "",
     override val countOfSet: Int = 0,
+    override val description: String = "",
     val uiName: String = "",
 ) : TypeOfSetEntity {
 
@@ -11,6 +12,7 @@ data class TypeOfSetUiEntity(
         code = typeOfSet?.code ?: "",
         name = typeOfSet?.name ?: "",
         countOfSet = typeOfSet?.countOfSet ?: 0,
+        description = typeOfSet?.description ?: "",
         uiName = if (typeOfSet != null) "${typeOfSet.name} (${typeOfSet.countOfSet})"
         else "",
     )

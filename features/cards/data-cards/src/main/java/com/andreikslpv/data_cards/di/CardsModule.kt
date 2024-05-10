@@ -21,8 +21,8 @@ class CardsModule {
     }
 
     @Provides
-    @Singleton
     fun provideCardsApi(retrofit: Retrofit): CardsApi {
         return retrofit.create(CardsApi::class.java)
     }
+
 }

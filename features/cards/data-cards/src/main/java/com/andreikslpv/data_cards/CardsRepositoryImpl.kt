@@ -5,10 +5,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.andreikslpv.data.ApiConstants
+import com.andreikslpv.data.ApiConstants.INITIAL_PAGE_SIZE
 import com.andreikslpv.data.CardFirebaseEntity
 import com.andreikslpv.data_cards.datasource.CardsFirebasePagingSource
 import com.andreikslpv.datasource_room_cards.CardsDao
 import com.andreikslpv.domain.entities.CardEntity
+import com.andreikslpv.domain_cards.entities.CardFilters
 import com.andreikslpv.domain_cards.repositories.CardsRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +21,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.Locale
 import javax.inject.Inject
 
 class CardsRepositoryImpl @Inject constructor(
@@ -29,13 +32,21 @@ class CardsRepositoryImpl @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     @OptIn(ExperimentalPagingApi::class)
-    override fun getCardsInSet(codeOfSet: String) = Pager(
+    override fun getCardsInSet(filters: CardFilters) = Pager(
         config = PagingConfig(
             pageSize = ApiConstants.DEFAULT_PAGE_SIZE,
             enablePlaceholders = false,
+            initialLoadSize = INITIAL_PAGE_SIZE
         ),
-        remoteMediator = remoteMediatorFactory.create(codeOfSet = codeOfSet),
-        pagingSourceFactory = { cardsDao.getPagingSource(codeOfSet) }
+        remoteMediator = remoteMediatorFactory.create(filters),
+        pagingSourceFactory = {
+            cardsDao.getPagingSource(
+                filters.codeOfSet.lowercase(Locale.ROOT),
+                filters.lang.cardLang,
+                filters.sortsType.columnRoom,
+                filters.sortsTypeDir.dirRoom
+            )
+        }
     )
         .flow
         .map { it as PagingData<CardEntity> }

@@ -1,41 +1,36 @@
 package com.andreikslpv.presentation.recyclers
 
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.presentation.R
 import com.andreikslpv.presentation.databinding.ItemCardPreviewBinding
-import com.andreikslpv.presentation.utils.LangUtils
-import com.bumptech.glide.RequestManager
 
-class CardPreviewViewHolder(
-    val binding: ItemCardPreviewBinding,
-    private val glide: RequestManager
-) : RecyclerView.ViewHolder(binding.root) {
+class CardPreviewViewHolder(val binding: ItemCardPreviewBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(card: CardUiEntity) {
-        val systemLang = LangUtils.chooseLanguage(binding.root.context)
-        val cardNames = LangUtils.getCardNameByLanguage(card, systemLang)
-        binding.itemTitle.text = cardNames
+        binding.itemTitle.text = card.name
         binding.itemImage.contentDescription =
-            binding.root.context.getString(R.string.description_name_of_card, cardNames)
+            binding.root.context.getString(R.string.description_name_of_card, card.name)
         binding.itemButtonCollection.apply {
             contentDescription = if (card.isInCollection) {
                 setImageResource(R.drawable.ic_having)
                 binding.root.context.getString(
                     R.string.description_button_remove_card,
-                    cardNames
+                    card.name
                 )
             } else {
                 setImageResource(R.drawable.ic_having_not)
                 binding.root.context.getString(
                     R.string.description_button_add_card,
-                    cardNames
+                    card.name
                 )
             }
         }
-        glide.load(LangUtils.getCardImageByLanguage(card, systemLang))
-            .placeholder(R.drawable.cover_small)
-            .into(binding.itemImage)
+        binding.itemImage.load(card.imagePreviewUri) {
+            placeholder(R.drawable.cover_small)
+        }
     }
 
 }

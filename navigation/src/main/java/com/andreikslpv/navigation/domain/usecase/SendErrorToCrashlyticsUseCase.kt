@@ -7,5 +7,5 @@ class SendErrorToCrashlyticsUseCase @Inject constructor(
     private val mainRepository: MainRepository,
 ) {
 
-    fun execute(error: Throwable) = mainRepository.sendErrorToCrashlytics(error)
+    operator fun invoke(error: Throwable) = mainRepository.sendErrorToCrashlytics(error)
 }

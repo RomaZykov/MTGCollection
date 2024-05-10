@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/itemImage"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/item_set_image_dimen"
         android:layout_height="@dimen/item_set_image_dimen"
         android:layout_marginTop="@dimen/margin_small"
         android:scaleType="fitCenter"

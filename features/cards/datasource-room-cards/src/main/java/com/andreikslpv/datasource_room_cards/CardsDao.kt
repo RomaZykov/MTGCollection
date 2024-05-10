@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.andreikslpv.datasource_room_cards.CardsRoomConstants.TABLE_CARDS
+import com.andreikslpv.domain_cards.CardsConstants.COLUMN_LANG
+import com.andreikslpv.domain_cards.CardsConstants.COLUMN_SET_CODE
 
 @Dao
 interface CardsDao {
@@ -15,8 +17,17 @@ interface CardsDao {
      * Note that orderBy and ASC/DESC order should be the same as
      * in the network request.
      */
-    @Query("SELECT * FROM $TABLE_CARDS WHERE `set` = :codeOfSet ORDER BY orderedNumber")
-    fun getPagingSource(codeOfSet: String): PagingSource<Int, CardRoomEntity>
+    @Query(
+        "SELECT * FROM $TABLE_CARDS WHERE $COLUMN_SET_CODE = :codeOfSet AND $COLUMN_LANG = :lang ORDER BY " +
+                "CASE WHEN :isAsc = 1 THEN :sortType END ASC, " +
+                "CASE WHEN :isAsc = 0 THEN :sortType END DESC"
+    )
+    fun getPagingSource(
+        codeOfSet: String,
+        lang: String,
+        sortType: String,
+        isAsc: Boolean
+    ): PagingSource<Int, CardRoomEntity>
 
     /**
      * Insert (or replace by ID) a list of Cards.
@@ -28,7 +39,7 @@ interface CardsDao {
      * Clear local records for the specified set (or clear all
      * local records if year is NULL)
      */
-    @Query("DELETE FROM $TABLE_CARDS WHERE :codeOfSet IS NULL OR `set` = :codeOfSet")
+    @Query("DELETE FROM $TABLE_CARDS WHERE :codeOfSet IS NULL OR $COLUMN_SET_CODE = :codeOfSet")
     suspend fun clear(codeOfSet: String?)
 
     /**

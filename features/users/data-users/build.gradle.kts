@@ -45,8 +45,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
 
-    implementation(project(":core:domain"))
-    implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":features:users:domain-users"))
 

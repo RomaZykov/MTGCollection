@@ -48,8 +48,6 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.storage)
 
-    implementation(project(":core:common"))
-    implementation(project(":core:domain"))
     implementation(project(":features:auth:domain-auth"))
 
     testImplementation(libs.junit)
