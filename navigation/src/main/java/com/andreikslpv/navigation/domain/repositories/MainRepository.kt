@@ -14,4 +14,6 @@ interface MainRepository {
 
     fun sendErrorToCrashlytics(error: Throwable)
 
+    suspend fun updateSets()
+
 }

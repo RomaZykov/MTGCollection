@@ -49,8 +49,6 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 
-    implementation(project(":core:common"))
-    implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":features:cards:domain-cards"))
     implementation(project(":features:cards:datasource-room-cards"))

@@ -51,7 +51,6 @@ dependencies {
     implementation(libs.coil.core)
     implementation(libs.coil.svg)
 
-    implementation(project(":core:common"))
     implementation(project(":core:presentation"))
     implementation(project(":features:sets:domain-sets"))
 

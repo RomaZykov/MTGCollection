@@ -11,6 +11,7 @@ import com.andreikslpv.domain.entities.CardEntity
 import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
 import com.andreikslpv.domain.usecase.TryToChangeCollectionStatusUseCase
+import com.andreikslpv.domain_cards.entities.CardFilters
 import com.andreikslpv.domain_cards.repositories.CardsRouter
 import com.andreikslpv.domain_cards.usecase.GetCardsUseCase
 import dagger.assisted.Assisted
@@ -33,15 +34,15 @@ class CardsViewModel @AssistedInject constructor(
     private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
-    private val set = MutableLiveData<String?>()
+    private val filters = MutableLiveData<CardFilters?>()
     private val _cards: Flow<PagingData<CardEntity>>
     val cards: Flow<PagingData<CardUiEntity>>
 
     init {
-        if (screen != null) set.postValue(screen.setCode)
-        else set.postValue(null)
+        if (screen != null) filters.postValue(CardFilters(codeOfSet = screen.setCode))
+        else filters.postValue(null)
 
-        _cards = set
+        _cards = filters
             .asFlow()
             .flatMapLatest { getCardsUseCase(it) }
             .cachedIn(viewModelScope)
@@ -71,7 +72,7 @@ class CardsViewModel @AssistedInject constructor(
 
     fun launchDetails(card: CardUiEntity) = router.launchDetails(card)
 
-    fun refresh() = set.postValue(set.value)
+    fun refresh() = filters.postValue(filters.value)
 
     fun tryToChangeCollectionStatus(card: CardUiEntity) {
         viewModelScope.launch(coroutineContext) {

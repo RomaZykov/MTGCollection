@@ -46,7 +46,6 @@ dependencies {
     implementation(libs.firebase.config)
 
     implementation(project(":features:settings:domain-settings"))
-    implementation(project(":core:common-impl"))
 
     testImplementation(libs.junit)
 }

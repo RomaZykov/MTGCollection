@@ -8,22 +8,17 @@ class TryToChangeCollectionStatusUseCase @Inject constructor(
     private val coreExternalRepository: CoreExternalRepository,
 ) {
 
-    suspend operator fun invoke(card: CardEntity): Boolean {
-        val userUid = coreExternalRepository.getCurrentUserUid()
-        return if (userUid != null) {
+    suspend operator fun invoke(card: CardEntity) {
+        coreExternalRepository.getCurrentUserUid()?.let {
             coreExternalRepository.getCollection().value.let { collection ->
                 if (collection.contains(card.id)) {
-                    coreExternalRepository.removeFromUsersCollection(userUid, card.id)
-                    coreExternalRepository.removeFromCardsCollection(userUid, card)
-                }
-                else {
-                    coreExternalRepository.addToUsersCollection(userUid, card.id)
-                    coreExternalRepository.addToCardsCollection(userUid, card)
+                    coreExternalRepository.removeFromUsersCollection(it, card.id)
+                    coreExternalRepository.removeFromCardsCollection(it, card)
+                } else {
+                    coreExternalRepository.addToUsersCollection(it, card.id)
+                    coreExternalRepository.addToCardsCollection(it, card)
                 }
             }
-            true
-        } else {
-            false
         }
     }
 }

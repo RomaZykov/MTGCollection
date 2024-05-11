@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.andreikslpv.domain.entities.AvailableCardEntity
 import com.andreikslpv.domain.entities.CardLanguage
 import com.andreikslpv.domain.entities.CardUiEntity
@@ -13,14 +14,12 @@ import com.andreikslpv.presentation.BaseScreen
 import com.andreikslpv.presentation.args
 import com.andreikslpv.presentation.makeToast
 import com.andreikslpv.presentation.recyclers.itemDecoration.SpaceItemDecoration
-import com.andreikslpv.presentation.utils.LangUtils
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation.viewModelCreator
 import com.andreikslpv.presentation.visible
 import com.andreikslpv.presentation_cards.databinding.FragmentDetailsBinding
 import com.andreikslpv.presentation_cards.recyclers.AvailableItemClickListener
 import com.andreikslpv.presentation_cards.recyclers.AvailableRecyclerAdapter
-import com.bumptech.glide.RequestManager
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,14 +33,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     @Inject
     lateinit var factory: DetailsViewModel.Factory
-    private val viewModel by viewModelCreator {
-        factory.create(args())
-    }
+    private val viewModel by viewModelCreator { factory.create(args()) }
 
     private val binding by viewBinding<FragmentDetailsBinding>()
-
-    @Inject
-    lateinit var glide: RequestManager
 
     private val dialogAnimDuration = 500L
     private val dialogAnimAlfa = 1f
@@ -99,13 +93,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun collectCard() {
         viewModel.card.observe(viewLifecycleOwner) { card ->
             if (card != null) {
-                val systemLang = LangUtils.chooseLanguage(binding.root.context)
-                binding.toolbar.title = LangUtils.getCardNameByLanguage(card, systemLang)
+                binding.toolbar.title = card.name
 
-                glide.load(LangUtils.getCardImageByLanguage(card, systemLang))
-                    .placeholder(com.andreikslpv.presentation.R.drawable.cover_small)
-                    .centerCrop()
-                    .into(binding.detailsPoster)
+                binding.detailsPoster.load(card.imageDetailUri) {
+                    placeholder(com.andreikslpv.presentation.R.drawable.cover_small)
+                }
 
                 binding.itemButtonCollection.setOnClickListener {
                     viewModel.tryToChangeCollectionStatus(card)
@@ -150,8 +142,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initSelectAllButton() {
         binding.availableSelectAllCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) viewModel.unSelectAll()
-            else viewModel.selectAll()
+            if (!isChecked) viewModel.unSelectAll() else viewModel.selectAll()
         }
     }
 
@@ -262,7 +253,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             binding.availableDialog.visible(false)
         }
     }
-
 
     private fun getAvailableItemFromDialog(): AvailableCardEntity? {
         binding.availableDialog.apply {

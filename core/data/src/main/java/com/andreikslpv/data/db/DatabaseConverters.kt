@@ -15,7 +15,7 @@ class DatabaseConverters {
     }
 
     @TypeConverter
-    fun stringToStringList(stringList: String): List<String>? {
+    fun stringToStringList(stringList: String): List<String> {
         return stringList.split("#")
     }
 

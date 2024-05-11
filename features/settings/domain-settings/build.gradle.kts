@@ -11,5 +11,5 @@ java {
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
 
-    implementation(project(":core:common"))
+    api(project(":core:common"))
 }

@@ -9,8 +9,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.common_impl.ActivityRequired
+import com.andreikslpv.navigation.BuildConfig
 import com.andreikslpv.navigation.DestinationsProvider
 import com.andreikslpv.navigation.R
 import com.andreikslpv.navigation.databinding.ActivityMainBinding
@@ -148,6 +150,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
                 is Response.Success -> binding.progressBar.hide()
                 is Response.Failure -> {
                     binding.progressBar.hide()
+                    if (BuildConfig.DEBUG) Core.logger.err(response.error)
                     getString(com.andreikslpv.common_impl.R.string.core_common_error_message)
                         .makeToast(this)
                     viewModel.sendErrorToCrashlytics(response.error)
