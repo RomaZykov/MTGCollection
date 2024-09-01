@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     alias(libs.plugins.hilt.android)
 }
 
@@ -50,7 +51,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
