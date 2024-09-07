@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt.android)
     id("com.google.gms.google-services")
 }
@@ -48,7 +48,7 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.coil.core)
 

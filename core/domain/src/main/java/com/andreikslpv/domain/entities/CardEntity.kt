@@ -9,7 +9,7 @@ interface CardEntity {
     val artist: String?
 
     /** The Scryfall ID for the card back design present on this card. */
-    val cardBackId: String
+    val cardBackId: String?
 
     /** The card’s mana value. Note that some funny cards have fractional mana costs.
      *

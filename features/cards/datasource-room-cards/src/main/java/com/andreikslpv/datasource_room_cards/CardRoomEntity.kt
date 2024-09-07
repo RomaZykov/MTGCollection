@@ -62,7 +62,7 @@ data class CardRoomEntity(
 
     constructor(card: CardEntity) : this(
         artist = card.artist ?: "",
-        cardBackId = card.cardBackId,
+        cardBackId = card.cardBackId ?: "",
         cmc = card.cmc,
         collectorNumber = card.collectorNumber,
         colorIdentity = card.colorIdentity,

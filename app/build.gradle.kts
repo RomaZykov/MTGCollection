@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
-    id("kotlin-kapt")
+    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt.android)
     id("com.google.firebase.crashlytics")
 }
@@ -48,10 +48,6 @@ android {
     }
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
 hilt {
     enableAggregatingTask = true
 }
@@ -65,7 +61,7 @@ dependencies {
     implementation(libs.google.play.services.auth)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics.core)

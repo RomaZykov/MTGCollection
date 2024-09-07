@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt.android)
 }
 
@@ -40,7 +40,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.config)

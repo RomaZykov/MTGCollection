@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt.android)
 }
 
@@ -36,7 +36,7 @@ android {
 
 dependencies {
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(project(":core:common-impl"))
     implementation(project(":core:presentation"))

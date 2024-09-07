@@ -17,7 +17,7 @@ data class CardData(
     /** This card’s border color: black, white, borderless, silver, or gold. */
     @SerializedName("border_color") val borderColor: String,
     /** The Scryfall ID for the card back design present on this card. */
-    @SerializedName("card_back_id") override val cardBackId: String,
+    @SerializedName("card_back_id") override val cardBackId: String?,
     /** This card’s ID on Cardmarket’s API, also known as the idProduct. */
     @SerializedName("cardmarket_id") val cardmarketId: Int?,
     /** The card’s mana value. Note that some funny cards have fractional mana costs. */
