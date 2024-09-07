@@ -1,6 +1,6 @@
 [versions]
 #libraries
-activityKtx = "1.9.1"
+activityKtx = "1.9.2"
 appcompat = "1.7.0"
 coil = "2.6.0"
 coordinatorlayout = "1.2.0"
@@ -9,23 +9,22 @@ coroutines = "1.8.1"
 espresso = "3.6.1"
 firebaseBom = "33.2.0"
 firebaseCrashlyticsGradle = "3.0.2"
-fragment = "1.8.2"
+fragment = "1.8.3"
 googlePlayServicesAuth = "21.2.0"
 googleServices = "4.4.2"
-gradle = "8.6.0"
 hilt = "2.51.1"
 javax = "1"
 junit = "4.13.2"
 junitImpl = "1.2.1"
-livedata = "2.8.4"
+livedata = "2.8.5"
 material = "1.12.0"
-navigation = "2.7.7"
+navigation = "2.8.0"
 okhttp = "4.12.0"
 paging = "3.3.2"
 retrofit = "2.11.0"
 room = "2.6.1"
 #plugins
-androidGradlePlugin = "8.3.2"
+androidGradlePlugin = "8.6.0"
 kotlin = "2.0.20"
 ksp = "2.0.20-1.0.24"
 
@@ -60,7 +59,7 @@ google-services = { module = "com.google.gms:google-services", version.ref = "go
 google-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "googlePlayServicesAuth" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 
-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
