@@ -1,7 +1,6 @@
 package com.andreikslpv.presentation_auth
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -9,7 +8,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.andreikslpv.common.AppException
+import com.andreikslpv.common.Core
 import com.andreikslpv.common.Response
 import com.andreikslpv.domain.entities.CardUiEntity
 import com.andreikslpv.domain.usecase.GetCollectionUseCase
@@ -27,8 +30,7 @@ import com.andreikslpv.presentation.visible
 import com.andreikslpv.presentation_auth.databinding.FragmentProfileBinding
 import com.andreikslpv.presentation_auth.recyclers.CardHistoryRecyclerAdapter
 import com.andreikslpv.presentation_auth.utils.StringToIconConverter
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -49,27 +51,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     lateinit var getCollectionUseCase: GetCollectionUseCase
 
     @Inject
-    lateinit var signInIntent: Intent
+    lateinit var credentialRequest: GetCredentialRequest
 
-    private val signInResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                try {
-                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                    val googleSignInAccount = task.getResult(ApiException::class.java)
-                    googleSignInAccount?.apply {
-                        idToken?.let { idToken ->
-                            when (viewModel.currentUser.value?.isAnonymous) {
-                                true, null -> linkAnonymousWithCredential(idToken)
-                                false -> viewModel.deleteUser(idToken)
-                            }
-                        }
-                    }
-                } catch (e: ApiException) {
-                    //crashlytics.recordException(e)
-                }
-            }
-        }
+    @Inject
+    lateinit var credentialManager: CredentialManager
 
     // Registers a photo picker activity launcher in single-select mode.
     private val pickMediaResultLauncher =
@@ -164,7 +149,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
             .setPositiveButton(getString(R.string.profile_dialog_action_auth)) { _, _ ->
                 // Respond to positive button press
-                signInResultLauncher.launch(signInIntent)
+                getGoogleIdToken()
             }
             .show()
     }
@@ -179,7 +164,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     binding.profileName.setText(R.string.profile_name_anonymous)
                     binding.deleteUserButton.text = getString(R.string.sign_in_with_google_button)
                     binding.deleteUserButton.setOnClickListener {
-                        signInResultLauncher.launch(signInIntent)
+                        getGoogleIdToken()
                     }
                 }
 
@@ -190,6 +175,33 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     binding.deleteUserButton.text = getString(R.string.profile_delete_user)
                     binding.deleteUserButton.setOnClickListener { showDialog() }
                 }
+            }
+        }
+    }
+
+    private fun getGoogleIdToken() {
+        lifecycleScope.launch {
+            try {
+                val credential = credentialManager.getCredential(
+                    request = credentialRequest,
+                    context = requireContext(),
+                ).credential
+                if (credential is CustomCredential
+                    && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                ) {
+                    val idToken = GoogleIdTokenCredential
+                        .createFrom(credential.data)
+                        .idToken
+                    when (viewModel.currentUser.value?.isAnonymous) {
+                        true, null -> linkAnonymousWithCredential(idToken)
+                        false -> viewModel.deleteUser(idToken)
+                    }
+                } else {
+                    // Catch any unrecognized credential type here.
+                    Core.errorHandler.handleError(AppException("Unexpected type of credential"))
+                }
+            } catch (e: Exception) {
+                Core.errorHandler.handleError(e)
             }
         }
     }

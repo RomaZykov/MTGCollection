@@ -1,6 +1,9 @@
 package com.andreikslpv.presentation_auth
 
 import android.net.Uri
+import androidx.credentials.ClearCredentialStateRequest
+import androidx.credentials.ClearCredentialStateRequest.Companion.TYPE_CLEAR_CREDENTIAL_STATE
+import androidx.credentials.CredentialManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +20,6 @@ import com.andreikslpv.domain_auth.repositories.AuthExternalRepository
 import com.andreikslpv.domain_auth.repositories.AuthRepository
 import com.andreikslpv.domain_auth.repositories.AuthRouter
 import com.andreikslpv.domain_auth.usecase.profile.DeleteUserUseCase
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -32,7 +34,7 @@ class ProfileViewModel @Inject constructor(
     authExternalRepository: AuthExternalRepository,
     getCollectionUseCase: GetCollectionUseCase,
     private val router: AuthRouter,
-    private val googleSignInClient: GoogleSignInClient,
+    private val credentialManager: CredentialManager,
     private val coroutineContext: CoroutineContext,
 ) : ViewModel() {
 
@@ -69,8 +71,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun signOut() {
-        googleSignInClient.signOut()
         viewModelScope.launch(coroutineContext) {
+            credentialManager.clearCredentialState(
+                ClearCredentialStateRequest(TYPE_CLEAR_CREDENTIAL_STATE)
+            )
             authRepository.signOut().collect { response ->
                 Core.loadStateHandler.setLoadState(response)
             }
@@ -78,8 +82,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun deleteUser(idToken: String) {
-        googleSignInClient.signOut()
         viewModelScope.launch(coroutineContext) {
+            credentialManager.clearCredentialState(
+                ClearCredentialStateRequest(TYPE_CLEAR_CREDENTIAL_STATE)
+            )
             deleteUserUseCase(idToken).collect { response ->
                 Core.loadStateHandler.setLoadState(response)
             }

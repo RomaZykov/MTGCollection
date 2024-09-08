@@ -4,16 +4,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.andreikslpv.common.AppException
 import com.andreikslpv.common.Core
 import com.andreikslpv.presentation.viewBinding
 import com.andreikslpv.presentation_auth.databinding.FragmentSignInBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -24,25 +30,10 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     private val viewModel by viewModels<SignInViewModel>()
 
     @Inject
-    lateinit var signInIntent: Intent
+    lateinit var credentialRequest: GetCredentialRequest
 
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                try {
-                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                    val googleSignInAccount = task.getResult(ApiException::class.java)
-                    googleSignInAccount?.apply {
-                        idToken?.let { idToken ->
-                            viewModel.signInWithGoogle(idToken)
-                        }
-                    }
-                } catch (e: ApiException) {
-                    Core.errorHandler.handleError(e)
-                }
-            }
-        }
-
+    @Inject
+    lateinit var credentialManager: CredentialManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +43,19 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     }
 
     private fun initButtons() {
-        binding.googleSignInButton.setOnClickListener { resultLauncher.launch(signInIntent) }
+        binding.googleSignInButton.setOnClickListener {
+            lifecycleScope.launch {
+                try {
+                    val result = credentialManager.getCredential(
+                        request = credentialRequest,
+                        context = requireContext(),
+                    )
+                    handleSignIn(result)
+                } catch (e: GetCredentialException) {
+                    Core.errorHandler.handleError(e)
+                }
+            }
+        }
         binding.anonymousButton.setOnClickListener { viewModel.signInAnonymously() }
         binding.authCopyrightText.setOnClickListener {
             if (viewModel.privacyPolicyUrl.isNotBlank()) {
@@ -62,4 +65,23 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         }
     }
 
+    private fun handleSignIn(result: GetCredentialResponse) {
+        val credential = result.credential
+        if (credential is CustomCredential
+            && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+        ) {
+            try {
+                // Use googleIdTokenCredential and extract the ID to validate and
+                // authenticate on your server.
+                val googleIdTokenCredential = GoogleIdTokenCredential
+                    .createFrom(credential.data)
+                viewModel.signInWithGoogle(googleIdTokenCredential.idToken)
+            } catch (e: GoogleIdTokenParsingException) {
+                Core.errorHandler.handleError(e)
+            }
+        } else {
+            // Catch any unrecognized credential type here.
+            Core.errorHandler.handleError(AppException("Unexpected type of credential"))
+        }
+    }
 }

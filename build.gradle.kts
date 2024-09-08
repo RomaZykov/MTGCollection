@@ -2,6 +2,7 @@
 
 buildscript {
 
+    val compileAndroidSdk by extra(35)
     val targetAndroidSdk by extra(34)
     val minAndroidSdk by extra(24)
 

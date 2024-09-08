@@ -17,7 +17,7 @@ android {
         }
     }
     namespace = "com.andreikslpv.mtgcollection"
-    compileSdk = rootProject.extra["targetAndroidSdk"] as Int
+    compileSdk = rootProject.extra["compileAndroidSdk"] as Int
 
     defaultConfig {
         applicationId = "com.andreikslpv.mtgcollection"
@@ -57,8 +57,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.paging.runtime.ktx)
-
-    implementation(libs.google.play.services.auth)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.googleid)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

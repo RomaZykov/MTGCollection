@@ -43,8 +43,9 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.coordinatorlayout)
-
-    implementation(libs.google.play.services.auth)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.googleid)
     implementation(libs.material)
 
     implementation(libs.hilt.android)
